@@ -1,0 +1,9 @@
+import test;
+import file;
+
+int vier = 4;
+
+int main(int arg){
+	int x = 4;
+	print(x);
+}

@@ -8,7 +8,6 @@ std::list<Token> Lexer::getTokenList() {
 	const char * cstring = source->text.c_str();
 
 	while (true) {
-
 		Token currentToken = getToken();
 	}
 }
@@ -20,6 +19,7 @@ Lexer::Lexer(std::string source) {
 
 Lexer::~Lexer() {
 	delete source;
+	delete root;
 }
 
 Token Lexer::getToken() {
@@ -27,5 +27,5 @@ Token Lexer::getToken() {
 }
 
 void Lexer::buildLexerTree() {
-
+	root = new LexerTree();
 }

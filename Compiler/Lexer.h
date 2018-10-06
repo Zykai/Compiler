@@ -3,6 +3,7 @@
 #include <list>
 #include "Token.h"
 #include "SourceFile.h"
+#include "LexerTree.h"
 
 class Lexer {
 public:
@@ -13,6 +14,7 @@ public:
 	Lexer(std::string source);
 	~Lexer();
 private:
+	LexerTree * root;
 	Token getToken();
 	void buildLexerTree();
 };

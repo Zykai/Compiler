@@ -3,9 +3,11 @@
 
 class LexerTree {
 public:
-	std::list<LexerTree*> nextTree;
+	LexerTree * nextTrees[128];
 	char required;
-	virtual LexerTree processChar(char & nextChar);
+	virtual LexerTree* processChar(char & nextChar);
 private:
+
+protected:
 	Tokentype currentToken;
 };

@@ -7,9 +7,10 @@ std::list<Token> Lexer::getTokenList() {
 	std::cout << source->text;
 	const char * cstring = source->text.c_str();
 
-	while (true) {
+	while (false) {
 		Token currentToken = getToken();
 	}
+	return std::list<Token>();
 }
 
 Lexer::Lexer(std::string source) {

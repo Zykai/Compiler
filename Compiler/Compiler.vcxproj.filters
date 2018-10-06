@@ -33,6 +33,9 @@
     <ClInclude Include="LexerTree.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="IdentifierTree.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +48,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="SourceFile.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="IdentifierTree.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="LexerTree.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="IdentifierTree.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LexerTree.h" />
     <ClInclude Include="SourceFile.h" />
@@ -156,7 +157,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.cpp" />
+    <ClCompile Include="IdentifierTree.cpp" />
     <ClCompile Include="Lexer.cpp" />
+    <ClCompile Include="LexerTree.cpp" />
     <ClCompile Include="SourceFile.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

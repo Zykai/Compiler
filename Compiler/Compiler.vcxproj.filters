@@ -13,15 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\LexicalAnalysis">
+      <UniqueIdentifier>{ecb7b1f0-9ffd-4837-9c4e-7d3f3d44b518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\LexicalAnalysis">
+      <UniqueIdentifier>{401e39be-2aa5-4176-a4f3-497415cec26d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Lexer.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Token.h">
@@ -31,10 +34,13 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="LexerTree.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\LexicalAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Lexer.h">
+      <Filter>Headerdateien\LexicalAnalysis</Filter>
     </ClInclude>
     <ClInclude Include="IdentifierTree.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\LexicalAnalysis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -44,17 +50,17 @@
     <ClCompile Include="Compiler.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Lexer.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="SourceFile.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="IdentifierTree.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\LexicalAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Lexer.cpp">
+      <Filter>Quelldateien\LexicalAnalysis</Filter>
     </ClCompile>
     <ClCompile Include="LexerTree.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\LexicalAnalysis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -30,6 +30,9 @@
     <ClInclude Include="SourceFile.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="LexerTree.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

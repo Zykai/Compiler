@@ -11,8 +11,9 @@ SourceFile::SourceFile(std::string filename) {
 	file.open(filename);
 
 	std::string line;
-	
+
 	for (int i = 0; std::getline(file, line); i++) {
+		text += line + "\n";
 		std::cout << "(" << i << ") " << line << std::endl;
 	}
 

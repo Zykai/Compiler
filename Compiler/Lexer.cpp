@@ -1,6 +1,31 @@
 #include "stdafx.h"
 #include "Lexer.h"
+#include <iostream>
 
-Lexer::Lexer(std::string source)
-{
+std::list<Token> Lexer::getTokenList() {
+	this->buildLexerTree();
+	std::cout << source->text;
+	const char * cstring = source->text.c_str();
+
+	while (true) {
+
+		Token currentToken = getToken();
+	}
+}
+
+Lexer::Lexer(std::string source) {
+	this->source = new SourceFile(source);
+}
+
+
+Lexer::~Lexer() {
+	delete source;
+}
+
+Token Lexer::getToken() {
+	return Token();
+}
+
+void Lexer::buildLexerTree() {
+
 }

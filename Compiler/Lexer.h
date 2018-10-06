@@ -2,12 +2,17 @@
 
 #include <list>
 #include "Token.h"
-
+#include "SourceFile.h"
 
 class Lexer {
 public:
 	std::list<Token> getTokenList();
 
+	SourceFile * source;
+
 	Lexer(std::string source);
+	~Lexer();
 private:
+	Token getToken();
+	void buildLexerTree();
 };

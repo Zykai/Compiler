@@ -27,5 +27,6 @@ Token Lexer::getToken() {
 }
 
 void Lexer::buildLexerTree() {
-	root = new LexerTree();
+	// TODO
+	//root = new LexerTree();
 }

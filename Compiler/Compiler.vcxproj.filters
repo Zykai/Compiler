@@ -42,6 +42,12 @@
     <ClInclude Include="IdentifierTree.h">
       <Filter>Headerdateien\LexicalAnalysis</Filter>
     </ClInclude>
+    <ClInclude Include="LexerUtils.h">
+      <Filter>Headerdateien\LexicalAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="RootTree.h">
+      <Filter>Headerdateien\LexicalAnalysis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -64,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="Token.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="RootTree.cpp">
+      <Filter>Quelldateien\LexicalAnalysis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

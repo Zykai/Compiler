@@ -13,6 +13,7 @@ class LexerTree {
 public:
 	LexerTree * nextTrees[128];
 	virtual LexerTree* processChar(char & nextChar) = 0;
+	Tokentype getType();
 private:
 
 protected:

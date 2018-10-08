@@ -1,11 +1,13 @@
 #pragma once
 
 #include <string>
+#include <list>
 
 class SourceFile {
 public:
 	std::string name;
-	std::string text;
-
+	std::list<std::string> textList;
 	SourceFile(std::string filename);
+
+	void print();
 };

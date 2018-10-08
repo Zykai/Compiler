@@ -15,6 +15,7 @@ public:
 	~Lexer();
 private:
 	LexerTree * root;
-	Token getToken();
 	void buildLexerTree();
+	void analyzeLine(std::string & line);
+	bool noError;
 };

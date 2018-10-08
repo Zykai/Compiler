@@ -20,12 +20,16 @@ IdentifierTree::IdentifierTree() {
 		this->nextTrees[i] = this;
 	}
 	// Capital letters
-	for (int i = 68; i <= 90; i++) {
+	for (int i = 65; i <= 90; i++) {
 		this->nextTrees[i] = this;
 	}
 	// Lowercase letters
 	for (int i = 97; i <= 122; i++) {
 		this->nextTrees[i] = this;
+	}
+	// Invalid chars
+	for (int i = 123; i <= 127; i++) {
+		this->nextTrees[i] = nullptr;
 	}
 
 	this->currentToken = identifier;

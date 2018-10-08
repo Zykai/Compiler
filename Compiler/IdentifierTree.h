@@ -1,3 +1,4 @@
+#pragma once
 #include "LexerTree.h"
 
 class IdentifierTree : public LexerTree {

@@ -20,7 +20,7 @@ enum Tokentype {
 // represents a token created by the lexer
 struct Token {
 public:
-
+	Token(Tokentype t);
 private:
 	Tokentype type;
 	std::string value;

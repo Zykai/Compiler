@@ -4,6 +4,7 @@
 #include "Token.h"
 #include "SourceFile.h"
 #include "LexerTree.h"
+#include "RootTree.h"
 
 class Lexer {
 public:

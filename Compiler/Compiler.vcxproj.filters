@@ -62,6 +62,9 @@
     <ClCompile Include="LexerTree.cpp">
       <Filter>Quelldateien\LexicalAnalysis</Filter>
     </ClCompile>
+    <ClCompile Include="Token.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="main.z">

@@ -19,6 +19,7 @@ std::list<Token> Lexer::getTokenList() {
 }
 
 Lexer::Lexer(std::string source) {
+	this->createStartFunction();
 	this->source = new SourceFile(source);
 	this->noError = true;
 }
@@ -48,7 +49,7 @@ void Lexer::analyzeLine(std::string & line) {
 				}
 				Tokentype type = currentState->getType();
 				std::cout << "Found Token, Type: " << type << std::endl;
-				Token token = Token(type);
+				Token token = Token(type, "");
 				currentState = root;
 			}
 			continue;

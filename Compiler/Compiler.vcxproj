@@ -161,6 +161,7 @@
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="IdentifierTree.cpp" />
     <ClCompile Include="Lexer.cpp" />
+    <ClCompile Include="LexerFunctions.cpp" />
     <ClCompile Include="LexerTree.cpp" />
     <ClCompile Include="RootTree.cpp" />
     <ClCompile Include="SourceFile.cpp" />

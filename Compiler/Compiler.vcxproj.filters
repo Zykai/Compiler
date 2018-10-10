@@ -74,6 +74,9 @@
     <ClCompile Include="RootTree.cpp">
       <Filter>Quelldateien\LexicalAnalysis</Filter>
     </ClCompile>
+    <ClCompile Include="LexerFunctions.cpp">
+      <Filter>Quelldateien\LexicalAnalysis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="main.z">

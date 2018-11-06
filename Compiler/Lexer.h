@@ -25,5 +25,5 @@ private:
 public:
 	std::function<Token(std::string, int, int & currentChar)> startFunction[128];
 	Token findId(std::string line, int startChar, int & currentChar), findInteger(std::string line, int startChar, int & currentChar), findFloat(std::string line, int startChar, int & currentChar), findIntImport(std::string line, int startChar, int & currentChar),
-		findWhile(std::string line, int startChar, int & currentChar), findTypeFloat(std::string line, int startChar, int & currentChar);
+		findWhile(std::string line, int startChar, int & currentChar), findFloatFor(std::string line, int startChar, int & currentChar), findAssignEqual(std::string line, int startChar, int & currentChar);
 };

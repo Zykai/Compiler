@@ -10,6 +10,11 @@ enum Tokentype {
 	curlyBracesClose,
 	arithmeticOperator,
 	logicalOperator,
+	TokenNegate,
+	TokenPlus,
+	TokenMinus,
+	TokenMultiply,
+	TokenDivide,
 	assignOperator,
 	identifier,
 	semicolon,
@@ -21,6 +26,7 @@ enum Tokentype {
 	typeName,
 	importStmt,
 	whileStmt,
+	TokenFor,
 	ifToken
 };
 

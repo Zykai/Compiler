@@ -26,6 +26,8 @@ std::string Token::getTypeString() {
 		return "Import";
 	case whileStmt:
 		return "While";
+	case TokenFor:
+		return "For";
 	case ifToken:
 		return "If";
 	case semicolon:
@@ -40,6 +42,18 @@ std::string Token::getTypeString() {
 		return "ParentheseClose";
 	case assignOperator:
 		return "AssignmentOperator";
+	case TokenPlus:
+		return "Plus";
+	case TokenMinus:
+		return "Minus";
+	case TokenMultiply:
+		return "Multiply";
+	case TokenDivide:
+		return "Divide";
+	case logicalOperator:
+		return "LogicalOperator";
+	case TokenNegate:
+		return "Negate";
 	default:
 		return "Unknown Type";
 	}

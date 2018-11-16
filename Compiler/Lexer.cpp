@@ -3,19 +3,14 @@
 #include <iostream>
 #include <cctype>
 
-// TODO:
-// -Problem: main() is invalid, as ( is interpreted as part of identifier
-// -Solution: change DFAs to functions, perhabs come up with an elegant solution for constant names (while etc)
-
-std::list<Token> Lexer::getTokenList() {
-	this->buildLexerTree();
-	source->print();
-	//const char * cstring = source->text.c_str();
+std::list<std::list<Token>> Lexer::getTokenList() {
+	using namespace std;
+	list<list<Token>> allTokenList = list<list<Token>>();
 
 	for (std::string &s : this->source->textList) {
-		this->analyzeLine(s);
+		allTokenList.emplace_back(this->getLineToken(s));
 	}
-	return std::list<Token>();
+	return allTokenList;
 }
 
 Lexer::Lexer(std::string source) {

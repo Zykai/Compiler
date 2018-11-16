@@ -10,7 +10,7 @@
 class Lexer {
 public:
 	std::list<Token> getLineToken(std::string line);
-	std::list<Token> getTokenList();
+	std::list<std::list<Token>> getTokenList();
 
 	SourceFile * source;
 

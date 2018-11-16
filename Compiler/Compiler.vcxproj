@@ -147,15 +147,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Function.h" />
     <ClInclude Include="IdentifierTree.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LexerTree.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="Program.h" />
     <ClInclude Include="SourceFile.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="RootTree.h" />
     <ClInclude Include="LexerUtils.h" />
+    <ClInclude Include="Variable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.cpp" />
@@ -163,6 +167,7 @@
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="LexerFunctions.cpp" />
     <ClCompile Include="LexerTree.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="RootTree.cpp" />
     <ClCompile Include="SourceFile.cpp" />
     <ClCompile Include="stdafx.cpp">

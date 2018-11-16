@@ -19,6 +19,12 @@
     <Filter Include="Quelldateien\LexicalAnalysis">
       <UniqueIdentifier>{401e39be-2aa5-4176-a4f3-497415cec26d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\SyntacticAnalysis">
+      <UniqueIdentifier>{26acb409-825e-45dd-a969-b99c6ce60216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\SyntacticAnalysis">
+      <UniqueIdentifier>{d12ed5d6-8466-42d5-997c-4a87bb8aadc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -48,6 +54,18 @@
     <ClInclude Include="RootTree.h">
       <Filter>Headerdateien\LexicalAnalysis</Filter>
     </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Headerdateien\SyntacticAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.h">
+      <Filter>Headerdateien\SyntacticAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Variable.h">
+      <Filter>Headerdateien\SyntacticAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Function.h">
+      <Filter>Headerdateien\SyntacticAnalysis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -76,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="LexerFunctions.cpp">
       <Filter>Quelldateien\LexicalAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser.cpp">
+      <Filter>Quelldateien\SyntacticAnalysis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

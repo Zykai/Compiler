@@ -3,6 +3,10 @@ import file;
 
 int vier = 4;
 
+int test(int param){
+	return param;
+}
+
 int main (int arg){
 	int x = 4;
 	print(x);

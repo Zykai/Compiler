@@ -7,7 +7,8 @@
 
 class Program {
 public:
-
+	void addGlobal();
+	void addFunction();
 private:
 	std::unordered_map<const char*, Variable> globals;
 	std::unordered_map<const char*, Function> functions;

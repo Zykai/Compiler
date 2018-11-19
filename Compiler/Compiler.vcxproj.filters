@@ -98,6 +98,9 @@
     <ClCompile Include="Parser.cpp">
       <Filter>Quelldateien\SyntacticAnalysis</Filter>
     </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Quelldateien\LexicalAnalysis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="main.z">

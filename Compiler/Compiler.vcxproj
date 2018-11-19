@@ -168,6 +168,7 @@
     <ClCompile Include="LexerFunctions.cpp" />
     <ClCompile Include="LexerTree.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Program.cpp" />
     <ClCompile Include="RootTree.cpp" />
     <ClCompile Include="SourceFile.cpp" />
     <ClCompile Include="stdafx.cpp">

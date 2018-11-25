@@ -7,6 +7,7 @@ class LogAndOrTree : public ExpressionTree {
 public:
 
 private:
-	ExpressionTree left, right;
+	ExpressionTree * left;
+	ExpressionTree * right;
 	Token * logicalOperator;
 };

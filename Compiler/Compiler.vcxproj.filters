@@ -78,9 +78,6 @@
     <ClInclude Include="EqualityTree.h">
       <Filter>Headerdateien\SyntaxTrees</Filter>
     </ClInclude>
-    <ClInclude Include="ComparisionTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
     <ClInclude Include="AdditionTree.h">
       <Filter>Headerdateien\SyntaxTrees</Filter>
     </ClInclude>
@@ -94,6 +91,9 @@
       <Filter>Headerdateien\SyntaxTrees</Filter>
     </ClInclude>
     <ClInclude Include="GetElementTree.h">
+      <Filter>Headerdateien\SyntaxTrees</Filter>
+    </ClInclude>
+    <ClInclude Include="ComparisonTree.h">
       <Filter>Headerdateien\SyntaxTrees</Filter>
     </ClInclude>
   </ItemGroup>

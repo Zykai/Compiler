@@ -1,6 +1,8 @@
 #pragma once
 
-class GetElementTree {
+#include "ExpressionTree.h"
+
+class GetElementTree : public ExpressionTree {
 public:
 
 private:

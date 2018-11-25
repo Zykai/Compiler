@@ -1,5 +1,10 @@
 #pragma once
 
-class PostUnaryTree {
+#include "ExpressionTree.h"
+
+class PostUnaryTree : public ExpressionTree {
+public:
+
+private:
 
 };

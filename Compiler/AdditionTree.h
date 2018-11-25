@@ -1,6 +1,8 @@
 #pragma once
 
-class AdditionTree {
+#include "ExpressionTree.h"
+
+class AdditionTree : public ExpressionTree  {
 public:
 
 private:

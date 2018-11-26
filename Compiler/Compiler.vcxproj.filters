@@ -96,6 +96,12 @@
     <ClInclude Include="ComparisonTree.h">
       <Filter>Headerdateien\SyntaxTrees</Filter>
     </ClInclude>
+    <ClInclude Include="ValueTree.h">
+      <Filter>Headerdateien\SyntaxTrees</Filter>
+    </ClInclude>
+    <ClInclude Include="Expressions.h">
+      <Filter>Headerdateien\SyntacticAnalysis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -134,6 +140,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="main.z">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="exprtest.z">
       <Filter>Ressourcendateien</Filter>
     </None>
   </ItemGroup>

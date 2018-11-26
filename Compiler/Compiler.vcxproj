@@ -150,6 +150,7 @@
     <ClInclude Include="AdditionTree.h" />
     <ClInclude Include="ComparisonTree.h" />
     <ClInclude Include="EqualityTree.h" />
+    <ClInclude Include="Expressions.h" />
     <ClInclude Include="ExpressionTree.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="GetElementTree.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Token.h" />
     <ClInclude Include="RootTree.h" />
     <ClInclude Include="LexerUtils.h" />
+    <ClInclude Include="ValueTree.h" />
     <ClInclude Include="Variable.h" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +191,7 @@
     <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="exprtest.z" />
     <None Include="main.z" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

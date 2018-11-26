@@ -54,6 +54,8 @@ std::string Token::getTypeString() {
 		return "LogicalOperator";
 	case TokenNegate:
 		return "Negate";
+	case endOfFile:
+		return "EndOfFile";
 	default:
 		return "Unknown Type";
 	}

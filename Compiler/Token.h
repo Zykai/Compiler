@@ -27,7 +27,8 @@ enum Tokentype {
 	importStmt,
 	whileStmt,
 	TokenFor,
-	ifToken
+	ifToken,
+	endOfFile
 };
 
 // Token struct

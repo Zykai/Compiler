@@ -5,42 +5,85 @@
 #include <algorithm>
 
 Parser::Parser() {
-	this->lineNumber = 0;
-	this->tokenNumber = 0;
+
 }
 
-void Parser::setTokenList(std::list<std::list<Token>> * list) {
+void Parser::setTokenList(std::list<Token> * list) {
 	this->tokenList = list;
-	this->currentLine = this->tokenList->begin();
-	this->currentToken = currentLine->begin();
+	this->currentElement = this->tokenList->begin();
 }
 
-Token * Parser::getNextToken() {
-	if (currentToken != currentLine->end()) {
-		std::cout << "BEGIN";
-		Token * temp = &*currentToken;
-		currentToken++;
-		std::cout << "  END\n";
-		return temp;
-	}
-	else if (currentLine != this->tokenList->end()) {
-		currentLine++;
-		currentToken = currentLine->begin();
-		Token * temp = &*currentToken;
-		currentToken++;
-		//std::cout << currentToken->getDescription() << std::endl;
-		//std::cout << "New Size: " << currentLine->size() << std::endl;
-		//if (currentLine->cbegin() == currentLine->cend()) std::cout << "BEGIN == END" << std::endl;
 
-		return temp;
-	}
-	return nullptr;
-}
 
 void Parser::startParsing() {
-	std::for_each(this->tokenList->begin(), this->tokenList->end(), [&](std::list<Token> e) {
-		std::for_each(e.begin(), e.end(), [&](Token t) {
-			std::cout << t.getDescription() << std::endl;
-		});
-	});
+	while (this->currentElement != this->tokenList->end()) {
+		std::cout << getCurrent()->getDescription() << std::endl;
+		currentElement++;
+	}
+	this->currentElement = this->tokenList->begin();
+}
+
+bool Parser::match(std::initializer_list<Tokentype> possibleTypes)
+{
+	return false;
+}
+
+Token * Parser::getCurrent(){
+	return &*this->currentElement;
+}
+
+Token * Parser::getPrevious(){
+	return &*std::next(currentElement, -1);
+}
+
+Token * Parser::getNext(){
+	return &*std::next(currentElement, 1);
+}
+
+ExpressionTree * Parser::parseExpression(){
+	return addition();
+}
+
+ExpressionTree * Parser::logAndOr(){
+	return new ExpressionTree();
+}
+
+ExpressionTree * Parser::equality(){
+	return new ExpressionTree();
+}
+
+ExpressionTree * Parser::comparison(){
+	return new ExpressionTree();
+}
+
+ExpressionTree * Parser::addition(){
+	ExpressionTree * expr = multiplication();
+	while (match({ TokenPlus, TokenMinus })) {
+
+	}
+	return expr;
+}
+
+ExpressionTree * Parser::multiplication(){
+	ExpressionTree * expr = value();
+	while (match({ TokenMultiply, TokenDivide })) {
+
+	}
+	return expr;
+}
+
+ExpressionTree * Parser::preUnary(){
+	return new ExpressionTree();
+}
+
+ExpressionTree * Parser::postUnary(){
+	return new ExpressionTree();
+}
+
+ExpressionTree * Parser::getElement(){
+	return new ExpressionTree();
+}
+
+ExpressionTree * Parser::value(){
+	return new ValueTree(this->getCurrent());
 }

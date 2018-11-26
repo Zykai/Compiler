@@ -6,7 +6,9 @@
 
 class GetElementTree : public ExpressionTree {
 public:
-
+	void output() override {
+		std::cout << "getElement" << std::endl;
+	}
 private:
 	Token * name;
 	Token * braceOpen;

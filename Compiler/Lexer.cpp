@@ -3,13 +3,14 @@
 #include <iostream>
 #include <cctype>
 
-std::list<std::list<Token>> Lexer::getTokenList() {
+std::list<Token> Lexer::getTokenList() {
 	using namespace std;
-	list<list<Token>> allTokenList = list<list<Token>>();
+	list<Token> allTokenList = list<Token>();
 
 	for (std::string &s : this->source->textList) {
-		allTokenList.emplace_back(this->getLineToken(s));
+		getLineToken(s, allTokenList);
 	}
+	allTokenList.emplace_back(endOfFile, "");
 	return allTokenList;
 }
 

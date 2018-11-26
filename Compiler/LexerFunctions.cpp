@@ -4,8 +4,8 @@
 #include <cctype>
 
 // TODO: find a way to remove i++ in loop
-std::list<Token> Lexer::getLineToken(std::string line) {
-	std::list<Token> tokenlist = std::list<Token>();
+std::list<Token> Lexer::getLineToken(std::string line, std::list<Token> & currentLilst) {
+	
 	for (int i = 0; i < line.length(); ) {
 		char currentChar = line.at(i);
 		i++;
@@ -13,9 +13,9 @@ std::list<Token> Lexer::getLineToken(std::string line) {
 			continue;
 		}
 		Token t = this->startFunction[currentChar](line, i-1, i);
-		tokenlist.emplace_back(t);
+		currentLilst.emplace_back(t);
 	}
-	return tokenlist;
+	return currentLilst;
 }
 
 // In case of bad performance: use lambdas instead of member functions

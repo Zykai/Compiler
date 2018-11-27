@@ -48,7 +48,15 @@ void Lexer::createStartFunction() {
 	startFunction[')'] = [](std::string, int, int& currentChar) { return Token(parentheseClose, ")"); };
 	startFunction['{'] = [](std::string, int, int& currentChar) { return Token(curlyBracesOpen, "{"); };
 	startFunction['}'] = [](std::string, int, int& currentChar) { return Token(curlyBracesClose, "}"); };
-	startFunction['+'] = [](std::string, int, int& currentChar) { return Token(TokenPlus, "+"); };
+	//startFunction['+'] = [](std::string, int, int& currentChar) { return Token(TokenPlus, "+"); };
+	startFunction['+'] = [](std::string line, int, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == '+') {
+			currentChar++;
+			return Token(increment, "++");
+		}
+		return Token(TokenPlus, "+");
+	};
 	startFunction['-'] = [](std::string, int, int& currentChar) { return Token(TokenMinus, "-"); };
 	startFunction['*'] = [](std::string, int, int& currentChar) { return Token(TokenMultiply, "*"); };
 	startFunction['/'] = [](std::string, int, int& currentChar) { return Token(TokenDivide, "=/"); };
@@ -58,7 +66,7 @@ void Lexer::createStartFunction() {
 			currentChar++;
 			return Token(logicalComparison, "<=");
 		}
-		return Token(logicalComparison, "<"); 
+		return Token(logicalComparison, "<");
 	};
 	startFunction['>'] = [](std::string line, int, int& currentChar) {
 		char nextChar = line.at(currentChar);
@@ -72,7 +80,7 @@ void Lexer::createStartFunction() {
 		char nextChar = line.at(currentChar);
 		if (nextChar == '=') {
 			currentChar++;
-			return Token(logicalComparison, "!=");
+			return Token(logicalEqual, "!=");
 		}
 		return Token(TokenNegate, "!");
 	};
@@ -237,7 +245,7 @@ Token Lexer::findAssignEqual(std::string line, int startChar, int & currentChar)
 	char nextChar = line.at(currentChar);
 	if (nextChar == '=') {
 		currentChar++;
-		return Token(logicalComparison, line.substr(startChar, currentChar - startChar));
+		return Token(logicalEqual, line.substr(startChar, currentChar - startChar));
 	}
 	return Token(assignOperator, "=");
 }

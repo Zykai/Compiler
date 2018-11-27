@@ -50,12 +50,16 @@ std::string Token::getTypeString() {
 		return "Multiply";
 	case TokenDivide:
 		return "Divide";
-	case logicalComparison:
+	case logicalEqual:
 		return "LogicalOperator";
 	case logicalAndOr:
 		return "LogicalAndOr";
+	case logicalComparison:
+		return "LogicalComparison";
 	case TokenNegate:
 		return "Negate";
+	case increment:
+		return "Increment";
 	case endOfFile:
 		return "EndOfFile";
 	default:

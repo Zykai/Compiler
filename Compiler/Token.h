@@ -9,8 +9,9 @@ enum Tokentype {
 	curlyBracesOpen,
 	curlyBracesClose,
 	arithmeticOperator,
-	logicalComparison,
+	logicalEqual,
 	logicalAndOr,
+	logicalComparison,
 	TokenNegate,
 	TokenPlus,
 	TokenMinus,
@@ -29,6 +30,7 @@ enum Tokentype {
 	whileStmt,
 	TokenFor,
 	ifToken,
+	increment,
 	endOfFile
 };
 

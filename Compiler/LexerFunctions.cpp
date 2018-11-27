@@ -56,25 +56,41 @@ void Lexer::createStartFunction() {
 		char nextChar = line.at(currentChar);
 		if (nextChar == '=') {
 			currentChar++;
-			return Token(logicalOperator, "<=");
+			return Token(logicalComparison, "<=");
 		}
-		return Token(logicalOperator, "<"); 
+		return Token(logicalComparison, "<"); 
 	};
 	startFunction['>'] = [](std::string line, int, int& currentChar) {
 		char nextChar = line.at(currentChar);
 		if (nextChar == '=') {
 			currentChar++;
-			return Token(logicalOperator, ">=");
+			return Token(logicalComparison, ">=");
 		}
-		return Token(logicalOperator, ">");
+		return Token(logicalComparison, ">");
 	};
 	startFunction['!'] = [](std::string line, int, int& currentChar) {
 		char nextChar = line.at(currentChar);
 		if (nextChar == '=') {
 			currentChar++;
-			return Token(logicalOperator, "!=");
+			return Token(logicalComparison, "!=");
 		}
 		return Token(TokenNegate, "!");
+	};
+	startFunction['&'] = [](std::string line, int, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == '&') {
+			currentChar++;
+			return Token(logicalAndOr, "&&");
+		}
+		return Token(errorToken, "&");
+	};
+	startFunction['|'] = [](std::string line, int, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == '|') {
+			currentChar++;
+			return Token(logicalAndOr, "||");
+		}
+		return Token(errorToken, "|");
 	};
 
 }
@@ -221,7 +237,7 @@ Token Lexer::findAssignEqual(std::string line, int startChar, int & currentChar)
 	char nextChar = line.at(currentChar);
 	if (nextChar == '=') {
 		currentChar++;
-		return Token(logicalOperator, line.substr(startChar, currentChar - startChar));
+		return Token(logicalComparison, line.substr(startChar, currentChar - startChar));
 	}
 	return Token(assignOperator, "=");
 }

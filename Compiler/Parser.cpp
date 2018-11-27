@@ -53,7 +53,7 @@ Token * Parser::getNext(){
 }
 
 ExpressionTree * Parser::parseExpression(){
-	return addition();
+	return logAndOr();
 }
 
 ExpressionTree * Parser::logAndOr(){
@@ -66,11 +66,21 @@ ExpressionTree * Parser::logAndOr(){
 }
 
 ExpressionTree * Parser::equality(){
-	return new ExpressionTree();
+	ExpressionTree * expr = comparison();
+	while (match({ logicalEqual })) {
+		ExpressionTree * right = comparison();
+		expr = new EqualityTree(expr, right, this->getPrevious());
+	}
+	return expr;
 }
 
 ExpressionTree * Parser::comparison(){
-	return new ExpressionTree();
+	ExpressionTree * expr = addition();
+	while (match({ logicalComparison })) {
+		ExpressionTree * right = addition();
+		expr = new ComparisonTree(expr, right, this->getPrevious());
+	}
+	return expr;
 }
 
 ExpressionTree * Parser::addition(){
@@ -83,20 +93,29 @@ ExpressionTree * Parser::addition(){
 }
 
 ExpressionTree * Parser::multiplication(){
-	ExpressionTree * expr = value();
+	ExpressionTree * expr = preUnary();
 	while (match({ TokenMultiply, TokenDivide })) {
-		ExpressionTree * right = value();
+		ExpressionTree * right = preUnary();
 		expr = new MultiplicationTree(expr, right, this->getPrevious());
 	}
 	return expr;
 }
 
 ExpressionTree * Parser::preUnary(){
-	return new ExpressionTree();
+	if (match({ TokenNegate })) {
+		Token * preOperator = this->getPrevious();
+		ExpressionTree * right = preUnary();
+		return new PreUnaryTree(right, preOperator);
+	}
+	else return postUnary();
 }
 
 ExpressionTree * Parser::postUnary(){
-	return new ExpressionTree();
+	ExpressionTree * expr = value();
+	while (match({ increment })) {
+		expr = new PostUnaryTree(expr, this->getPrevious());
+	}
+	return expr;
 }
 
 ExpressionTree * Parser::getElement(){
@@ -106,6 +125,19 @@ ExpressionTree * Parser::getElement(){
 ExpressionTree * Parser::value(){
 	if (match({ identifier, integerNumber, floatNumber })) {
 		return new ValueTree(this->getPrevious());
+	}
+	else if (match({parentheseOpen})) {
+		Token * brace = this->getPrevious();
+		ExpressionTree * expr = parseExpression();
+		if (match({parentheseClose})) {
+			Token * bracend = getPrevious();
+			return expr;
+		}
+		else {
+			std::cout << "ERROR: missing closing brace" << std::endl;
+			system("pause"); // TODO better errors handling
+			exit(1);
+		}
 	}
 	else {
 		// Should never happen in correct program

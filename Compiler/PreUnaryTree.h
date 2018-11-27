@@ -12,7 +12,7 @@ public:
 
 	void output() override {
 		right->output();
-		std::cout << "PreUnary" << std::endl;
+		std::cout << "PreUnary (Negate)" << std::endl;
 	}
 
 	ExpressionTree * right;

@@ -12,7 +12,7 @@ public:
 
 	void output() override {
 		left->output();
-		std::cout << "PostUnary" << std::endl;
+		std::cout << "PostUnary (inc)" << std::endl;
 	}
 
 	ExpressionTree * left;

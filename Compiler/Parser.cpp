@@ -25,6 +25,18 @@ void Parser::startParsing() {
 
 bool Parser::match(std::initializer_list<Tokentype> possibleTypes)
 {
+	Token * currentToken = this->getCurrent();
+	//std::cout << "TO MATCH: " << currentToken->getTypeString() << "  ";
+	// reference not possible for some reason
+	for (Tokentype pType : possibleTypes) {
+		//std::cout << "POSSIBLE: " << pType << "  ";
+		if (currentToken->getType() == pType) {
+			std::advance(this->currentElement, 1);
+			//std::cout << "MATCH" << std::endl;
+			return true;
+		}
+	}
+	//std::cout << std::endl;
 	return false;
 }
 
@@ -45,7 +57,12 @@ ExpressionTree * Parser::parseExpression(){
 }
 
 ExpressionTree * Parser::logAndOr(){
-	return new ExpressionTree();
+	ExpressionTree * expr = equality();
+	while (match({ logicalAndOr })) {
+		ExpressionTree * right = equality();
+		expr = new LogAndOrTree(expr, right, this->getPrevious());
+	}
+	return expr;
 }
 
 ExpressionTree * Parser::equality(){
@@ -59,7 +76,8 @@ ExpressionTree * Parser::comparison(){
 ExpressionTree * Parser::addition(){
 	ExpressionTree * expr = multiplication();
 	while (match({ TokenPlus, TokenMinus })) {
-
+		ExpressionTree * right = multiplication();
+		expr = new AdditionTree(expr, right, this->getPrevious());
 	}
 	return expr;
 }
@@ -67,7 +85,8 @@ ExpressionTree * Parser::addition(){
 ExpressionTree * Parser::multiplication(){
 	ExpressionTree * expr = value();
 	while (match({ TokenMultiply, TokenDivide })) {
-
+		ExpressionTree * right = value();
+		expr = new MultiplicationTree(expr, right, this->getPrevious());
 	}
 	return expr;
 }
@@ -85,5 +104,15 @@ ExpressionTree * Parser::getElement(){
 }
 
 ExpressionTree * Parser::value(){
-	return new ValueTree(this->getCurrent());
+	if (match({ identifier, integerNumber, floatNumber })) {
+		return new ValueTree(this->getPrevious());
+	}
+	else {
+		// Should never happen in correct program
+		std::cout << "ERROR" << std::endl;
+		system("pause");
+		return nullptr;
+		//throw new Exception(); TODO: parsing errors
+	}
+	
 }

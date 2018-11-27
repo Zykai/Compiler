@@ -6,12 +6,22 @@
 
 class AdditionTree : public ExpressionTree  {
 public:
+	AdditionTree(ExpressionTree * left, ExpressionTree * right, Token * addOperator) {
+		this->left = left;
+		this->right = right;
+		this->addOperator = addOperator;
+	}
+
 	void output() override {
 		left->output();
 		right->output();
 		std::cout << "Addition" << std::endl;
 	}
-private:
+
+	int evaluate() override {
+		return left->evaluate() + right->evaluate();
+	}
+
 	ExpressionTree * left;
 	ExpressionTree * right;
 	Token * addOperator;

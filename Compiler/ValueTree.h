@@ -11,7 +11,11 @@ public:
 	void output() override {
 		std::cout << "Value: " << value->getValue() << std::endl;
 	}
-private:
+
+	int evaluate() override {
+		return	std::stoi(this->value->getValue());
+	}
+
 	// either a literal or a identifier
 	Token * value;
 };

@@ -5,12 +5,18 @@
 
 class ComparisonTree : public ExpressionTree {
 public:
+	ComparisonTree(ExpressionTree * left, ExpressionTree * right, Token * comparisonOperator) {
+		this->left = left;
+		this->right = right;
+		this->comparisonOperator = comparisonOperator;
+	}
+
 	void output() override {
 		left->output();
 		right->output();
 		std::cout << "Comparison" << std::endl;
 	}
-private:
+
 	ExpressionTree * left;
 	ExpressionTree * right;
 	Token * comparisonOperator;

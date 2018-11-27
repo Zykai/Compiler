@@ -5,11 +5,16 @@
 
 class PostUnaryTree : public ExpressionTree {
 public:
+	PostUnaryTree(ExpressionTree * left, Token * unaryOperator) {
+		this->left = left;
+		this->unaryOperator = unaryOperator;
+	}
+
 	void output() override {
 		left->output();
 		std::cout << "PostUnary" << std::endl;
 	}
-private:
+
 	ExpressionTree * left;
 	Token * unaryOperator;
 };

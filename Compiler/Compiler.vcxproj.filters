@@ -28,6 +28,12 @@
     <Filter Include="Headerdateien\SyntaxTrees">
       <UniqueIdentifier>{e9b67088-299c-44fd-b1b3-08805f684099}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\SyntaxTrees\Expressions">
+      <UniqueIdentifier>{315da123-a7a4-49f5-b177-9b9f1148dff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\SyntaxTrees\Statements">
+      <UniqueIdentifier>{a04f3570-04a0-4beb-8734-a9693d583d04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -69,38 +75,44 @@
     <ClInclude Include="Function.h">
       <Filter>Headerdateien\SyntacticAnalysis</Filter>
     </ClInclude>
-    <ClInclude Include="ExpressionTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
-    <ClInclude Include="LogAndOrTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
-    <ClInclude Include="EqualityTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
-    <ClInclude Include="AdditionTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
-    <ClInclude Include="PreUnaryTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
-    <ClInclude Include="MultiplicationTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
-    <ClInclude Include="PostUnaryTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
-    <ClInclude Include="GetElementTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
-    <ClInclude Include="ComparisonTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
-    <ClInclude Include="ValueTree.h">
-      <Filter>Headerdateien\SyntaxTrees</Filter>
-    </ClInclude>
     <ClInclude Include="Expressions.h">
       <Filter>Headerdateien\SyntacticAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="ComparisonTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="AdditionTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="EqualityTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="GetElementTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="LogAndOrTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpressionTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiplicationTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="PostUnaryTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="PreUnaryTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramTree.h">
+      <Filter>Headerdateien\SyntaxTrees</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableTree.h">
+      <Filter>Headerdateien\SyntaxTrees</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

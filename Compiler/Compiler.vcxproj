@@ -163,6 +163,7 @@
     <ClInclude Include="PostUnaryTree.h" />
     <ClInclude Include="PreUnaryTree.h" />
     <ClInclude Include="Program.h" />
+    <ClInclude Include="ProgramTree.h" />
     <ClInclude Include="SourceFile.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="LexerUtils.h" />
     <ClInclude Include="ValueTree.h" />
     <ClInclude Include="Variable.h" />
+    <ClInclude Include="VariableTree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.cpp" />

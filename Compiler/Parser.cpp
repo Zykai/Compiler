@@ -5,7 +5,7 @@
 #include <algorithm>
 
 Parser::Parser() {
-
+	this->currentOffset = 0;
 }
 
 void Parser::setTokenList(std::list<Token> * list) {
@@ -23,8 +23,7 @@ void Parser::startParsing() {
 	this->currentElement = this->tokenList->begin();
 }
 
-bool Parser::match(std::initializer_list<Tokentype> possibleTypes)
-{
+bool Parser::match(std::initializer_list<Tokentype> possibleTypes){
 	Token * currentToken = this->getCurrent();
 	//std::cout << "TO MATCH: " << currentToken->getTypeString() << "  ";
 	// reference not possible for some reason
@@ -52,7 +51,50 @@ Token * Parser::getNext(){
 	return &*std::next(currentElement, 1);
 }
 
-ExpressionTree * Parser::parseExpression(){
+ProgramTree * Parser::parseProgram(){
+	return program();
+}
+
+ProgramTree * Parser::program(){
+	ProgramTree * program = new ProgramTree();
+	while (match({ importStmt })) {
+		if (!match({ identifier })) {
+			std::cout << "ERROR: expected identifier to import";
+			exit(1);
+			//throw error();
+		}
+		Token * id = this->getPrevious();
+		program->imports.emplace(id->getValue(), id->getValue());
+		this->parseSemicolon();
+	}
+	while (match({ typeName })) {
+		Token * typeToken = this->getPrevious();
+		DataType dataType = this->getType(typeToken);
+		if (!match({ identifier })) {
+			std::cout << "ERROR: expected var/func name" << std::endl;
+			system("pause");
+			exit(1);
+		}
+		Token * nameToken = this->getPrevious();
+		if (match({ assignOperator })) {
+			Token * name = getPrevious();
+			Token * value = this->literalValue();
+			VariableTree * newVar = new VariableTree(value, dataType, this->getOffset(dataType));
+			program->variables.emplace(nameToken->getValue() ,newVar);
+			this->parseSemicolon();
+		}
+		else if (match({ parentheseOpen })) {
+			std::cout << "FUNCTION" << std::endl;
+		}
+		else {
+			//std::cout << "ERROR: assignment or parenthese";
+			//exit(1);
+		}
+	}
+	return program;
+}
+
+ExpressionTree * Parser::parseExpression() {
 	return logAndOr();
 }
 
@@ -143,8 +185,56 @@ ExpressionTree * Parser::value(){
 		// Should never happen in correct program
 		std::cout << "ERROR" << std::endl;
 		system("pause");
-		return nullptr;
+		exit(1);
 		//throw new Exception(); TODO: parsing errors
 	}
-	
+}
+
+Token * Parser::literalValue() {
+	// + String
+	if (match({ integerNumber, floatNumber })) {
+		this->getPrevious();
+	}
+	else {
+		std::cout << "ERROR: Expected literal value; FOUND: " + getCurrent()->getTypeString() << std::endl;
+		system("pause");
+		exit(1);
+	}
+}
+
+bool Parser::parseSemicolon(){
+	if (!match({ semicolon })) {
+		std::cout << "ERROR: missing semicolon";
+		system("pause");
+		exit(1);
+	}
+	return true;
+}
+
+DataType Parser::getType(Token * token){
+	std::string datatype = token->getValue();
+	if (datatype == "int") {
+		return Integer;
+	}
+	else if (datatype == "float") {
+		return Float;
+	}
+	else if (datatype == "short") {
+		return Short;
+	}
+	else if (datatype == "byte") {
+		return Byte;
+	}
+	else {
+		std::cout << "ERROR: invalid typename: " << datatype << std::endl;
+		system("pause");
+		exit(1);
+	}
+
+}
+
+int Parser::getOffset(DataType newVar){
+	int temp = this->currentOffset;
+	this->currentOffset += newVar;
+	return temp;
 }

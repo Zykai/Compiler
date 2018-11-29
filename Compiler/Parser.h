@@ -2,6 +2,15 @@
 #include <list>
 #include "Token.h"
 #include "Expressions.h"
+#include "ProgramTree.h"
+
+
+enum DataType {
+	Byte = 1,
+	Short = 2,
+	Integer = 4,
+	Float = 4
+};
 
 class Parser {
 public:
@@ -9,6 +18,8 @@ public:
 	void setTokenList(std::list<Token>* list);
 	void startParsing();
 
+
+	ProgramTree * parseProgram();
 	ExpressionTree * parseExpression(); // public for testing purposes
 private:
 	std::list<Token> * tokenList;
@@ -19,6 +30,8 @@ private:
 	Token * getPrevious();
 	Token * getNext();
 
+	
+	ProgramTree * program();
 	//ExpressionTree * parseExpression();
 	ExpressionTree * logAndOr();
 	ExpressionTree * equality();
@@ -29,4 +42,13 @@ private:
 	ExpressionTree * postUnary();
 	ExpressionTree * getElement();
 	ExpressionTree * value();
+	
+
+	Token * literalValue();
+
+	bool parseSemicolon();
+
+	DataType getType(Token * token);
+	int getOffset(DataType newVar);
+	int currentOffset;
 };

@@ -4,13 +4,15 @@ import file;
 int vier = 4;
 int eins = 1;
 int zwei = 2;
-int hundert = 100;
+int hundert = 100;	
 
-int test(int param){
-	return param;
+int test(int abc, float def, int xyz){
+	while(i < 10){
+		i++;
+	}
 }
 
-int main (int arg){
-	int x = 4;
-	print(x);
+
+int main (){
+	3 == 3;
 }

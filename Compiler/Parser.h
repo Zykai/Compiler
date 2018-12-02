@@ -3,6 +3,7 @@
 #include "Token.h"
 #include "Expressions.h"
 #include "ProgramTree.h"
+#include "StatementHeaders.h"
 
 
 enum DataType {
@@ -32,6 +33,15 @@ private:
 
 	
 	ProgramTree * program();
+	void parseImports(ProgramTree * program);
+	void parseGlobals(ProgramTree * program);
+	void parseGlobal(ProgramTree * program, std::string name, DataType dataType);
+	void parseFunction(ProgramTree * program, std::string name, DataType dataType);
+	std::list<std::pair<int, std::string>> * parseParameters();
+
+	StatementTree * statement();
+	StatementTree * listStatement();
+	StatementTree * whileStatement();
 	//ExpressionTree * parseExpression();
 	ExpressionTree * logAndOr();
 	ExpressionTree * equality();

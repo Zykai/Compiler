@@ -13,8 +13,6 @@ void Parser::setTokenList(std::list<Token> * list) {
 	this->currentElement = this->tokenList->begin();
 }
 
-
-
 void Parser::startParsing() {
 	while (this->currentElement != this->tokenList->end()) {
 		std::cout << getCurrent()->getDescription() << std::endl;
@@ -57,6 +55,12 @@ ProgramTree * Parser::parseProgram(){
 
 ProgramTree * Parser::program(){
 	ProgramTree * program = new ProgramTree();
+	this->parseImports(program);
+	this->parseGlobals(program);
+	return program;
+}
+
+void Parser::parseImports(ProgramTree * program){
 	while (match({ importStmt })) {
 		if (!match({ identifier })) {
 			std::cout << "ERROR: expected identifier to import";
@@ -67,6 +71,11 @@ ProgramTree * Parser::program(){
 		program->imports.emplace(id->getValue(), id->getValue());
 		this->parseSemicolon();
 	}
+}
+
+
+
+void Parser::parseGlobals(ProgramTree * program){
 	while (match({ typeName })) {
 		Token * typeToken = this->getPrevious();
 		DataType dataType = this->getType(typeToken);
@@ -77,21 +86,89 @@ ProgramTree * Parser::program(){
 		}
 		Token * nameToken = this->getPrevious();
 		if (match({ assignOperator })) {
-			Token * name = getPrevious();
-			Token * value = this->literalValue();
-			VariableTree * newVar = new VariableTree(value, dataType, this->getOffset(dataType));
-			program->variables.emplace(nameToken->getValue() ,newVar);
-			this->parseSemicolon();
+			this->parseGlobal(program, nameToken->getValue(), dataType);
 		}
 		else if (match({ parentheseOpen })) {
-			std::cout << "FUNCTION" << std::endl;
+			this->parseFunction(program, nameToken->getValue(), dataType);
 		}
 		else {
 			//std::cout << "ERROR: assignment or parenthese";
 			//exit(1);
 		}
 	}
-	return program;
+}
+
+void Parser::parseGlobal(ProgramTree * program, std::string name, DataType dataType){
+	Token * value = this->literalValue();
+	this->parseSemicolon();
+	VariableTree * newVar = new VariableTree(value, dataType, this->getOffset(dataType));
+	program->variables.emplace(name, newVar);
+}
+
+void Parser::parseFunction(ProgramTree * program, std::string name, DataType dataType){
+	auto params = this->parseParameters();
+	StatementTree * s = this->statement();
+	FunctionTree * f = new FunctionTree(params, dataType, s);
+	program->functions.emplace(name, f);
+}
+
+std::list<std::pair<int, std::string>> * Parser::parseParameters(){
+	auto parameterList = new std::list<std::pair<int, std::string>>();
+
+	while (match({ typeName })) {
+		DataType type = this->getType(this->getPrevious());
+		if (!match({ identifier })) {
+			std::cout << "ERROR: expected identifier; found " << this->getCurrent()->getTypeString();
+			system("pause");
+			exit(1);
+		}
+		std::string parameterName = this->getPrevious()->getValue();
+		parameterList->emplace_back(std::pair<int, std::string>(type, parameterName));
+		match({ TokenComma });
+	}
+	match({ parentheseClose });
+	return parameterList;
+}
+
+StatementTree * Parser::statement(){
+	if (match({ whileStmt })) {
+		return this->whileStatement();
+	}
+	else if (match({ curlyBracesOpen })) {
+		return this->listStatement();
+	}
+	else {
+		ExpressionTree * e = this->parseExpression();
+		this->parseSemicolon();
+		StatementTree * s = new ExprStatementTree(e);
+		return s;
+	}
+	return nullptr;
+}
+
+StatementTree * Parser::listStatement(){
+	std::list<StatementTree*> * stmtList = new std::list<StatementTree*>();
+	do {
+		StatementTree * s = this->statement();
+		stmtList->emplace_back(s);
+	} while (!match({curlyBracesClose}));
+	return new StatementListTree(stmtList);
+}
+
+StatementTree * Parser::whileStatement(){
+	if (!match({ parentheseOpen })) {
+		std::cout << "ERROR: missing opening parenthese" << std::endl;
+		system("pause"); // TODO better error handling
+		exit(1);
+	}
+	ExpressionTree * whileHead = this->parseExpression();
+	if (!match({ parentheseClose })) {
+		std::cout << "ERROR: missing closing parenthese" << std::endl;
+		system("pause"); // TODO better error handling
+		exit(1);
+	}
+	StatementTree * whileBody = this->statement();
+	return new WhileStatementTree(whileHead, whileBody);
 }
 
 ExpressionTree * Parser::parseExpression() {
@@ -183,7 +260,7 @@ ExpressionTree * Parser::value(){
 	}
 	else {
 		// Should never happen in correct program
-		std::cout << "ERROR" << std::endl;
+		std::cout << "ERROR: exptected value; found: " << this->getCurrent()->getDescription() << std::endl;
 		system("pause");
 		exit(1);
 		//throw new Exception(); TODO: parsing errors

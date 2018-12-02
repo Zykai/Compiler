@@ -2,6 +2,9 @@ import test;
 import file;
 
 int vier = 4;
+int eins = 1;
+int zwei = 2;
+int hundert = 100;
 
 int test(int param){
 	return param;

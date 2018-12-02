@@ -44,6 +44,7 @@ void Lexer::createStartFunction() {
 	startFunction['w'] = std::bind(&Lexer::findWhile, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	startFunction['='] = std::bind(&Lexer::findAssignEqual, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	startFunction[';'] = [](std::string, int, int& currentChar) { return Token(semicolon, ";");};
+	startFunction[','] = [](std::string, int, int& currentChar) { return Token(TokenComma, ","); };
 	startFunction['('] = [](std::string, int, int& currentChar) { return Token(parentheseOpen, "("); };
 	startFunction[')'] = [](std::string, int, int& currentChar) { return Token(parentheseClose, ")"); };
 	startFunction['{'] = [](std::string, int, int& currentChar) { return Token(curlyBracesOpen, "{"); };

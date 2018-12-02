@@ -60,6 +60,8 @@ std::string Token::getTypeString() {
 		return "Negate";
 	case increment:
 		return "Increment";
+	case TokenComma:
+		return "TokenComma";
 	case endOfFile:
 		return "EndOfFile";
 	default:

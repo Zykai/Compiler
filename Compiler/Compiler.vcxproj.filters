@@ -114,6 +114,24 @@
     <ClInclude Include="VariableTree.h">
       <Filter>Headerdateien\SyntaxTrees</Filter>
     </ClInclude>
+    <ClInclude Include="FunctionTree.h">
+      <Filter>Headerdateien\SyntaxTrees</Filter>
+    </ClInclude>
+    <ClInclude Include="StatementTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
+    <ClInclude Include="StatementListTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
+    <ClInclude Include="ExprStatementTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
+    <ClInclude Include="StatementHeaders.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
+    <ClInclude Include="WhileStatementTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

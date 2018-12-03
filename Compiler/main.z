@@ -7,8 +7,12 @@ int zwei = 2;
 int hundert = 100;	
 
 int test(int abc, float def, int xyz){
+	int i = abc * def;
 	while(i < 10){
 		i++;
+	}
+	for(i + 10; i < 20; i++){
+		abc++;
 	}
 }
 

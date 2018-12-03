@@ -63,9 +63,7 @@ ProgramTree * Parser::program(){
 void Parser::parseImports(ProgramTree * program){
 	while (match({ importStmt })) {
 		if (!match({ identifier })) {
-			std::cout << "ERROR: expected identifier to import";
-			exit(1);
-			//throw error();
+			this->error("ERROR: expected identifier to import");
 		}
 		Token * id = this->getPrevious();
 		program->imports.emplace(id->getValue(), id->getValue());
@@ -80,9 +78,7 @@ void Parser::parseGlobals(ProgramTree * program){
 		Token * typeToken = this->getPrevious();
 		DataType dataType = this->getType(typeToken);
 		if (!match({ identifier })) {
-			std::cout << "ERROR: expected var/func name" << std::endl;
-			system("pause");
-			exit(1);
+			this->error("ERROR: expected var/func name");
 		}
 		Token * nameToken = this->getPrevious();
 		if (match({ assignOperator })) {
@@ -118,9 +114,7 @@ std::list<std::pair<int, std::string>> * Parser::parseParameters(){
 	while (match({ typeName })) {
 		DataType type = this->getType(this->getPrevious());
 		if (!match({ identifier })) {
-			std::cout << "ERROR: expected identifier; found " << this->getCurrent()->getTypeString();
-			system("pause");
-			exit(1);
+			this->error("ERROR: expected identifier; found " + this->getCurrent()->getTypeString());
 		}
 		std::string parameterName = this->getPrevious()->getValue();
 		parameterList->emplace_back(std::pair<int, std::string>(type, parameterName));
@@ -137,6 +131,12 @@ StatementTree * Parser::statement(){
 	else if (match({ curlyBracesOpen })) {
 		return this->listStatement();
 	}
+	else if (match({ TokenFor })) {
+		return this->forStatement();
+	}
+	else if (match({ typeName })) {
+		return this->declStatement();
+	}
 	else {
 		ExpressionTree * e = this->parseExpression();
 		this->parseSemicolon();
@@ -144,6 +144,16 @@ StatementTree * Parser::statement(){
 		return s;
 	}
 	return nullptr;
+}
+
+StatementTree * Parser::declStatement(){
+	DataType type = this->getType(this->getPrevious());
+	if (!match({ identifier })) this->error("ERROR: expected identifier after type declaration; found" + this->getCurrent()->getTypeString());
+	Token * varName = this->getPrevious();
+	if (!match({ assignOperator })) this->error("ERROR: expected assignment; found" + this->getCurrent()->getTypeString());
+	ExpressionTree * expr = this->parseExpression();
+	this->parseSemicolon();
+	return new DeclStatementTree(varName, type, expr);
 }
 
 StatementTree * Parser::listStatement(){
@@ -157,18 +167,26 @@ StatementTree * Parser::listStatement(){
 
 StatementTree * Parser::whileStatement(){
 	if (!match({ parentheseOpen })) {
-		std::cout << "ERROR: missing opening parenthese" << std::endl;
-		system("pause"); // TODO better error handling
-		exit(1);
+		this->error("ERROR: missing opening parenthese after 'while'");
 	}
 	ExpressionTree * whileHead = this->parseExpression();
 	if (!match({ parentheseClose })) {
-		std::cout << "ERROR: missing closing parenthese" << std::endl;
-		system("pause"); // TODO better error handling
-		exit(1);
+		this->error("ERROR: missing opening parenthese after while head");
 	}
 	StatementTree * whileBody = this->statement();
 	return new WhileStatementTree(whileHead, whileBody);
+}
+
+StatementTree * Parser::forStatement(){
+	if (!match({ parentheseOpen })) this->error("ERROR: missing opening parenthese after 'for'");
+	StatementTree * init = new ExprStatementTree(this->parseExpression());
+	if (!match({ semicolon })) this->error("ERROR: missing semicolon in for head");
+	ExpressionTree * condition = this->parseExpression();
+	if (!match({ semicolon })) this->error("ERROR: missing semicolon in for head");
+	ExpressionTree * update = this->parseExpression();
+	if (!match({ parentheseClose })) this->error("ERROR: missing closing parenthese in for head");
+	StatementTree * forBody = this->statement();
+	return new ForStatementTree(init, condition, update, forBody);
 }
 
 ExpressionTree * Parser::parseExpression() {
@@ -253,17 +271,11 @@ ExpressionTree * Parser::value(){
 			return expr;
 		}
 		else {
-			std::cout << "ERROR: missing closing brace" << std::endl;
-			system("pause"); // TODO better errors handling
-			exit(1);
+			this->error("ERROR: missing closing brace");
 		}
 	}
 	else {
-		// Should never happen in correct program
-		std::cout << "ERROR: exptected value; found: " << this->getCurrent()->getDescription() << std::endl;
-		system("pause");
-		exit(1);
-		//throw new Exception(); TODO: parsing errors
+		this->error("ERROR: exptected value; found: " + this->getCurrent()->getDescription());
 	}
 }
 
@@ -273,17 +285,14 @@ Token * Parser::literalValue() {
 		this->getPrevious();
 	}
 	else {
-		std::cout << "ERROR: Expected literal value; FOUND: " + getCurrent()->getTypeString() << std::endl;
-		system("pause");
-		exit(1);
+		this->error("ERROR: Expected literal value; FOUND: " + getCurrent()->getTypeString());
+		return nullptr;
 	}
 }
 
 bool Parser::parseSemicolon(){
 	if (!match({ semicolon })) {
-		std::cout << "ERROR: missing semicolon";
-		system("pause");
-		exit(1);
+		this->error("ERROR: missing semicolon");
 	}
 	return true;
 }
@@ -303,9 +312,7 @@ DataType Parser::getType(Token * token){
 		return Byte;
 	}
 	else {
-		std::cout << "ERROR: invalid typename: " << datatype << std::endl;
-		system("pause");
-		exit(1);
+		this->error("ERROR: invalid typename: " + datatype);
 	}
 
 }
@@ -314,4 +321,10 @@ int Parser::getOffset(DataType newVar){
 	int temp = this->currentOffset;
 	this->currentOffset += newVar;
 	return temp;
+}
+
+void Parser::error(std::string message){
+	std::cout << message << std::endl;
+	system("pause");
+	exit(1);
 }

@@ -5,6 +5,10 @@
 #include "ProgramTree.h"
 #include "StatementHeaders.h"
 
+/* TODO:
+	-allow declaration and expression in first part of for-loop
+	-add function calling / array access in expression
+*/
 
 enum DataType {
 	Byte = 1,
@@ -40,8 +44,10 @@ private:
 	std::list<std::pair<int, std::string>> * parseParameters();
 
 	StatementTree * statement();
+	StatementTree * declStatement();
 	StatementTree * listStatement();
 	StatementTree * whileStatement();
+	StatementTree * forStatement();
 	//ExpressionTree * parseExpression();
 	ExpressionTree * logAndOr();
 	ExpressionTree * equality();
@@ -61,4 +67,6 @@ private:
 	DataType getType(Token * token);
 	int getOffset(DataType newVar);
 	int currentOffset;
+
+	void error(std::string message);
 };

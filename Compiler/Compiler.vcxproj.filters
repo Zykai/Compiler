@@ -138,12 +138,15 @@
     <ClInclude Include="DeclStatementTree.h">
       <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
     </ClInclude>
+    <ClInclude Include="IfStatementTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnStatementTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Compiler.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="SourceFile.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Program.cpp">
       <Filter>Quelldateien\LexicalAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Compiler.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

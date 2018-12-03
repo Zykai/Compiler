@@ -30,6 +30,10 @@ std::string Token::getTypeString() {
 		return "For";
 	case ifToken:
 		return "If";
+	case TokenElse:
+		return "Else";
+	case TokenReturn:
+		return "Return";
 	case semicolon:
 		return "Semicolon";
 	case curlyBracesOpen:

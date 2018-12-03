@@ -4,10 +4,18 @@ import file;
 int vier = 4;
 int eins = 1;
 int zwei = 2;
-int hundert = 100;	
-
+int hundert = 100;
 int test(int abc, float def, int xyz){
 	int i = abc * def;
+	if(true){
+		4 + 2;
+	}
+	else if(xyz < 1){
+		xyz++;
+	}
+	else {
+		1231;
+	}
 	while(i < 10){
 		i++;
 	}

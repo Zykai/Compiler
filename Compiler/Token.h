@@ -30,6 +30,8 @@ enum Tokentype {
 	whileStmt,
 	TokenFor,
 	ifToken,
+	TokenElse,
+	TokenReturn,
 	increment,
 	TokenComma,
 	endOfFile

@@ -137,6 +137,12 @@ StatementTree * Parser::statement(){
 	else if (match({ typeName })) {
 		return this->declStatement();
 	}
+	else if (match({ TokenReturn })) {
+		return this->returnStatement();
+	}
+	else if (match({ ifToken })) {
+		return this->ifStatement();
+	}
 	else {
 		ExpressionTree * e = this->parseExpression();
 		this->parseSemicolon();
@@ -187,6 +193,23 @@ StatementTree * Parser::forStatement(){
 	if (!match({ parentheseClose })) this->error("ERROR: missing closing parenthese in for head");
 	StatementTree * forBody = this->statement();
 	return new ForStatementTree(init, condition, update, forBody);
+}
+
+StatementTree * Parser::ifStatement(){
+	if (!match({ parentheseOpen })) this->error("ERROR: missing opening parenthese after 'if'");
+	ExpressionTree * condition = this->parseExpression();
+	if (!match({ parentheseClose })) this->error("ERROR: missing opening parenthese after if head");
+	StatementTree * ifStatement = this->statement();
+	StatementTree * elseStatement = nullptr;
+	if (match({TokenElse})) {
+		elseStatement = this->statement();
+	}
+	return new IfStatementTree(condition, ifStatement, elseStatement);
+}
+
+StatementTree * Parser::returnStatement(){
+	ExpressionTree * expr = this->parseExpression();
+	return new ReturnStatementTree(expr);
 }
 
 ExpressionTree * Parser::parseExpression() {

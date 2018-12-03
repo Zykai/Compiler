@@ -7,13 +7,13 @@
 std::list<Token> Lexer::getLineToken(std::string line, std::list<Token> & currentLilst) {
 	
 	for (int i = 0; i < line.length(); ) {
-		char currentChar = line.at(i);
-		i++;
-		if (std::isspace(currentChar)) {
-			continue;
-		}
-		Token t = this->startFunction[currentChar](line, i-1, i);
-		currentLilst.emplace_back(t);
+char currentChar = line.at(i);
+i++;
+if (std::isspace(currentChar)) {
+	continue;
+}
+Token t = this->startFunction[currentChar](line, i - 1, i);
+currentLilst.emplace_back(t);
 	}
 	return currentLilst;
 }
@@ -26,7 +26,7 @@ void Lexer::createStartFunction() {
 	for (int i = '0'; i <= '9'; i++) {
 		startFunction[i] = std::bind(&Lexer::findInteger, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	}
-	for (int i = 58; i < 65 ; i++) {
+	for (int i = 58; i < 65; i++) {
 
 	}
 	for (int i = 65; i <= 90; i++) {
@@ -38,18 +38,56 @@ void Lexer::createStartFunction() {
 	for (int i = 97; i <= 122; i++) {
 		startFunction[i] = std::bind(&Lexer::findId, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	}
+	Lexer * self = this; // needed for lambdas that access member functions
 	startFunction['.'] = std::bind(&Lexer::findInteger, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	startFunction['i'] = std::bind(&Lexer::findIntImport, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	startFunction['f'] = std::bind(&Lexer::findFloatFor, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	startFunction['w'] = std::bind(&Lexer::findWhile, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	startFunction['r'] = [&](std::string line, int startChar, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == 'e') {
+			currentChar++;
+			if (line.at(currentChar) == 't') {
+				currentChar++;
+				if (line.at(currentChar) == 'u') {
+					currentChar++;
+					if (line.at(currentChar) == 'r') {
+						currentChar++;
+						if (line.at(currentChar) == 'n') {
+							currentChar++;
+							if (!std::isalpha(line.at(currentChar))) {
+								return Token(TokenReturn, line.substr(startChar, currentChar - startChar));
+							}
+						}
+					}
+				}
+			}
+		}
+		return self->findId(line, startChar, currentChar);
+	};
+	startFunction['e'] = [&](std::string line, int startChar, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == 'l') {
+			currentChar++;
+			if (line.at(currentChar) == 's') {
+				currentChar++;
+				if (line.at(currentChar) == 'e') {
+					currentChar++;
+					if (!std::isalpha(line.at(currentChar))) {
+						return Token(TokenElse, line.substr(startChar, currentChar - startChar));
+					}
+				}
+			}
+		}
+		return self->findId(line, startChar, currentChar);
+	};
 	startFunction['='] = std::bind(&Lexer::findAssignEqual, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-	startFunction[';'] = [](std::string, int, int& currentChar) { return Token(semicolon, ";");};
+	startFunction[';'] = [](std::string, int, int& currentChar) { return Token(semicolon, ";"); };
 	startFunction[','] = [](std::string, int, int& currentChar) { return Token(TokenComma, ","); };
 	startFunction['('] = [](std::string, int, int& currentChar) { return Token(parentheseOpen, "("); };
 	startFunction[')'] = [](std::string, int, int& currentChar) { return Token(parentheseClose, ")"); };
 	startFunction['{'] = [](std::string, int, int& currentChar) { return Token(curlyBracesOpen, "{"); };
 	startFunction['}'] = [](std::string, int, int& currentChar) { return Token(curlyBracesClose, "}"); };
-	//startFunction['+'] = [](std::string, int, int& currentChar) { return Token(TokenPlus, "+"); };
 	startFunction['+'] = [](std::string line, int, int& currentChar) {
 		char nextChar = line.at(currentChar);
 		if (nextChar == '+') {
@@ -61,7 +99,7 @@ void Lexer::createStartFunction() {
 	startFunction['-'] = [](std::string, int, int& currentChar) { return Token(TokenMinus, "-"); };
 	startFunction['*'] = [](std::string, int, int& currentChar) { return Token(TokenMultiply, "*"); };
 	startFunction['/'] = [](std::string, int, int& currentChar) { return Token(TokenDivide, "=/"); };
-	startFunction['<'] = [](std::string line, int, int& currentChar) { 
+	startFunction['<'] = [](std::string line, int, int& currentChar) {
 		char nextChar = line.at(currentChar);
 		if (nextChar == '=') {
 			currentChar++;
@@ -101,7 +139,6 @@ void Lexer::createStartFunction() {
 		}
 		return Token(errorToken, "|");
 	};
-
 }
 
 Token Lexer::findId(std::string line, int startChar, int & currentChar) {

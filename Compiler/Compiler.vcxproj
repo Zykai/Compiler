@@ -159,6 +159,7 @@
     <ClInclude Include="FunctionTree.h" />
     <ClInclude Include="GetElementTree.h" />
     <ClInclude Include="IdentifierTree.h" />
+    <ClInclude Include="IfStatementTree.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LexerTree.h" />
     <ClInclude Include="LogAndOrTree.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="PreUnaryTree.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="ProgramTree.h" />
+    <ClInclude Include="ReturnStatementTree.h" />
     <ClInclude Include="SourceFile.h" />
     <ClInclude Include="StatementHeaders.h" />
     <ClInclude Include="StatementListTree.h" />

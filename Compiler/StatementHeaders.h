@@ -6,3 +6,5 @@
 #include "WhileStatementTree.h"
 #include "ForStatementTree.h"
 #include "DeclStatementTree.h"
+#include "IfStatementTree.h"
+#include "ReturnStatementTree.h"

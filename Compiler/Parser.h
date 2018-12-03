@@ -48,6 +48,8 @@ private:
 	StatementTree * listStatement();
 	StatementTree * whileStatement();
 	StatementTree * forStatement();
+	StatementTree * ifStatement();
+	StatementTree * returnStatement();
 	//ExpressionTree * parseExpression();
 	ExpressionTree * logAndOr();
 	ExpressionTree * equality();

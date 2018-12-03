@@ -149,10 +149,12 @@
   <ItemGroup>
     <ClInclude Include="AdditionTree.h" />
     <ClInclude Include="ComparisonTree.h" />
+    <ClInclude Include="DeclStatementTree.h" />
     <ClInclude Include="EqualityTree.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="ExpressionTree.h" />
     <ClInclude Include="ExprStatementTree.h" />
+    <ClInclude Include="ForStatementTree.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionTree.h" />
     <ClInclude Include="GetElementTree.h" />

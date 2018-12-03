@@ -132,6 +132,12 @@
     <ClInclude Include="WhileStatementTree.h">
       <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
     </ClInclude>
+    <ClInclude Include="ForStatementTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
+    <ClInclude Include="DeclStatementTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

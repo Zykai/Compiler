@@ -279,7 +279,7 @@ ExpressionTree * Parser::postUnary(){
 }
 
 ExpressionTree * Parser::getElement(){
-	return new ExpressionTree();
+	return nullptr;
 }
 
 ExpressionTree * Parser::value(){
@@ -356,9 +356,28 @@ DataType Parser::getType(Token * token){
 
 }
 
+int Parser::getVariableSize(DataType var){
+	switch (var) {
+	case Byte:
+		return 1;
+	case Short:
+		return 2;
+	case Integer:
+		return 4;
+	case Float:
+		return 4;
+	case Custom:
+		return 0;
+	default:
+		this->error("ERROR: invalid typename: " + var);
+		return -1;
+	}
+
+}
+
 int Parser::getOffset(DataType newVar){
 	int temp = this->currentOffset;
-	this->currentOffset += newVar;
+	this->currentOffset += this->getVariableSize(newVar);
 	return temp;
 }
 

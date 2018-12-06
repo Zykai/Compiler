@@ -7,13 +7,13 @@
 std::list<Token> Lexer::getLineToken(std::string line, std::list<Token> & currentLilst) {
 	
 	for (int i = 0; i < line.length(); ) {
-char currentChar = line.at(i);
-i++;
-if (std::isspace(currentChar)) {
-	continue;
-}
-Token t = this->startFunction[currentChar](line, i - 1, i);
-currentLilst.emplace_back(t);
+		char currentChar = line.at(i);
+		i++;
+		if (std::isspace(currentChar)) {
+			continue;
+	}
+	Token t = this->startFunction[currentChar](line, i - 1, i);
+	currentLilst.emplace_back(t);
 	}
 	return currentLilst;
 }
@@ -88,6 +88,8 @@ void Lexer::createStartFunction() {
 	startFunction[')'] = [](std::string, int, int& currentChar) { return Token(parentheseClose, ")"); };
 	startFunction['{'] = [](std::string, int, int& currentChar) { return Token(curlyBracesOpen, "{"); };
 	startFunction['}'] = [](std::string, int, int& currentChar) { return Token(curlyBracesClose, "}"); };
+	startFunction['['] = [](std::string, int, int& currentChar) { return Token(TokenSquareBracketOpen, "["); };
+	startFunction[']'] = [](std::string, int, int& currentChar) { return Token(TokenSquareBracketClose, "]"); };
 	startFunction['+'] = [](std::string line, int, int& currentChar) {
 		char nextChar = line.at(currentChar);
 		if (nextChar == '+') {

@@ -44,6 +44,10 @@ std::string Token::getTypeString() {
 		return "ParentheseOpen";
 	case parentheseClose:
 		return "ParentheseClose";
+	case TokenSquareBracketOpen:
+		return "SquareBracketOpen";
+	case TokenSquareBracketClose:
+		return "SquareBracketClose";
 	case assignOperator:
 		return "AssignmentOperator";
 	case TokenPlus:

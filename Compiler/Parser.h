@@ -60,6 +60,7 @@ private:
 	ExpressionTree * postUnary();
 	ExpressionTree * getElement();
 	ExpressionTree * value();
+	ExpressionTree * functionExpression();
 	
 
 	Token * literalValue();

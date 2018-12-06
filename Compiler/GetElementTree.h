@@ -6,19 +6,16 @@
 
 class GetElementTree : public ExpressionTree {
 public:
-	GetElementTree(Token * name, Token * braceOpen, std::list<ExpressionTree> parameters, Token * braceClose) {
+	GetElementTree(Token * name, std::list<ExpressionTree*> parameters) {
 		this->name = name;
-		this->braceOpen = braceOpen;
 		this->parameters = parameters;
-		this->braceClose = braceClose;
 	}
 
 	void output() override {
-		std::cout << "getElement" << std::endl;
+		std::cout << "Function " << name->getValue() << " with " << parameters.size() << " parameters" << std::endl;
+		
 	}
 
 	Token * name;
-	Token * braceOpen;
-	std::list<ExpressionTree> parameters; // maybe turn into a pointer
-	Token * braceClose;
+	std::list<ExpressionTree*> parameters;
 };

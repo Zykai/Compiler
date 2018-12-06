@@ -283,14 +283,15 @@ ExpressionTree * Parser::getElement(){
 }
 
 ExpressionTree * Parser::value(){
-	if (match({ identifier, integerNumber, floatNumber })) {
+	if (match({ integerNumber, floatNumber })) {
 		return new ValueTree(this->getPrevious());
 	}
+	else if (match({ identifier })) {
+		return this->functionExpression();
+	}
 	else if (match({parentheseOpen})) {
-		Token * brace = this->getPrevious();
 		ExpressionTree * expr = parseExpression();
 		if (match({parentheseClose})) {
-			Token * bracend = getPrevious();
 			return expr;
 		}
 		else {
@@ -300,6 +301,21 @@ ExpressionTree * Parser::value(){
 	else {
 		this->error("ERROR: exptected value; found: " + this->getCurrent()->getDescription());
 	}
+}
+
+ExpressionTree * Parser::functionExpression(){
+	Token * name = this->getPrevious();
+	std::list<ExpressionTree*> parameters =  std::list<ExpressionTree*>();
+	if (match({ parentheseOpen })) {
+		while (!match({ parentheseClose })) {
+			ExpressionTree * param = this->parseExpression();
+			parameters.emplace_back(param);
+			if (!match({ TokenComma })) break;
+		}
+		if (!match({ parentheseClose })) this->error("Expected closing parenthese to complete function call");
+		return new GetElementTree(name, parameters);
+	}
+	else return new ValueTree(name);
 }
 
 Token * Parser::literalValue() {

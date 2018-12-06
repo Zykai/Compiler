@@ -8,6 +8,8 @@ enum Tokentype {
 	parentheseClose,
 	curlyBracesOpen,
 	curlyBracesClose,
+	TokenSquareBracketOpen,
+	TokenSquareBracketClose,
 	arithmeticOperator,
 	logicalEqual,
 	logicalAndOr,

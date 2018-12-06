@@ -16,6 +16,10 @@ public:
 		
 	}
 
+	DataType checkDatatype() override {
+		return Custom;
+	}
+
 	Token * name;
 	std::list<ExpressionTree*> parameters;
 };

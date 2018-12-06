@@ -22,6 +22,10 @@ public:
 		return left->evaluate() + right->evaluate();
 	}
 
+	DataType checkDatatype() override {
+		return Custom;
+	}
+
 	ExpressionTree * left;
 	ExpressionTree * right;
 	Token * addOperator;

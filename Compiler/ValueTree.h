@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "ExpressionTree.h"
 #include "Token.h"
 
@@ -14,6 +15,10 @@ public:
 
 	int evaluate() override {
 		return	std::stoi(this->value->getValue());
+	}
+
+	DataType checkDatatype() override {
+		return Custom;
 	}
 
 	// either a literal or a identifier

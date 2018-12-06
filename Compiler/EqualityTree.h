@@ -17,6 +17,10 @@ public:
 		std::cout << "Equality" << std::endl;
 	}
 
+	DataType checkDatatype() override {
+		return Custom;
+	}
+
 	ExpressionTree * left;
 	ExpressionTree * right;
 	Token * equalityOperator;

@@ -4,18 +4,12 @@
 #include "Expressions.h"
 #include "ProgramTree.h"
 #include "StatementHeaders.h"
+#include "DataTypes.h"
 
 /* TODO:
 	-allow declaration and expression in first part of for-loop
 	-add function calling / array access in expression
 */
-
-enum DataType {
-	Byte = 1,
-	Short = 2,
-	Integer = 4,
-	Float = 4
-};
 
 class Parser {
 public:
@@ -68,6 +62,7 @@ private:
 	bool parseSemicolon();
 
 	DataType getType(Token * token);
+	int getVariableSize(DataType var);
 	int getOffset(DataType newVar);
 	int currentOffset;
 

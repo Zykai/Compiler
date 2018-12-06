@@ -15,6 +15,10 @@ public:
 		std::cout << "PostUnary (inc)" << std::endl;
 	}
 
+	DataType checkDatatype() override {
+		return Custom;
+	}
+
 	ExpressionTree * left;
 	Token * unaryOperator;
 };

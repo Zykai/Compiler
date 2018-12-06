@@ -144,6 +144,9 @@
     <ClInclude Include="ReturnStatementTree.h">
       <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
     </ClInclude>
+    <ClInclude Include="DataTypes.h">
+      <Filter>Headerdateien\SyntacticAnalysis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="AdditionTree.h" />
     <ClInclude Include="ComparisonTree.h" />
+    <ClInclude Include="DataTypes.h" />
     <ClInclude Include="DeclStatementTree.h" />
     <ClInclude Include="EqualityTree.h" />
     <ClInclude Include="Expressions.h" />

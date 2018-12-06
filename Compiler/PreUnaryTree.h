@@ -15,6 +15,10 @@ public:
 		std::cout << "PreUnary (Negate)" << std::endl;
 	}
 
+	DataType checkDatatype() override {
+		return Custom;
+	}
+
 	ExpressionTree * right;
 	Token * unaryOperator;
 };

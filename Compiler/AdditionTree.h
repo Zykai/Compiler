@@ -23,7 +23,11 @@ public:
 	}
 
 	DataType checkDatatype() override {
-		return Custom;
+		DataType leftType = this->left->checkDatatype();
+		DataType rightType = this->right->checkDatatype();
+		if (leftType == Error || leftType == Custom || leftType == Bool) return Error;
+		else if (leftType == rightType) return leftType;
+		else return Error;
 	}
 
 	ExpressionTree * left;

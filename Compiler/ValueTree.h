@@ -4,6 +4,7 @@
 #include "ExpressionTree.h"
 #include "Token.h"
 
+
 class ValueTree : public ExpressionTree {
 public:
 	ValueTree(Token * value) {
@@ -18,7 +19,8 @@ public:
 	}
 
 	DataType checkDatatype() override {
-		return Custom;
+		if (this->value->getType() == identifier) return Error;
+		return getTypeForLiteral(this->value);
 	}
 
 	// either a literal or a identifier

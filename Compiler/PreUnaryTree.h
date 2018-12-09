@@ -16,7 +16,8 @@ public:
 	}
 
 	DataType checkDatatype() override {
-		return Custom;
+		if (right->checkDatatype() == Bool) return Bool;
+		else return Error;
 	}
 
 	ExpressionTree * right;

@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AdditionTree.h" />
+    <ClInclude Include="AssignExpressionTree.h" />
     <ClInclude Include="ComparisonTree.h" />
     <ClInclude Include="DataTypes.h" />
     <ClInclude Include="DeclStatementTree.h" />
@@ -171,6 +172,9 @@
     <ClInclude Include="Program.h" />
     <ClInclude Include="ProgramTree.h" />
     <ClInclude Include="ReturnStatementTree.h" />
+    <ClInclude Include="Scope.h" />
+    <ClInclude Include="ScopeHelper.h" />
+    <ClInclude Include="SemanticAnalyser.h" />
     <ClInclude Include="SourceFile.h" />
     <ClInclude Include="StatementHeaders.h" />
     <ClInclude Include="StatementListTree.h" />
@@ -187,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.cpp" />
+    <ClCompile Include="DataType.cpp" />
     <ClCompile Include="IdentifierTree.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="LexerFunctions.cpp" />
@@ -194,6 +199,9 @@
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="RootTree.cpp" />
+    <ClCompile Include="Scope.cpp" />
+    <ClCompile Include="ScopeHelper.cpp" />
+    <ClCompile Include="SemanticAnalysis.cpp" />
     <ClCompile Include="SourceFile.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

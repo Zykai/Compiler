@@ -34,6 +34,12 @@
     <Filter Include="Headerdateien\SyntaxTrees\Statements">
       <UniqueIdentifier>{a04f3570-04a0-4beb-8734-a9693d583d04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\SemanticAnalysis">
+      <UniqueIdentifier>{9dfb1ed2-e9fe-4463-9c91-68646e61c2cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\SemanticAnalysis">
+      <UniqueIdentifier>{8ad12fc6-305d-4e0a-a99f-6ea6847584e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -147,6 +153,18 @@
     <ClInclude Include="DataTypes.h">
       <Filter>Headerdateien\SyntacticAnalysis</Filter>
     </ClInclude>
+    <ClInclude Include="SemanticAnalyser.h">
+      <Filter>Headerdateien\SemanticAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="AssignExpressionTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopeHelper.h">
+      <Filter>Headerdateien\SemanticAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Scope.h">
+      <Filter>Headerdateien\SemanticAnalysis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -180,6 +198,18 @@
       <Filter>Quelldateien\LexicalAnalysis</Filter>
     </ClCompile>
     <ClCompile Include="Compiler.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="DataType.cpp">
+      <Filter>Quelldateien\SyntacticAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="SemanticAnalysis.cpp">
+      <Filter>Quelldateien\SemanticAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopeHelper.cpp">
+      <Filter>Quelldateien\SemanticAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Scope.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

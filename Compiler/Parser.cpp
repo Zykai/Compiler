@@ -76,7 +76,7 @@ void Parser::parseImports(ProgramTree * program){
 void Parser::parseGlobals(ProgramTree * program){
 	while (match({ typeName })) {
 		Token * typeToken = this->getPrevious();
-		DataType dataType = this->getType(typeToken);
+		DataType dataType = getType(typeToken);
 		if (!match({ identifier })) {
 			this->error("ERROR: expected var/func name");
 		}
@@ -112,7 +112,7 @@ std::list<std::pair<int, std::string>> * Parser::parseParameters(){
 	auto parameterList = new std::list<std::pair<int, std::string>>();
 
 	while (match({ typeName })) {
-		DataType type = this->getType(this->getPrevious());
+		DataType type = getType(this->getPrevious());
 		if (!match({ identifier })) {
 			this->error("ERROR: expected identifier; found " + this->getCurrent()->getTypeString());
 		}
@@ -153,7 +153,7 @@ StatementTree * Parser::statement(){
 }
 
 StatementTree * Parser::declStatement(){
-	DataType type = this->getType(this->getPrevious());
+	DataType type = getType(this->getPrevious());
 	if (!match({ identifier })) this->error("ERROR: expected identifier after type declaration; found" + this->getCurrent()->getTypeString());
 	Token * varName = this->getPrevious();
 	if (!match({ assignOperator })) this->error("ERROR: expected assignment; found" + this->getCurrent()->getTypeString());
@@ -213,7 +213,25 @@ StatementTree * Parser::returnStatement(){
 }
 
 ExpressionTree * Parser::parseExpression() {
-	return logAndOr();
+	return assignment();
+}
+
+ExpressionTree * Parser::assignment(){
+	ExpressionTree * expr;
+	if (this->getNext()->getType() == assignOperator) {
+		if (!this->match({ identifier })) {
+			this->error("Assignment only works on identifiers");
+		}
+		std::cout << "ASSIIIGGGNN\n";
+		Token * id = this->getPrevious();
+		match({ assignOperator });
+		ExpressionTree * right = this->assignment();
+		expr = new AssignExpressionTree(id, right);
+		return expr;
+	}
+	else {
+		return this->logAndOr();
+	}
 }
 
 ExpressionTree * Parser::logAndOr(){
@@ -334,26 +352,6 @@ bool Parser::parseSemicolon(){
 		this->error("ERROR: missing semicolon");
 	}
 	return true;
-}
-
-DataType Parser::getType(Token * token){
-	std::string datatype = token->getValue();
-	if (datatype == "int") {
-		return Integer;
-	}
-	else if (datatype == "float") {
-		return Float;
-	}
-	else if (datatype == "short") {
-		return Short;
-	}
-	else if (datatype == "byte") {
-		return Byte;
-	}
-	else {
-		this->error("ERROR: invalid typename: " + datatype);
-	}
-
 }
 
 int Parser::getVariableSize(DataType var){

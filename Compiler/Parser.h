@@ -8,7 +8,9 @@
 
 /* TODO:
 	-allow declaration and expression in first part of for-loop
-	-add function calling / array access in expression
+	-add array access in expression
+	-add assign-expression
+	-seperate value tree into literal and variable tree
 */
 
 class Parser {
@@ -45,6 +47,7 @@ private:
 	StatementTree * ifStatement();
 	StatementTree * returnStatement();
 	//ExpressionTree * parseExpression();
+	ExpressionTree * assignment();
 	ExpressionTree * logAndOr();
 	ExpressionTree * equality();
 	ExpressionTree * comparison();
@@ -61,7 +64,7 @@ private:
 
 	bool parseSemicolon();
 
-	DataType getType(Token * token);
+	//DataType getType(Token * token);
 	int getVariableSize(DataType var);
 	int getOffset(DataType newVar);
 	int currentOffset;

@@ -8,3 +8,4 @@
 #include "PostUnaryTree.h"
 #include "PreUnaryTree.h"
 #include "ValueTree.h"
+#include "AssignExpressionTree.h"

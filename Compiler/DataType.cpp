@@ -34,3 +34,23 @@ DataType getTypeForLiteral(Token * token) {
 	if (type == identifier) return Custom;
 	else return Error;
 }
+
+int getTypeSize(DataType d) {
+	switch (d) {
+	case Integer:
+		return 4;
+	case Float:
+		return 4;
+	case Bool:
+		return 4;
+	case Byte:
+		return 1;
+	case Short:
+		return 2;
+	case Custom:
+		return 64;
+	default:
+		std::cout << "Requested type size for unknown type: " << d << std::endl;
+		return 0;
+	}
+}

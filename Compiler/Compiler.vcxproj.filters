@@ -210,7 +210,7 @@
       <Filter>Quelldateien\SemanticAnalysis</Filter>
     </ClCompile>
     <ClCompile Include="Scope.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\SemanticAnalysis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

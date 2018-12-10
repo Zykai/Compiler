@@ -10,4 +10,18 @@ public:
 	}
 	ExpressionTree * whileHead;
 	StatementTree * whileBody;
+
+	bool checkForErrors(ScopeHelper * s) override {
+		if (!this->whileHead->checkDatatype() != Bool) {
+			this->error("While-head expression needs to be of type bool");
+			return false;
+		}
+		else if (!this->whileBody->checkForErrors(s)) {
+			//this->error("Error in for if body");
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 };

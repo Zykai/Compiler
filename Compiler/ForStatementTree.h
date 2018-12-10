@@ -19,4 +19,26 @@ public:
 
 	// Body
 	StatementTree * forBody;
+
+	bool checkForErrors(ScopeHelper * s) override {
+		if (!this->initializer->checkForErrors(s)) {
+			this->error("Error in for-declaration");
+			return false;
+		}
+		else if(!this->condition->checkDatatype() != Bool){
+			this->error("For-condition statement needs to be of type bool");
+			return false;
+		}
+		else if (!this->condition->checkDatatype() == Error) {
+			this->error("Error in for update expression");
+			return false;
+		}
+		else if (!this->forBody->checkForErrors(s)) {
+			//this->error("Error in for body");
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 };

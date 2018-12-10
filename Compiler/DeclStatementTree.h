@@ -5,12 +5,22 @@
 
 class DeclStatementTree : public StatementTree {
 public:
-	DeclStatementTree(Token * name, int dataType, ExpressionTree * value) {
+	DeclStatementTree(Token * name, DataType dataType, ExpressionTree * value) {
 		this->name = name;
 		this->dataType = dataType;
 		this->value = value;
 	}
 	Token * name;
-	int dataType;
+	DataType dataType;
 	ExpressionTree * value;
+
+	bool checkForErrors(ScopeHelper * s) override {
+		s->addVariable(name->getValue(), dataType);
+		if (this->value->checkDatatype() == dataType) {
+			return true;
+		}
+		else {
+			std::cout << "ERROR: datatype of declaration doesnt match expression type";
+		}
+	}
 };

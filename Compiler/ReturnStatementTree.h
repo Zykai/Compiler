@@ -9,4 +9,15 @@ public:
 		this->expr = expr;
 	}
 	ExpressionTree * expr;
+
+	bool checkForErrors(ScopeHelper * s) override {
+		DataType returnType = this->expr->checkDatatype();
+		if (returnType == Error) {
+			
+			this->error("Error in return statement");
+		}
+		else {
+			return true;
+		}
+	}
 };

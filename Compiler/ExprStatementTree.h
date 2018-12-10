@@ -9,4 +9,13 @@ public:
 		this->expression = expression;
 	}
 	ExpressionTree * expression;
+
+	bool checkForErrors(ScopeHelper * s) override {
+		if (this->expression->checkDatatype() == Error) {
+			this->error("Error in expression statement");
+		}
+		else {
+			return true;
+		}
+	}
 };

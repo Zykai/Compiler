@@ -5,14 +5,15 @@
 
 class ScopeHelper {
 public:
-	void beginNewFunction(std::string name);
-	void addVariable(std::string varName, VariableTree * variable);
+	void beginNewFunction(std::string name, DataType d);
+	void addVariable(std::string varName, DataType type);
 	void leaveScope();
 	void enterScope(Scope * newScope);
 	Scope * topScope;
 	Scope * currentScope;
-	std::map<std::string, std::list<VariableTree *>> allVariables;
+	std::map<std::string, std::list<std::pair<DataType, int>*>> allVariables;
 private:
+	DataType currentType;
 	std::string currentFunctionName;
 	int currentStackSize;
 };

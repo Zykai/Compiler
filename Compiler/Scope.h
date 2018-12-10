@@ -7,7 +7,7 @@
 class Scope {
 public:
 	Scope * topScope;
-	std::map<std::string, VariableTree *> variables;
+	std::map<std::string, std::pair<DataType, int>* > variables;
 	std::list<Scope* > subScopes;
-	VariableTree * getVariable(std::string name);
+	std::pair<DataType, int> * getVariable(std::string name);
 };

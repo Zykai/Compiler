@@ -8,7 +8,7 @@
 
 class FunctionTree {
 public:
-	FunctionTree(std::list<std::pair<int, std::string>> * arguments, int type, StatementTree * statement) {
+	FunctionTree(std::list<std::pair<int, std::string>> * arguments, DataType type, StatementTree * statement) {
 		this->arguments = arguments;
 		this->type = type;
 		this->statement = statement;
@@ -16,6 +16,6 @@ public:
 
 
 	std::list<std::pair<int, std::string>> * arguments;
-	int type;
+	DataType type;
 	StatementTree * statement;
 };

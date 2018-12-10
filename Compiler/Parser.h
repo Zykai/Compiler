@@ -6,13 +6,6 @@
 #include "StatementHeaders.h"
 #include "DataTypes.h"
 
-/* TODO:
-	-allow declaration and expression in first part of for-loop
-	-add array access in expression
-	-add assign-expression
-	-seperate value tree into literal and variable tree
-*/
-
 class Parser {
 public:
 	Parser();

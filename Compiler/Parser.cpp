@@ -222,7 +222,6 @@ ExpressionTree * Parser::assignment(){
 		if (!this->match({ identifier })) {
 			this->error("Assignment only works on identifiers");
 		}
-		std::cout << "ASSIIIGGGNN\n";
 		Token * id = this->getPrevious();
 		match({ assignOperator });
 		ExpressionTree * right = this->assignment();

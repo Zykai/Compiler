@@ -21,24 +21,26 @@ public:
 	StatementTree * forBody;
 
 	bool checkForErrors(ScopeHelper * s) override {
+		s->enterScope(); // scope for variables initialized in for-head
 		if (!this->initializer->checkForErrors(s)) {
 			this->error("Error in for-declaration");
 			return false;
 		}
-		else if(!this->condition->checkDatatype() != Bool){
+		if(!this->condition->checkDatatype() != Bool){
 			this->error("For-condition statement needs to be of type bool");
 			return false;
 		}
-		else if (!this->condition->checkDatatype() == Error) {
+		if (!this->condition->checkDatatype() == Error) {
 			this->error("Error in for update expression");
 			return false;
 		}
-		else if (!this->forBody->checkForErrors(s)) {
+		s->enterScope();
+		if (!this->forBody->checkForErrors(s)) {
 			//this->error("Error in for body");
 			return false;
 		}
-		else {
-			return true;
-		}
+		s->leaveScope();
+		s->leaveScope(); // leaving for-head scope
+		return true;
 	}
 };

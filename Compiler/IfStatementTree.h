@@ -20,17 +20,19 @@ public:
 			this->error("If-condition expression needs to be of type bool");
 			return false;
 		}
-		else if (!this->ifStatement->checkForErrors(s)) {
+		s->enterScope();
+		if (!this->ifStatement->checkForErrors(s)) {
 			//this->error("Error in for if body");
 			return false;
 		}
-		else if (!this->elseStatement->checkForErrors(s)) {
+		s->leaveScope();
+		s->enterScope();
+		if (!this->elseStatement->checkForErrors(s)) {
 			//this->error("Error in for else body");
 			return false;
 		}
-		else {
-			return true;
-		}
+		s->leaveScope();
+		return true;
 	}
 };
 

@@ -6,6 +6,10 @@
 
 class Scope {
 public:
+	Scope(Scope * top) {
+		this->topScope = top;
+		this->variables = std::map<std::string, std::pair<DataType, int>* >();
+	}
 	Scope * topScope;
 	std::map<std::string, std::pair<DataType, int>* > variables;
 	std::list<Scope* > subScopes;

@@ -19,7 +19,8 @@ void ScopeHelper::leaveScope(){
 	this->currentScope = this->currentScope->topScope;
 }
 
-void ScopeHelper::enterScope(Scope * newScope){
-	this->currentScope->subScopes.emplace_back(newScope);
-	this->currentScope = newScope;
+void ScopeHelper::enterScope(){
+	Scope * subScope = new Scope(this->currentScope);
+	this->currentScope->subScopes.emplace_back(subScope);
+	this->currentScope = subScope;
 }

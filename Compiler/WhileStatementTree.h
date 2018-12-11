@@ -16,12 +16,12 @@ public:
 			this->error("While-head expression needs to be of type bool");
 			return false;
 		}
-		else if (!this->whileBody->checkForErrors(s)) {
+		s->enterScope();
+		if (!this->whileBody->checkForErrors(s)) {
 			//this->error("Error in for if body");
 			return false;
 		}
-		else {
-			return true;
-		}
+		s->leaveScope();
+		return true;
 	}
 };

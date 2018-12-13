@@ -209,6 +209,7 @@ StatementTree * Parser::ifStatement(){
 
 StatementTree * Parser::returnStatement(){
 	ExpressionTree * expr = this->parseExpression();
+	this->parseSemicolon();
 	return new ReturnStatementTree(expr);
 }
 

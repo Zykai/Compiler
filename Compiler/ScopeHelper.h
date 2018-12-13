@@ -2,6 +2,9 @@
 
 #include <map>
 #include "Scope.h"
+#include "DataTypes.h"
+
+class FunctionTree;
 
 class ScopeHelper {
 public:
@@ -12,6 +15,7 @@ public:
 	Scope * topScope;
 	Scope * currentScope;
 	std::map<std::string, std::list<std::pair<DataType, int>*>> allVariables;
+	std::map<std::string, FunctionTree*> * functions;
 private:
 	DataType currentType;
 	std::string currentFunctionName;

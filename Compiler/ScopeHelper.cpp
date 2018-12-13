@@ -5,6 +5,10 @@ void ScopeHelper::beginNewFunction(std::string name, DataType d){
 	this->currentFunctionName = name;
 	this->currentType = d;
 	this->currentStackSize = 0;
+	// Set current scope to global scope
+	while (this->currentScope->topScope != nullptr) {
+		this->currentScope = this->currentScope->topScope;
+	}
 }
 
 void ScopeHelper::addVariable(std::string varName, DataType type){

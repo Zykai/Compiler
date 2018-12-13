@@ -2,7 +2,7 @@
 
 #include <list>
 #include <map>
-#include "VariableTree.h"
+#include "DataTypes.h"
 
 class Scope {
 public:

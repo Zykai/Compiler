@@ -1,5 +1,7 @@
 #pragma once
-#include "ValueTree.h"
+//#include "ValueTree.h"
+#include <iostream>
+#include "Token.h"
 
 class VariableTree {
 public:

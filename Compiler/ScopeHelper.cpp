@@ -1,13 +1,26 @@
 #include "stdafx.h"
 #include "ScopeHelper.h"
+#include "FunctionTree.h"
 
-void ScopeHelper::beginNewFunction(std::string name, DataType d){
+
+void ScopeHelper::setGlobalScope(std::map<std::string, VariableTree*>* variables){
+	this->currentScope = new Scope(nullptr);
+	for (std::pair<std::string, VariableTree*> p : *variables) {
+		std::cout << "Added var " << p.first << " to scope" << std::endl;
+		currentScope->variables.emplace(p.first, new std::pair<DataType, int>(p.second->type, p.second->offset));
+	}
+}
+
+void ScopeHelper::beginNewFunction(std::string name, FunctionTree * f){
 	this->currentFunctionName = name;
-	this->currentType = d;
+	this->currentType = f->type;
 	this->currentStackSize = 0;
 	// Set current scope to global scope
 	while (this->currentScope->topScope != nullptr) {
 		this->currentScope = this->currentScope->topScope;
+	}
+	for (std::pair<DataType, std::string> p : *f->arguments) {
+		this->addVariable(p.second, p.first);
 	}
 }
 

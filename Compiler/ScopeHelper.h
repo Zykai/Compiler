@@ -3,12 +3,14 @@
 #include <map>
 #include "Scope.h"
 #include "DataTypes.h"
+#include "VariableTree.h"
 
 class FunctionTree;
 
 class ScopeHelper {
 public:
-	void beginNewFunction(std::string name, DataType d);
+	void setGlobalScope(std::map<std::string, VariableTree*> * variables);
+	void beginNewFunction(std::string name, FunctionTree * f);
 	void addVariable(std::string varName, DataType type);
 	void leaveScope();
 	void enterScope();

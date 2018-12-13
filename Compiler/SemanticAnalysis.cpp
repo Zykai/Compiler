@@ -9,6 +9,7 @@ bool SemanticAnalyser::checkForErrors() {
 	f->statement->checkForErrors();
 	return true;
 	*/
+	this->scopeHelper->beginNewFunction("test", program->functions["test"]);
 	if (program->functions["test"]->statement->checkForErrors(this->scopeHelper)) {
 		std::cout << "No errors\n";
 		return true;
@@ -19,7 +20,8 @@ bool SemanticAnalyser::checkForErrors() {
 
 SemanticAnalyser::SemanticAnalyser(ProgramTree * program){
 	this->scopeHelper = new ScopeHelper();
-	this->scopeHelper->currentScope = new Scope(nullptr); // temporary
+	//this->scopeHelper->currentScope = new Scope(nullptr); // temporary
+	this->scopeHelper->setGlobalScope(&program->variables);
 	this->program = program;
 }
 

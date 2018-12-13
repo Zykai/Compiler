@@ -30,7 +30,7 @@ private:
 	void parseGlobals(ProgramTree * program);
 	void parseGlobal(ProgramTree * program, std::string name, DataType dataType);
 	void parseFunction(ProgramTree * program, std::string name, DataType dataType);
-	std::list<std::pair<int, std::string>> * parseParameters();
+	std::list<std::pair<DataType, std::string>> * parseParameters();
 
 	StatementTree * statement();
 	StatementTree * declStatement();

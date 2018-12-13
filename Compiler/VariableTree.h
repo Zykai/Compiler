@@ -2,10 +2,11 @@
 //#include "ValueTree.h"
 #include <iostream>
 #include "Token.h"
+#include "DataTypes.h"
 
 class VariableTree {
 public:
-	VariableTree(Token * value, int type, int offset) {
+	VariableTree(Token * value, DataType type, int offset) {
 		this->value = value;
 		this->type = type;
 		this->offset = offset;
@@ -15,6 +16,6 @@ public:
 	}
 
 	Token * value;
-	int type;
+	DataType type;
 	int offset; // Position on stack
 };

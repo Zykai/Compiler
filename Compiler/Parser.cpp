@@ -108,8 +108,8 @@ void Parser::parseFunction(ProgramTree * program, std::string name, DataType dat
 	program->functions.emplace(name, f);
 }
 
-std::list<std::pair<int, std::string>> * Parser::parseParameters(){
-	auto parameterList = new std::list<std::pair<int, std::string>>();
+std::list<std::pair<DataType, std::string>> * Parser::parseParameters(){
+	auto parameterList = new std::list<std::pair<DataType, std::string>>();
 
 	while (match({ typeName })) {
 		DataType type = getType(this->getPrevious());
@@ -117,7 +117,7 @@ std::list<std::pair<int, std::string>> * Parser::parseParameters(){
 			this->error("ERROR: expected identifier; found " + this->getCurrent()->getTypeString());
 		}
 		std::string parameterName = this->getPrevious()->getValue();
-		parameterList->emplace_back(std::pair<int, std::string>(type, parameterName));
+		parameterList->emplace_back(std::pair<DataType, std::string>(type, parameterName));
 		match({ TokenComma });
 	}
 	match({ parentheseClose });

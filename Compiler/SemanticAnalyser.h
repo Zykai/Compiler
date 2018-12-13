@@ -1,11 +1,15 @@
 #pragma once
 
 #include "ProgramTree.h"
-
+#include "ScopeHelper.h"
 
 class SemanticAnalyser {
 public:
-	bool checkForErrors(ProgramTree * program);
+	SemanticAnalyser(ProgramTree * program);
+	bool checkForErrors();
 	bool checkExpression(ExpressionTree * expr, DataType type);
 	bool hasMain(ProgramTree * program);
+private:
+	ProgramTree * program;
+	ScopeHelper * scopeHelper;
 };

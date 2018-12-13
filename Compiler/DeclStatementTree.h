@@ -16,7 +16,7 @@ public:
 
 	bool checkForErrors(ScopeHelper * s) override {
 		s->addVariable(name->getValue(), dataType);
-		if (this->value->checkDatatype() == dataType) {
+		if (this->value->checkDatatype(s) == dataType) {
 			return true;
 		}
 		else {

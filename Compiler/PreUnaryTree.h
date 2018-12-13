@@ -15,8 +15,8 @@ public:
 		std::cout << "PreUnary (Negate)" << std::endl;
 	}
 
-	DataType checkDatatype() override {
-		if (right->checkDatatype() == Bool) return Bool;
+	DataType checkDatatype(ScopeHelper * s) override {
+		if (right->checkDatatype(s) == Bool) return Bool;
 		else return Error;
 	}
 

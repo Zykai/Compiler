@@ -16,7 +16,7 @@ public:
 
 
 	bool checkForErrors(ScopeHelper * s) override {
-		if (!this->condition->checkDatatype() != Bool) {
+		if (this->condition->checkDatatype(s) != Bool) {
 			this->error("If-condition expression needs to be of type bool");
 			return false;
 		}

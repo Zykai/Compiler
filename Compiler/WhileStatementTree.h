@@ -12,7 +12,7 @@ public:
 	StatementTree * whileBody;
 
 	bool checkForErrors(ScopeHelper * s) override {
-		if (!this->whileHead->checkDatatype() != Bool) {
+		if (!this->whileHead->checkDatatype(s) == Bool) {
 			this->error("While-head expression needs to be of type bool");
 			return false;
 		}

@@ -11,7 +11,7 @@ public:
 	ExpressionTree * expression;
 
 	bool checkForErrors(ScopeHelper * s) override {
-		if (this->expression->checkDatatype() == Error) {
+		if (this->expression->checkDatatype(s) == Error) {
 			this->error("Error in expression statement");
 		}
 		else {

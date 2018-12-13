@@ -11,7 +11,7 @@ public:
 	Token * variable;
 	ExpressionTree * value;
 
-	DataType checkDatatype() override {
+	DataType checkDatatype(ScopeHelper * s) override {
 		return Integer;
 	}
 };

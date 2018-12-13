@@ -11,11 +11,13 @@ public:
 	std::list<StatementTree*> * statements;
 	
 	bool checkForErrors(ScopeHelper * s) override {
+		s->enterScope();
 		for (StatementTree * & st : *statements) {
 			if (!st->checkForErrors(s)) {
 				return false;
 			}
 		}
+		s->leaveScope();
 		return true;
 	}
 

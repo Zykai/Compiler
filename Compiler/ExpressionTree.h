@@ -3,6 +3,7 @@
 #include <exception>
 #include <iostream>
 #include "DataTypes.h"
+#include "ScopeHelper.h"
 
 class ExpressionTree {
 public:
@@ -14,6 +15,6 @@ public:
 		std::cout << "ERROR: Evaluate called in base class";
 		return -1;
 	}
-	virtual DataType checkDatatype() = 0;
+	virtual DataType checkDatatype(ScopeHelper * s) = 0;
 private:
 };

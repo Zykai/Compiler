@@ -15,7 +15,7 @@ public:
 		std::cout << "PostUnary (inc)" << std::endl;
 	}
 
-	DataType checkDatatype() override {
+	DataType checkDatatype(ScopeHelper * s) override {
 		return Custom;
 	}
 

@@ -22,9 +22,9 @@ public:
 		return left->evaluate() + right->evaluate();
 	}
 
-	DataType checkDatatype() override {
-		DataType leftType = this->left->checkDatatype();
-		DataType rightType = this->right->checkDatatype();
+	DataType checkDatatype(ScopeHelper * s) override {
+		DataType leftType = this->left->checkDatatype(s);
+		DataType rightType = this->right->checkDatatype(s);
 		if (leftType == Error || leftType == Custom || leftType == Bool) return Error;
 		else if (leftType == rightType) return leftType;
 		else return Error;

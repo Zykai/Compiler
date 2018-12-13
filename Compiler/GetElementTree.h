@@ -16,7 +16,7 @@ public:
 		
 	}
 
-	DataType checkDatatype() override {
+	DataType checkDatatype(ScopeHelper * s) override {
 		return Custom;
 	}
 

@@ -26,11 +26,11 @@ public:
 			this->error("Error in for-declaration");
 			return false;
 		}
-		if(!this->condition->checkDatatype() != Bool){
+		if(!this->condition->checkDatatype(s) == Bool){
 			this->error("For-condition statement needs to be of type bool");
 			return false;
 		}
-		if (!this->condition->checkDatatype() == Error) {
+		if (!this->condition->checkDatatype(s) == Error) {
 			this->error("Error in for update expression");
 			return false;
 		}

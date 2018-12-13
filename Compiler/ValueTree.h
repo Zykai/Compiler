@@ -18,8 +18,16 @@ public:
 		return	std::stoi(this->value->getValue());
 	}
 
-	DataType checkDatatype() override {
-		if (this->value->getType() == identifier) return Error;
+	DataType checkDatatype(ScopeHelper * s) override {
+		if (this->value->getType() == identifier) {
+			std::pair<DataType, int> * var = s->currentScope->getVariable(this->value->getValue());
+			if (var != nullptr) {
+				return var->first;
+			}
+			else {
+				return Error;
+			}
+		}
 		return getTypeForLiteral(this->value);
 	}
 

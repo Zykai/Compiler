@@ -5,26 +5,22 @@ int vier = 4;
 int eins = 1;
 int zwei = 2;
 int hundert = 100;
-int test(int abc, float def, int xyz){
-	int i = abc * def;
-	if(true){
-		4 + 2;
+
+int test(int x, float y){
+	if(1 == 0){
+		return 1;
 	}
-	else if(xyz < 1){
-		xyz++;
-	}
-	else {
-		1231;
-	}
-	while(i < 10){
-		i++;
-	}
-	for(i + 10; i < 20; i++){
-		abc++;
+	else{
+		int i = 0;
+		int a = 0;
+		for(a = 0; i < 10; i++){
+			a = a + i;
+		}
+		return a;
 	}
 }
 
-
-int main (){
-	3 == 3;
+int main (int arg){
+	int i = 1;
+	return arg;
 }

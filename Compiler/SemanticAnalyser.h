@@ -2,6 +2,7 @@
 
 #include "ProgramTree.h"
 #include "ScopeHelper.h"
+#include "ExpressionTree.h"
 
 class SemanticAnalyser {
 public:

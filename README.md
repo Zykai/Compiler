@@ -8,3 +8,4 @@
 - get variable type in getelementree and value tree
 - better error handling (jump to next statement)
 - (remove pointer in scope->variables->pair)
+- leave scope when encountering erros

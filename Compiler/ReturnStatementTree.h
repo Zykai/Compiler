@@ -13,8 +13,8 @@ public:
 	bool checkForErrors(ScopeHelper * s) override {
 		DataType returnType = this->expr->checkDatatype(s);
 		if (returnType == Error) {
-			
 			this->error("Error in return statement");
+			return false;
 		}
 		else {
 			return true;

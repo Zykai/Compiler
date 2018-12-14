@@ -11,6 +11,10 @@ void ScopeHelper::setGlobalScope(std::map<std::string, VariableTree*>* variables
 	}
 }
 
+void ScopeHelper::setFunctions(std::map<std::string, FunctionTree*>* functions){
+	this->functions = functions;
+}
+
 void ScopeHelper::beginNewFunction(std::string name, FunctionTree * f){
 	this->currentFunctionName = name;
 	this->currentType = f->type;

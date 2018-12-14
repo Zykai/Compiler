@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Expressions.h"
 #include "ScopeHelper.h"
 
 class StatementTree {

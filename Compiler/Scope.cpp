@@ -2,7 +2,8 @@
 #include "Scope.h"
 
 std::pair<DataType, int> * Scope::getVariable(std::string name){
-	if (this->variables.find(name) == this->variables.end()) {
+	std::pair<DataType, int> * v = this->variables[name];
+	if (v == nullptr) {
 		if (topScope != nullptr) {
 			return topScope->getVariable(name);
 		}
@@ -10,5 +11,7 @@ std::pair<DataType, int> * Scope::getVariable(std::string name){
 			return nullptr;
 		}
 	}
-	return this->variables.at(name);
+	else {
+		return v;
+	}
 }

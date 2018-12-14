@@ -10,7 +10,6 @@ class FunctionTree;
 class ScopeHelper {
 public:
 	void setGlobalScope(std::map<std::string, VariableTree*> * variables);
-	void setFunctions(std::map<std::string, FunctionTree*>* functions);
 	void beginNewFunction(std::string name, FunctionTree * f);
 	void addVariable(std::string varName, DataType type);
 	void leaveScope();

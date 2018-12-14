@@ -4,19 +4,17 @@
 #include "ExpressionTree.h"
 
 bool SemanticAnalyser::checkForErrors() {
-	/*
-	FunctionTree * f = program->functions["main"];
-	if (f == nullptr) exit(1);
-	f->statement->checkForErrors();
-	return true;
-	*/
-	this->scopeHelper->beginNewFunction("main", program->functions["main"]);
-	if (program->functions["main"]->statement->checkForErrors(this->scopeHelper)) {
-		std::cout << "No errors\n";
-		return true;
+	bool noErrors = true;
+	for (auto a : this->program->functions) {
+		if (!a.second->checkForErrors(a.first, this->scopeHelper)) {
+			std::cout << "Error in function " << a.first << std::endl;
+			noErrors = false;
+		}
 	}
-	std::cout << "ERRORS" << std::endl;
-	return false;
+	if (!noErrors) {
+		std::cout << "Errors found in semantic analysis" << std::endl;
+	}
+	return noErrors;
 }
 
 SemanticAnalyser::SemanticAnalyser(ProgramTree * program){

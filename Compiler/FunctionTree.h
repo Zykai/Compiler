@@ -14,6 +14,10 @@ public:
 		this->statement = statement;
 	}
 
+	bool checkForErrors(std::string name, ScopeHelper * s) {
+		s->beginNewFunction(name, this);
+		return this->statement->checkForErrors(s);
+	}
 
 	std::list<std::pair<DataType, std::string>> * arguments;
 	DataType type;

@@ -40,6 +40,9 @@
     <Filter Include="Headerdateien\SemanticAnalysis">
       <UniqueIdentifier>{8ad12fc6-305d-4e0a-a99f-6ea6847584e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\CodeGeneration">
+      <UniqueIdentifier>{71adb40b-6581-4d93-b372-2cc97851edf0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -164,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="Scope.h">
       <Filter>Headerdateien\SemanticAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="CodeGenerator.h">
+      <Filter>Headerdateien\CodeGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="OperationCodes.h">
+      <Filter>Headerdateien\CodeGeneration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

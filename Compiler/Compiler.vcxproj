@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="AdditionTree.h" />
     <ClInclude Include="AssignExpressionTree.h" />
+    <ClInclude Include="CodeGenerator.h" />
     <ClInclude Include="ComparisonTree.h" />
     <ClInclude Include="DataTypes.h" />
     <ClInclude Include="DeclStatementTree.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="LexerTree.h" />
     <ClInclude Include="LogAndOrTree.h" />
     <ClInclude Include="MultiplicationTree.h" />
+    <ClInclude Include="OperationCodes.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="PostUnaryTree.h" />
     <ClInclude Include="PreUnaryTree.h" />

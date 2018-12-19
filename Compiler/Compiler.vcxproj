@@ -192,8 +192,10 @@
     <ClInclude Include="WhileStatementTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CodeGenerator.cpp" />
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="DataType.cpp" />
+    <ClCompile Include="ExpressionGenerator.cpp" />
     <ClCompile Include="IdentifierTree.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="LexerFunctions.cpp" />

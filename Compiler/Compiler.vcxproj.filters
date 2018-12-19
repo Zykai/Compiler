@@ -221,6 +221,12 @@
     <ClCompile Include="Scope.cpp">
       <Filter>Quelldateien\SemanticAnalysis</Filter>
     </ClCompile>
+    <ClCompile Include="CodeGenerator.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpressionGenerator.cpp">
+      <Filter>Headerdateien\CodeGeneration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="main.z">

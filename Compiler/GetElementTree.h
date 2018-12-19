@@ -43,6 +43,8 @@ public:
 		return calledFunction->type;
 	}
 
+	void writeCode(CodeGenerator * c) override;
+
 	Token * name;
 	std::list<ExpressionTree*> parameters;
 };

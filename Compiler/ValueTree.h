@@ -31,6 +31,8 @@ public:
 		return getTypeForLiteral(this->value);
 	}
 
+	void writeCode(CodeGenerator * c) override;
+
 	// either a literal or a identifier
 	Token * value;
 };

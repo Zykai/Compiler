@@ -30,6 +30,8 @@ public:
 		else return Error;
 	}
 
+	void writeCode(CodeGenerator * c) override;
+
 	ExpressionTree * left;
 	ExpressionTree * right;
 	Token * addOperator;

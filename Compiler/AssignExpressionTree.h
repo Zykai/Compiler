@@ -14,4 +14,6 @@ public:
 	DataType checkDatatype(ScopeHelper * s) override {
 		return Integer;
 	}
+
+	void writeCode(CodeGenerator * c) override;
 };

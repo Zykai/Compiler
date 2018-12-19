@@ -19,6 +19,8 @@ public:
 		return Custom;
 	}
 
+	void writeCode(CodeGenerator * c) override;
+
 	ExpressionTree * left;
 	Token * unaryOperator;
 };

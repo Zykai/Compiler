@@ -20,6 +20,8 @@ public:
 		else return Error;
 	}
 
+	void writeCode(CodeGenerator * c) override;
+
 	ExpressionTree * right;
 	Token * unaryOperator;
 };

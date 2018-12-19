@@ -9,3 +9,4 @@
 - better error handling (jump to next statement)
 - (remove pointer in scope->variables->pair)
 - leave scope when encountering erros
+- save datatype of expression in Expression::type

@@ -9,7 +9,7 @@ public:
 	SemanticAnalyser(ProgramTree * program);
 	bool checkForErrors();
 	bool checkExpression(ExpressionTree * expr, DataType type);
-	bool hasMain(ProgramTree * program);
+	bool hasMain();
 private:
 	ProgramTree * program;
 	ScopeHelper * scopeHelper;

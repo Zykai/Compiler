@@ -11,6 +11,10 @@ bool SemanticAnalyser::checkForErrors() {
 			noErrors = false;
 		}
 	}
+	if (!this->hasMain()) {
+		std::cout << "Program is missing a main function" << std::endl;
+		noErrors = false;
+	}
 	if (!noErrors) {
 		std::cout << "Errors found in semantic analysis" << std::endl;
 	}
@@ -29,6 +33,6 @@ bool SemanticAnalyser::checkExpression(ExpressionTree * expr, DataType type){
 	return expr->checkDatatype(nullptr) == type;
 }
 
-bool SemanticAnalyser::hasMain(ProgramTree * program){
-	return program->functions["main"] != nullptr;
+bool SemanticAnalyser::hasMain(){
+	return this->program->functions["main"] != nullptr;
 }

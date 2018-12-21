@@ -21,4 +21,5 @@ public:
 		return true;
 	}
 
+	void writeCode(CodeGenerator * c) override;
 };

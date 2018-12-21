@@ -196,6 +196,7 @@
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="DataType.cpp" />
     <ClCompile Include="ExpressionGenerator.cpp" />
+    <ClCompile Include="GlobalGenerator.cpp" />
     <ClCompile Include="IdentifierTree.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="LexerFunctions.cpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="ScopeHelper.cpp" />
     <ClCompile Include="SemanticAnalysis.cpp" />
     <ClCompile Include="SourceFile.cpp" />
+    <ClCompile Include="StatementGenerator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

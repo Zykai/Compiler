@@ -4,6 +4,8 @@
 #include "VariableTree.h"
 #include "FunctionTree.h"
 
+class CodeGenerator;
+
 class ProgramTree {
 public:
 	void output() {
@@ -25,10 +27,12 @@ public:
 			for (auto & p : *f.second->arguments) {
 				std::cout << p.second << ": " << p.first << ", ";
 			}
-			
+
 			std::cout << std::endl;
 		}
 	}
+
+	void writeCode(CodeGenerator * c);
 
 	std::map<std::string, std::string> imports;
 	std::map<std::string, VariableTree*> variables;

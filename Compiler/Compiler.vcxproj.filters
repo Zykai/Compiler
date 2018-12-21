@@ -43,6 +43,9 @@
     <Filter Include="Headerdateien\CodeGeneration">
       <UniqueIdentifier>{71adb40b-6581-4d93-b372-2cc97851edf0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\CodeGeneration">
+      <UniqueIdentifier>{98da3654-d44f-4fe0-8e38-c86ab83885e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -221,11 +224,17 @@
     <ClCompile Include="Scope.cpp">
       <Filter>Quelldateien\SemanticAnalysis</Filter>
     </ClCompile>
-    <ClCompile Include="CodeGenerator.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="ExpressionGenerator.cpp">
-      <Filter>Headerdateien\CodeGeneration</Filter>
+      <Filter>Quelldateien\CodeGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="StatementGenerator.cpp">
+      <Filter>Quelldateien\CodeGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalGenerator.cpp">
+      <Filter>Quelldateien\CodeGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="CodeGenerator.cpp">
+      <Filter>Quelldateien\CodeGeneration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

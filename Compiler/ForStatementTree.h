@@ -43,4 +43,6 @@ public:
 		s->leaveScope(); // leaving for-head scope
 		return true;
 	}
+
+	void writeCode(CodeGenerator * c) override;
 };

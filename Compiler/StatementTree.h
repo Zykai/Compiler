@@ -2,6 +2,8 @@
 
 #include "ScopeHelper.h"
 
+class CodeGenerator;
+
 class StatementTree {
 public:
 	static void error(std::string message) {
@@ -10,4 +12,5 @@ public:
 		//exit(1);
 	}
 	virtual bool checkForErrors(ScopeHelper * s) = 0;
+	virtual void writeCode(CodeGenerator * c) = 0;
 };

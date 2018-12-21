@@ -23,4 +23,6 @@ public:
 			std::cout << "ERROR: datatype of declaration doesnt match expression type";
 		}
 	}
+
+	void writeCode(CodeGenerator * c) override;
 };

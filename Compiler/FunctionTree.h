@@ -19,6 +19,8 @@ public:
 		return this->statement->checkForErrors(s);
 	}
 
+	void writeCode(CodeGenerator * c);
+
 	std::list<std::pair<DataType, std::string>> * arguments;
 	DataType type;
 	StatementTree * statement;

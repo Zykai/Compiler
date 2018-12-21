@@ -24,4 +24,6 @@ public:
 		s->leaveScope();
 		return true;
 	}
+
+	void writeCode(CodeGenerator * c) override;
 };

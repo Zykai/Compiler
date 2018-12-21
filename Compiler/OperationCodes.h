@@ -7,8 +7,10 @@ namespace OpCode {
 		CALL_FUNCTION,
 		RETURN, // void functions
 		RETURN_32, // integer, float functions
-		LOAD_GLOBAL_32,
 
+		LOAD_GLOBAL_32,
+		LOAD_CONSTANT_32,
+		LOAD_CONSTANT_8,
 		// Integer memory operations
 		I_LOAD,
 		I_STORE,

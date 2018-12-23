@@ -178,6 +178,7 @@
     <ClInclude Include="ScopeHelper.h" />
     <ClInclude Include="SemanticAnalyser.h" />
     <ClInclude Include="SourceFile.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="StatementHeaders.h" />
     <ClInclude Include="StatementListTree.h" />
     <ClInclude Include="StatementTree.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="ValueTree.h" />
     <ClInclude Include="Variable.h" />
     <ClInclude Include="VariableTree.h" />
+    <ClInclude Include="VirtualMachine.h" />
     <ClInclude Include="WhileStatementTree.h" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +210,7 @@
     <ClCompile Include="ScopeHelper.cpp" />
     <ClCompile Include="SemanticAnalysis.cpp" />
     <ClCompile Include="SourceFile.cpp" />
+    <ClCompile Include="Stack.cpp" />
     <ClCompile Include="StatementGenerator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -216,6 +219,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Token.cpp" />
+    <ClCompile Include="VirtualMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="exprtest.z" />

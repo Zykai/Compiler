@@ -46,6 +46,12 @@
     <Filter Include="Quelldateien\CodeGeneration">
       <UniqueIdentifier>{98da3654-d44f-4fe0-8e38-c86ab83885e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Virtual Machine">
+      <UniqueIdentifier>{304088bc-79ff-4b34-83ef-3649c21c0dbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Virtual Machine">
+      <UniqueIdentifier>{e3aa5bac-db16-4a5e-8867-a1c38842dc56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -177,6 +183,12 @@
     <ClInclude Include="OperationCodes.h">
       <Filter>Headerdateien\CodeGeneration</Filter>
     </ClInclude>
+    <ClInclude Include="VirtualMachine.h">
+      <Filter>Headerdateien\Virtual Machine</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Headerdateien\Virtual Machine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -235,6 +247,12 @@
     </ClCompile>
     <ClCompile Include="CodeGenerator.cpp">
       <Filter>Quelldateien\CodeGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="VirtualMachine.cpp">
+      <Filter>Quelldateien\Virtual Machine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stack.cpp">
+      <Filter>Quelldateien\Virtual Machine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

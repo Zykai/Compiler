@@ -14,8 +14,9 @@ void AdditionTree::writeCode(CodeGenerator * c){
 void AssignExpressionTree::writeCode(CodeGenerator * c){
 	int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->variable->getValue());
 	this->value->writeCode(c);
+
 	unsigned char opcode = this->type == Integer ? OpCode::I_STORE : this->type == Float ? OpCode::F_STORE : this->type == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
-	c->writeByte(OpCode::I_STORE);
+	c->writeByte(opcode);
 	c->writeInteger(varPos);
 }
 
@@ -51,6 +52,7 @@ void GetElementTree::writeCode(CodeGenerator * c){
 	// Function not written yet (in bytecode), position not yet known -> save function call for later
 	else {
 		c->addUnfinishedFunctionCall(this->name->getValue());
+		c->writeLong(0); // placeholder
 	}
 }
 
@@ -86,6 +88,7 @@ void PreUnaryTree::writeCode(CodeGenerator * c){
 }
 
 void ValueTree::writeCode(CodeGenerator * c){
+	std::cout << "VALUETREE\n";
 	// Variables
 	if (this->value->getType() == identifier) {
 		unsigned char opcode;
@@ -103,7 +106,7 @@ void ValueTree::writeCode(CodeGenerator * c){
 			opcode = OpCode::BY_LOAD;
 			break;
 		}
-		int varPos = c->scopeHelper->getVarPosition("GETFUNCTIONNAME", this->value->getValue());
+		int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->value->getValue());
 		c->writeByte(opcode);
 		c->writeInteger(varPos);
 	}

@@ -13,6 +13,7 @@ public:
 	bool checkForErrors(ScopeHelper * s) override {
 		if (this->expression->checkDatatype(s) == Error) {
 			this->error("Error in expression statement");
+			return false;
 		}
 		else {
 			return true;

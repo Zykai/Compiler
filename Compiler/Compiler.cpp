@@ -8,8 +8,12 @@
 #include "IdentifierTree.h"
 #include "ExpressionTree.h"
 #include "ProgramTree.h"
+#include "CodeGenerator.h"
+#include "VirtualMachine.h"
+
 
 int main(int numberArgs, const char ** arguments) {
+	std::string name = "main.z";
 	std::cout << "Starting Compiler" << std::endl;
 
 
@@ -27,7 +31,14 @@ int main(int numberArgs, const char ** arguments) {
 		SemanticAnalyser s = SemanticAnalyser(p);
 		s.checkForErrors();
 		p->output();
-		if (s.hasMain(p)) std::cout << "has main\n";
+		{
+			
+			CodeGenerator c = CodeGenerator("main.zc", p, s.scopeHelper);
+			c.writeProgram(p);
+		}
+		std::cout << "ARG/A Position" << s.scopeHelper->getVarPosition("main", "arg") << "  " << s.scopeHelper->getVarPosition("main", "a") << std::endl;
+		VirtualMachine vm = VirtualMachine("main.zcc");
+		vm.output();
 	}
 	else {
 		ExpressionTree * e = parser.parseExpression();
@@ -35,6 +46,7 @@ int main(int numberArgs, const char ** arguments) {
 		//SemanticAnalyser s = SemanticAnalyser(nullptr);
 		//std::cout << e->checkDatatype();
 	}
+	
 
 	system("pause"); // FOR TESTING
 	return 0; // FOR TESTING

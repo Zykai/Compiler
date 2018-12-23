@@ -21,7 +21,10 @@ public:
 		DataType leftType = this->left->checkDatatype(s);
 		DataType rightType = this->right->checkDatatype(s);
 		if (leftType == Error || leftType == Custom) return Error;
-		else if (leftType == rightType) return Bool;
+		else if (leftType == rightType) {
+			this->type = Bool;
+			return Bool;
+		}
 		else return Error;
 	}
 

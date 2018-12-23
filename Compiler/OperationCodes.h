@@ -1,7 +1,7 @@
 #pragma once
 
 namespace OpCode {
-	enum  OpCode : unsigned char {
+	enum  OpCode : char {
 		// Control-Flow operations (jmpifequal etc)
 		JMP_EQUAL,
 		CALL_FUNCTION,

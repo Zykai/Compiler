@@ -10,7 +10,8 @@ public:
 	bool checkForErrors();
 	bool checkExpression(ExpressionTree * expr, DataType type);
 	bool hasMain();
+	ScopeHelper * scopeHelper;
 private:
 	ProgramTree * program;
-	ScopeHelper * scopeHelper;
+	
 };

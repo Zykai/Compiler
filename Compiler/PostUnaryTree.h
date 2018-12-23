@@ -16,7 +16,15 @@ public:
 	}
 
 	DataType checkDatatype(ScopeHelper * s) override {
-		return Custom;
+		DataType t = left->checkDatatype(s);
+		if (t == Error || t == Custom || t == Bool) {
+			this->type = Error;
+			return Error;
+		}
+		else {
+			this->type = t;
+			return t;
+		}
 	}
 
 	void writeCode(CodeGenerator * c) override;

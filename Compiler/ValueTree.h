@@ -22,6 +22,7 @@ public:
 		if (this->value->getType() == identifier) {
 			std::pair<DataType, int> * var = s->currentScope->getVariable(this->value->getValue());
 			if (var != nullptr) {
+				this->type = var->first;
 				return var->first;
 			}
 			else {

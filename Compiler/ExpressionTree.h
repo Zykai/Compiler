@@ -19,6 +19,6 @@ public:
 	}
 	virtual DataType checkDatatype(ScopeHelper * s) = 0;
 	virtual void writeCode(CodeGenerator * c) = 0;
-	DataType type = Error; // starts add error, gets assigned in checkDataType
+	DataType type = Error; // starts as error, gets assigned in checkDataType
 private:
 };

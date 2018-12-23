@@ -40,6 +40,7 @@ public:
 				return Error;
 			}
 		}
+		this->type = calledFunction->type;
 		return calledFunction->type;
 	}
 

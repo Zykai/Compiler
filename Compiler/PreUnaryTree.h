@@ -16,8 +16,11 @@ public:
 	}
 
 	DataType checkDatatype(ScopeHelper * s) override {
-		if (right->checkDatatype(s) == Bool) return Bool;
-		else return Error;
+		if (right->checkDatatype(s) == Bool) {
+			this->type = Bool;
+			return Bool;
+		}
+		return Error;
 	}
 
 	void writeCode(CodeGenerator * c) override;

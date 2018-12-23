@@ -20,7 +20,10 @@ public:
 	DataType checkDatatype(ScopeHelper * s) override {
 		DataType leftType = this->left->checkDatatype(s);
 		DataType rightType = this->right->checkDatatype(s);
-		if (leftType == Bool && rightType == Bool) return Bool;
+		if (leftType == Bool && rightType == Bool) {
+			this->type = Bool;
+			return Bool;
+		}
 		else return Error;
 	}
 

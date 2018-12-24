@@ -22,15 +22,15 @@ public:
 	void writeprevFloat(float value, long position);
 	void writePrevLong(long value, long position);
 
-	long getCurrentPosition();
+	int getCurrentPosition();
 	void addUnfinishedFunctionCall(std::string name);
 	void saveFunctionStart();
-	std::pair<bool, long> getFunctionPosition(std::string functionName);
+	std::pair<bool, int> getFunctionPosition(std::string functionName);
 	ScopeHelper * scopeHelper;
 	std::string currentFunction;
 private:
-	std::list<std::pair<std::string, long>> unfinishedCalls;
-	std::map<std::string, long> functionPositions;
+	std::list<std::pair<std::string, int>> unfinishedCalls;
+	std::map<std::string, int> functionPositions;
 	std::ofstream * byteFile; // throws compile error when not declared as pointer
 	ProgramTree * program;
 };

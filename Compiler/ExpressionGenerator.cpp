@@ -23,7 +23,8 @@ void AssignExpressionTree::writeCode(CodeGenerator * c){
 void ComparisonTree::writeCode(CodeGenerator * c){
 	this->left->writeCode(c);
 	this->right->writeCode(c);
-	unsigned char opcode = this->type == Integer ? OpCode::I_LESS_THAN : this->type == Float ? OpCode::F_LESS_THAN : OpCode::BY_LESS_THAN;
+	DataType t = left->type; // needs to look at child's type (because type changes from int to bool)
+	unsigned char opcode = t == Integer ? OpCode::I_LESS_THAN : t == Float ? OpCode::F_LESS_THAN : OpCode::BY_LESS_THAN;
 	// Increase opcode depending on operator
 	if (this->comparisonOperator->getValue() == "<=") opcode++;
 	else if (this->comparisonOperator->getValue() == ">") opcode += 2;
@@ -34,7 +35,8 @@ void ComparisonTree::writeCode(CodeGenerator * c){
 void EqualityTree::writeCode(CodeGenerator * c){
 	this->left->writeCode(c);
 	this->right->writeCode(c);
-	unsigned char opcode = this->type == Integer ? OpCode::I_EQUAL : this->type == Bool ? OpCode::BO_EQUAL : this->type == Float ? OpCode::F_EQUAL : OpCode::BY_EQUAL;
+	DataType t = this->left->type; // needs to look at child's type (because type can change from int to bool)
+	unsigned char opcode = t == Integer ? OpCode::I_EQUAL : t == Bool ? OpCode::BO_EQUAL : t == Float ? OpCode::F_EQUAL : OpCode::BY_EQUAL;
 	// Increase opcode depending on operator
 	if (this->equalityOperator->getValue() == "!=") opcode++;
 	c->writeByte(opcode);
@@ -47,12 +49,12 @@ void GetElementTree::writeCode(CodeGenerator * c){
 	c->writeByte(OpCode::CALL_FUNCTION);
 	auto functionInfo = c->getFunctionPosition(this->name->getValue());
 	if (functionInfo.first) {
-		c->writeLong(functionInfo.second);
+		c->writeInteger(functionInfo.second);
 	}
 	// Function not written yet (in bytecode), position not yet known -> save function call for later
 	else {
 		c->addUnfinishedFunctionCall(this->name->getValue());
-		c->writeLong(0); // placeholder
+		c->writeInteger(0); // placeholder
 	}
 }
 

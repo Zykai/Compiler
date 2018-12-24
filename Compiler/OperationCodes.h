@@ -9,7 +9,7 @@ namespace OpCode {
 		CALL_FUNCTION,
 		RETURN, // void functions
 		RETURN_32, // integer, float functions
-
+		FUNCTION_END, // to stop functions with no return statement
 		LOAD_GLOBAL_32,
 		LOAD_CONSTANT_32,
 		LOAD_CONSTANT_8,

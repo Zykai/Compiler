@@ -27,7 +27,7 @@ public:
 		}
 		s->leaveScope();
 		s->enterScope();
-		if (!this->elseStatement->checkForErrors(s)) {
+		if (this->elseStatement != nullptr && !this->elseStatement->checkForErrors(s)) {
 			//this->error("Error in for else body");
 			return false;
 		}

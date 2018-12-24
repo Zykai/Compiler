@@ -66,12 +66,12 @@ void CodeGenerator::writePrevLong(long value, long position){
 	this->byteFile->seekp(currentPos);
 }
 
-long CodeGenerator::getCurrentPosition(){
+int CodeGenerator::getCurrentPosition(){
 	return this->byteFile->tellp();
 }
 
 void CodeGenerator::addUnfinishedFunctionCall(std::string name){
-	long currentPos = this->byteFile->tellp();
+	int currentPos = this->byteFile->tellp();
 	this->unfinishedCalls.emplace_back(name, currentPos);
 }
 
@@ -80,7 +80,7 @@ void CodeGenerator::saveFunctionStart(){
 	this->functionPositions.emplace(this->currentFunction, position);
 }
 
-std::pair<bool, long> CodeGenerator::getFunctionPosition(std::string functionName){
+std::pair<bool, int> CodeGenerator::getFunctionPosition(std::string functionName){
 	if (this->functionPositions.find(functionName) == this->functionPositions.end()) {
 		return std::pair<bool, long>(false, 0);
 	}

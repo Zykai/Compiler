@@ -13,6 +13,7 @@ public:
 
 	unsigned char getCharAt(int position);
 	int getIntAt(int position);
+	long getLongAt(int position);
 	void output();
 private:
 	int stackPosition;

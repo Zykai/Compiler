@@ -17,3 +17,4 @@
 - add current function in code generator
 - delete top of stack if not needed (for example in function calls)
 - distinguish between global and local var in code gen
+- check type in return statement + code generation

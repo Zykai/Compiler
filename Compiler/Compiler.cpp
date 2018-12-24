@@ -36,7 +36,6 @@ int main(int numberArgs, const char ** arguments) {
 			CodeGenerator c = CodeGenerator("main.zc", p, s.scopeHelper);
 			c.writeProgram(p);
 		}
-		std::cout << "ARG/A Position" << s.scopeHelper->getVarPosition("main", "arg") << "  " << s.scopeHelper->getVarPosition("main", "a") << std::endl;
 		VirtualMachine vm = VirtualMachine("main.zcc");
 		vm.output();
 	}

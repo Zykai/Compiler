@@ -7,13 +7,14 @@ int zwei = 2;
 int hundert = 100;
 
 int test(int x, float y){
-	if(1 == 0){
+	x = 3 + 2;
+	if(x == 0){
 		return 1;
 	}
 	else{
 		int i = 0;
 		int a = 0;
-		for(a = 0; i < 10; i++){
+		for(a = 0; i < x; i++){
 			a = a + i;
 		}
 		return a;
@@ -21,6 +22,9 @@ int test(int x, float y){
 }
 
 int main (int arg){
-	int i = 1;
-	return arg;
+	int a = 0;
+	for(a = 4; a < 10; a = a+1){
+		21;
+	}
+	return a;
 }

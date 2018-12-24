@@ -37,11 +37,16 @@ unsigned char Stack::getCharAt(int position){
 }
 
 int Stack::getIntAt(int position){
-	return (data[position] << 24) | (data[position+1] << 16) | (data[position+2] << 8) | (data[position+3]);
+	return (data[position+3] << 24) | (data[position+2] << 16) | (data[position+1] << 8) | (data[position]);
+}
+
+long Stack::getLongAt(int position){
+	return ( data[position+7] << 56) | (data[position+6] << 48) | (data[position+5] << 40) | (data[position+4] << 32 | (data[position+3] << 24) | (data[position+2] << 16) | (data[position+1] << 8) | (data[position]));
 }
 
 void Stack::output(){
 	for (int i = 0; i < this->stackSize; i++) {
 		std::cout << (int)data[i] << " ";
 	}
+	std::cout << "\nRead long: " << this->getLongAt(12) << std::endl;;
 }

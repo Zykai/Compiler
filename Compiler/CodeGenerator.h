@@ -22,6 +22,7 @@ public:
 	void writeprevFloat(float value, long position);
 	void writePrevLong(long value, long position);
 
+	long getCurrentPosition();
 	void addUnfinishedFunctionCall(std::string name);
 	void saveFunctionStart();
 	std::pair<bool, long> getFunctionPosition(std::string functionName);

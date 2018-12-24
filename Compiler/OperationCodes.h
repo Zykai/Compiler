@@ -3,7 +3,9 @@
 namespace OpCode {
 	enum  OpCode : char {
 		// Control-Flow operations (jmpifequal etc)
+		JMP,
 		JMP_EQUAL,
+		JMP_NOT_EQUAL,
 		CALL_FUNCTION,
 		RETURN, // void functions
 		RETURN_32, // integer, float functions

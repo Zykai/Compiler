@@ -66,6 +66,10 @@ void CodeGenerator::writePrevLong(long value, long position){
 	this->byteFile->seekp(currentPos);
 }
 
+long CodeGenerator::getCurrentPosition(){
+	return this->byteFile->tellp();
+}
+
 void CodeGenerator::addUnfinishedFunctionCall(std::string name){
 	long currentPos = this->byteFile->tellp();
 	this->unfinishedCalls.emplace_back(name, currentPos);

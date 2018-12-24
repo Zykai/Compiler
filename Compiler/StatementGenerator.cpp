@@ -29,6 +29,18 @@ void ForStatementTree::writeCode(CodeGenerator * c){
 		-write current pos to placeholder
 		-jump to previously saved position
 	*/
+	this->initializer->writeCode(c);
+	long beforeLoop = c->getCurrentPosition();
+	this->condition->writeCode(c);
+	c->writeByte(OpCode::JMP_NOT_EQUAL);
+	long jumpPos = c->getCurrentPosition();
+	c->writeLong(0); // ->placeholder
+	this->forBody->writeCode(c);
+	this->update->writeCode(c);
+	c->writeByte(OpCode::JMP);
+	c->writeLong(beforeLoop);
+	long posAfterFor = c->getCurrentPosition();
+	c->writePrevLong(posAfterFor, jumpPos);
 }
 
 void IfStatementTree::writeCode(CodeGenerator * c){
@@ -42,6 +54,25 @@ void IfStatementTree::writeCode(CodeGenerator * c){
 		-write if body
 		-write currentpos to pos2
 	*/
+	this->condition->writeCode(c);
+	c->writeByte(OpCode::JMP_NOT_EQUAL);
+	long jumpPos = c->getCurrentPosition();
+	c->writeLong(0); // placeholder
+	this->ifStatement->writeCode(c);
+	long posAfterIf = c->getCurrentPosition();
+	if (this->elseStatement != nullptr) {
+		c->writeByte(OpCode::JMP);
+		long jmpBehindElsePos = c->getCurrentPosition();
+		c->writeLong(0); // placeholder
+		long elseStart = c->getCurrentPosition();
+		c->writePrevByte(elseStart, jumpPos);
+		this->elseStatement->writeCode(c);
+		long posAfterElse = c->getCurrentPosition();
+		c->writePrevLong(posAfterElse, jmpBehindElsePos);
+	}
+	else {
+		c->writePrevLong(posAfterIf, jumpPos);
+	}
 }
 
 void ReturnStatementTree::writeCode(CodeGenerator * c){
@@ -66,4 +97,14 @@ void WhileStatementTree::writeCode(CodeGenerator * c){
 	-write current pos to placeholder
 	-jump to previously saved position
 	*/
+	long startPos = c->getCurrentPosition();
+	this->whileHead->writeCode(c);
+	c->writeByte(OpCode::JMP_NOT_EQUAL);
+	long posAfterJmp = c->getCurrentPosition();
+	c->writeLong(0); // -> placeholder
+	this->whileBody->writeCode(c);
+	c->writeByte(OpCode::JMP);
+	c->writeLong(startPos);
+	long posAfterBody = c->getCurrentPosition();
+	c->writePrevLong(posAfterBody, posAfterJmp);
 }

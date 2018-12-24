@@ -16,6 +16,11 @@ CodeGenerator::~CodeGenerator(){
 
 void CodeGenerator::writeProgram(ProgramTree * p){
 	this->program->writeCode(this);
+	// Add missing function positions, as all functions are now known
+	for (std::pair<std::string, int>& call : this->unfinishedCalls) {
+		int functionPosition = this->functionPositions.at(call.first);
+		this->writePrevInteger(functionPosition, call.second);
+	}
 }
 
 void CodeGenerator::writeExpression(ExpressionTree * e){
@@ -36,6 +41,10 @@ void CodeGenerator::writeFloat(float value){
 
 void CodeGenerator::writeLong(long value) {
 	this->byteFile->write(reinterpret_cast<const char *>(&value), 8);
+}
+
+void CodeGenerator::writeBool(bool value){
+	this->byteFile->write(reinterpret_cast<const char *>(&value), 4);
 }
 
 void CodeGenerator::writePrevInteger(int value, long position){
@@ -63,6 +72,13 @@ void CodeGenerator::writePrevLong(long value, long position){
 	long currentPos = this->byteFile->tellp();
 	this->byteFile->seekp(position);
 	this->byteFile->write(reinterpret_cast<const char *>(&value), 8);
+	this->byteFile->seekp(currentPos);
+}
+
+void CodeGenerator::writePrevBool(bool value, long position){
+	long currentPos = this->byteFile->tellp();
+	this->byteFile->seekp(position);
+	this->byteFile->write(reinterpret_cast<const char *>(&value), 4);
 	this->byteFile->seekp(currentPos);
 }
 

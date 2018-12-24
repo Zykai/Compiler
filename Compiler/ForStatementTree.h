@@ -30,7 +30,7 @@ public:
 			this->error("For-condition statement needs to be of type bool");
 			return false;
 		}
-		if (!this->condition->checkDatatype(s) == Error) {
+		if (!this->update->checkDatatype(s) == Error) {
 			this->error("Error in for update expression");
 			return false;
 		}

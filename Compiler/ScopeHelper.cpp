@@ -7,7 +7,7 @@ ScopeHelper::ScopeHelper(){
 	this->allVariables = std::map<std::string, std::map<std::string, std::pair<DataType, int>*>>();
 }
 
-void ScopeHelper::setGlobalScope(std::map<std::string, VariableTree*>* variables){
+void ScopeHelper::setGlobalScope(std::list<std::pair<std::string, VariableTree*>>* variables){
 	this->currentScope = new Scope(nullptr);
 	for (std::pair<std::string, VariableTree*> p : *variables) {
 		std::cout << "Added var " << p.first << " to scope" << std::endl;

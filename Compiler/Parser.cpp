@@ -98,7 +98,7 @@ void Parser::parseGlobal(ProgramTree * program, std::string name, DataType dataT
 	Token * value = this->literalValue();
 	this->parseSemicolon();
 	VariableTree * newVar = new VariableTree(value, dataType, this->getOffset(dataType));
-	program->variables.emplace(name, newVar);
+	program->variables.emplace_back(std::make_pair(name, newVar));
 }
 
 void Parser::parseFunction(ProgramTree * program, std::string name, DataType dataType){

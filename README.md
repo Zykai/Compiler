@@ -12,7 +12,7 @@
 - save datatype of expression in Expression::type
 - add references to functions
 - check for variable redefinitions
-- implement byte type in lexer + code generator
+- implement byte type in lexer + code generator (valueTree + globaltree)
 - add list for function calls with unknown positions
 - add current function in code generator
 - delete top of stack if not needed (for example in function calls)

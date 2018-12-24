@@ -35,6 +35,6 @@ public:
 	void writeCode(CodeGenerator * c);
 
 	std::map<std::string, std::string> imports;
-	std::map<std::string, VariableTree*> variables;
+	std::list<std::pair<std::string, VariableTree*>> variables;
 	std::map<std::string, FunctionTree*> functions;
 };

@@ -17,10 +17,12 @@ public:
 	void writeByte(unsigned char value);
 	void writeFloat(float value);
 	void writeLong(long value);
+	void writeBool(bool value);
 	void writePrevInteger(int value, long position);
 	void writePrevByte(char value, long position);
 	void writeprevFloat(float value, long position);
 	void writePrevLong(long value, long position);
+	void writePrevBool(bool value, long position);
 
 	int getCurrentPosition();
 	void addUnfinishedFunctionCall(std::string name);

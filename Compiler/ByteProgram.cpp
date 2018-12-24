@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "Stack.h"
+#include "ByteProgram.h"
 #include <iostream>
 
-Stack::Stack(int stackSize){
+ByteProgram::ByteProgram(int stackSize){
 	this->stackSize = stackSize;
 	this->data = new  char[stackSize];
 	for (int i = 0; i < stackSize; i++) {
@@ -10,41 +10,41 @@ Stack::Stack(int stackSize){
 	}
 }
 
-Stack::Stack(char * bytecode, int length){
+ByteProgram::ByteProgram(char * bytecode, int length){
 	this->data = bytecode;
 	this->stackSize = length;
 	this->stackPosition = 0;
 }
 
-Stack::~Stack(){
+ByteProgram::~ByteProgram(){
 	delete[] data;
 }
 
-char Stack::getNextOpCode(){
+char ByteProgram::getNextOpCode(){
 	char opcode = this->getCharAt(this->stackPosition);
 	stackPosition++;
 	return opcode;
 }
 
-int Stack::getNextInt(){
+int ByteProgram::getNextInt(){
 	int param = this->getIntAt(this->stackPosition);
 	stackPosition += 4;
 	return param;
 }
 
-unsigned char Stack::getCharAt(int position){
+unsigned char ByteProgram::getCharAt(int position){
 	return this->data[position];
 }
 
-int Stack::getIntAt(int position){
+int ByteProgram::getIntAt(int position){
 	return (data[position+3] << 24) | (data[position+2] << 16) | (data[position+1] << 8) | (data[position]);
 }
 
-long Stack::getLongAt(int position){
+long ByteProgram::getLongAt(int position){
 	return ( data[position+7] << 56) | (data[position+6] << 48) | (data[position+5] << 40) | (data[position+4] << 32 | (data[position+3] << 24) | (data[position+2] << 16) | (data[position+1] << 8) | (data[position]));
 }
 
-void Stack::output(){
+void ByteProgram::output(){
 	for (int i = 0; i < this->stackSize; i++) {
 		std::cout << (int)data[i] << " ";
 	}

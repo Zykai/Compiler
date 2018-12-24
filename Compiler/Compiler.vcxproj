@@ -178,7 +178,7 @@
     <ClInclude Include="ScopeHelper.h" />
     <ClInclude Include="SemanticAnalyser.h" />
     <ClInclude Include="SourceFile.h" />
-    <ClInclude Include="Stack.h" />
+    <ClInclude Include="ByteProgram.h" />
     <ClInclude Include="StatementHeaders.h" />
     <ClInclude Include="StatementListTree.h" />
     <ClInclude Include="StatementTree.h" />
@@ -210,7 +210,7 @@
     <ClCompile Include="ScopeHelper.cpp" />
     <ClCompile Include="SemanticAnalysis.cpp" />
     <ClCompile Include="SourceFile.cpp" />
-    <ClCompile Include="Stack.cpp" />
+    <ClCompile Include="ByteProgram.cpp" />
     <ClCompile Include="StatementGenerator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

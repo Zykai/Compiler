@@ -15,7 +15,7 @@ VirtualMachine::VirtualMachine(std::string name){
 		bytecodeFile.read(data, size);
 		bytecodeFile.close();
 		std::cout << "The file size is " << size << " bytes" << std::endl;
-		this->stack = new Stack(data, size);
+		this->byteProgram = new ByteProgram(data, size);
 	}
 	else {
 		std::cout << "ERROR: FILE " << name << " DOES NOT EXIST\n";
@@ -25,16 +25,16 @@ VirtualMachine::VirtualMachine(std::string name){
 }
 
 VirtualMachine::~VirtualMachine(){
-	delete this->stack;
+	delete this->byteProgram;
 }
 
 void VirtualMachine::output() {
-	this->stack->output();
+	this->byteProgram->output();
 }
 
 void VirtualMachine::executeProgram(){
 	while (true) {
-		char opcode = this->stack->getNextOpCode();
+		char opcode = this->byteProgram->getNextOpCode();
 		switch (opcode) {
 		case OpCode::JMP:
 			break;

@@ -1,12 +1,12 @@
 #pragma once
 class test{};
 
-class Stack {
+class ByteProgram {
 public:
-	Stack() {}
-	Stack(int stackSize);
-	Stack(char * bytecode, int length);
-	~Stack();
+	ByteProgram() {}
+	ByteProgram(int stackSize);
+	ByteProgram(char * bytecode, int length);
+	~ByteProgram();
 
 	char getNextOpCode();
 	int getNextInt();

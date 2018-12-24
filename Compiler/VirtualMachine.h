@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Stack.h"
+#include "ByteProgram.h"
 
 class VirtualMachine {
 public:
@@ -11,5 +11,5 @@ public:
 	void executeProgram();
 	
 private:
-	Stack * stack;
+	ByteProgram * byteProgram;
 };

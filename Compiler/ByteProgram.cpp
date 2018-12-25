@@ -20,6 +20,14 @@ ByteProgram::~ByteProgram(){
 	delete[] data;
 }
 
+void ByteProgram::setPosition(int position){
+	this->stackPosition = position;
+}
+
+int ByteProgram::getPosition(){
+	return this->stackPosition;
+}
+
 char ByteProgram::getNextOpCode(){
 	char opcode = this->getCharAt(this->stackPosition);
 	stackPosition++;
@@ -27,9 +35,30 @@ char ByteProgram::getNextOpCode(){
 }
 
 int ByteProgram::getNextInt(){
-	int param = this->getIntAt(this->stackPosition);
-	stackPosition += 4;
-	return param;
+	char * bytes = this->getNextBytes(sizeof(int));
+	int temp;
+	std::memcpy(&temp, bytes, sizeof(int));
+	return temp;
+}
+
+float ByteProgram::getNextFloat(){
+	char * bytes = this->getNextBytes(sizeof(float));
+	float temp;
+	std::memcpy(&temp, bytes, sizeof(float));
+	return temp;
+}
+
+bool ByteProgram::getNextBool(){
+	char * bytes = this->getNextBytes(sizeof(bool));
+	bool temp;
+	std::memcpy(&temp, bytes, sizeof(bool));
+	return temp;
+}
+
+char ByteProgram::getNextChar(){
+	char character = this->data[stackPosition];
+	stackPosition++;
+	return character;
 }
 
 unsigned char ByteProgram::getCharAt(int position){
@@ -48,5 +77,11 @@ void ByteProgram::output(){
 	for (int i = 0; i < this->stackSize; i++) {
 		std::cout << (int)data[i] << " ";
 	}
-	std::cout << "\nRead long: " << this->getLongAt(12) << std::endl;;
+	std::cout << std::endl;
+}
+
+char * ByteProgram::getNextBytes(int number){
+	char * bytes = &this->data[stackPosition];
+	this->stackPosition += number;
+	return bytes;
 }

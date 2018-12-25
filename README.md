@@ -18,3 +18,6 @@
 - delete top of stack if not needed (for example in function calls)
 - distinguish between global and local var in code gen
 - check type in return statement + code generation
+- when giving a type size, always give sizeof()
+- check parse function
+- add documentation for callFunction

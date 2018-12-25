@@ -4,9 +4,11 @@
 #include "CodeGenerator.h"
 
 void AdditionTree::writeCode(CodeGenerator * c){
-	this->left->writeCode(c);
+	// Reverse order due to stack data access
 	this->right->writeCode(c);
+	this->left->writeCode(c);
 	unsigned char opcode = this->type == Integer ? OpCode::I_ADD : this->type == Float ? OpCode::F_ADD : OpCode::BY_ADD;
+	std::cout << "OPERATOR: " << this->addOperator->getValue() << std::endl;
 	if (this->addOperator->getValue() == "-") opcode++; // Because sub opcode is ALWAYS directly after add opcode
 	c->writeByte(opcode);
 }
@@ -21,8 +23,9 @@ void AssignExpressionTree::writeCode(CodeGenerator * c){
 }
 
 void ComparisonTree::writeCode(CodeGenerator * c){
-	this->left->writeCode(c);
+	// Reverse order due to stack data access
 	this->right->writeCode(c);
+	this->left->writeCode(c);
 	DataType t = left->type; // needs to look at child's type (because type changes from int to bool)
 	unsigned char opcode = t == Integer ? OpCode::I_LESS_THAN : t == Float ? OpCode::F_LESS_THAN : OpCode::BY_LESS_THAN;
 	// Increase opcode depending on operator
@@ -69,8 +72,9 @@ void LogAndOrTree::writeCode(CodeGenerator * c){
 }
 
 void MultiplicationTree::writeCode(CodeGenerator * c){
-	this->left->writeCode(c);
+	// Reverse order due to stack data access
 	this->right->writeCode(c);
+	this->left->writeCode(c);
 	unsigned char opcode = this->type == Integer ? OpCode::I_MUL : this->type == Float ? OpCode::F_MUL : OpCode::BY_MUL;
 	// Increase opcode depending on operator
 	if (this->mulOperator->getValue() == "/") opcode++;
@@ -90,7 +94,6 @@ void PreUnaryTree::writeCode(CodeGenerator * c){
 }
 
 void ValueTree::writeCode(CodeGenerator * c){
-	std::cout << "VALUETREE\n";
 	// Variables
 	if (this->value->getType() == identifier) {
 		unsigned char opcode;

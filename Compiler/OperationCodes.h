@@ -4,8 +4,8 @@ namespace OpCode {
 	enum  OpCode : char {
 		// Control-Flow operations (jmpifequal etc)
 		JMP,
-		JMP_EQUAL,
-		JMP_NOT_EQUAL,
+		JMP_TRUE,
+		JMP_FALSE,
 		CALL_FUNCTION,
 		RETURN, // void functions
 		RETURN_32, // integer, float functions
@@ -13,6 +13,12 @@ namespace OpCode {
 		LOAD_GLOBAL_32,
 		LOAD_CONSTANT_32,
 		LOAD_CONSTANT_8,
+		// Standard library
+		I_PRINT,
+		F_PRINT,
+		BY_PRINT,
+		BO_PRINT,
+
 		// Integer memory operations
 		I_LOAD,
 		I_STORE,
@@ -82,7 +88,7 @@ namespace OpCode {
 		BO_XOR,
 		BO_NEGATE,
 		// Bool  type conversion
-		B_FROM_I,
-		B_FROM_F,
+		BO_FROM_I,
+		BO_FROM_F,
 	};
 }

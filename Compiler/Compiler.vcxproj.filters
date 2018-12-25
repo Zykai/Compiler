@@ -189,6 +189,9 @@
     <ClInclude Include="ByteProgram.h">
       <Filter>Headerdateien\Virtual Machine</Filter>
     </ClInclude>
+    <ClInclude Include="VmStack.h">
+      <Filter>Headerdateien\Virtual Machine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="ByteProgram.cpp">
       <Filter>Quelldateien\Virtual Machine</Filter>
+    </ClCompile>
+    <ClCompile Include="VmStack.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

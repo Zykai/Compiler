@@ -11,7 +11,7 @@
 #include "CodeGenerator.h"
 #include "VirtualMachine.h"
 
-
+#include "VmStack.h"
 int main(int numberArgs, const char ** arguments) {
 	std::string name = "main.z";
 	std::cout << "Starting Compiler" << std::endl;
@@ -38,6 +38,7 @@ int main(int numberArgs, const char ** arguments) {
 		}
 		VirtualMachine vm = VirtualMachine("main.zcc");
 		vm.output();
+		vm.executeProgram();
 	}
 	else {
 		ExpressionTree * e = parser.parseExpression();

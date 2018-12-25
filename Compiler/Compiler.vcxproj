@@ -191,6 +191,7 @@
     <ClInclude Include="Variable.h" />
     <ClInclude Include="VariableTree.h" />
     <ClInclude Include="VirtualMachine.h" />
+    <ClInclude Include="VmStack.h" />
     <ClInclude Include="WhileStatementTree.h" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +221,7 @@
     </ClCompile>
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="VirtualMachine.cpp" />
+    <ClCompile Include="VmStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="exprtest.z" />

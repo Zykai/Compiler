@@ -38,6 +38,7 @@ void ScopeHelper::addVariable(std::string varName, DataType type){
 	this->currentStackSize += offset;
 	this->allVariables[this->currentFunctionName].emplace(varName, new std::pair<DataType, int>(type, temp));
 	this->currentScope->variables.emplace(varName, new std::pair<DataType, int>(type, temp));
+	this->functionStackSize[this->currentFunctionName] = this->currentStackSize;
 }
 
 void ScopeHelper::leaveScope(){
@@ -48,6 +49,10 @@ void ScopeHelper::enterScope(){
 	Scope * subScope = new Scope(this->currentScope);
 	this->currentScope->subScopes.emplace_back(subScope);
 	this->currentScope = subScope;
+}
+
+int ScopeHelper::getStackSize(std::string functionName){
+	return this->functionStackSize[functionName];
 }
 
 int ScopeHelper::getVarPosition(std::string functionName, std::string varName){

@@ -264,8 +264,9 @@ ExpressionTree * Parser::comparison(){
 ExpressionTree * Parser::addition(){
 	ExpressionTree * expr = multiplication();
 	while (match({ TokenPlus, TokenMinus })) {
+		Token * additionOperator = this->getPrevious();
 		ExpressionTree * right = multiplication();
-		expr = new AdditionTree(expr, right, this->getPrevious());
+		expr = new AdditionTree(expr, right, additionOperator);
 	}
 	return expr;
 }
@@ -273,8 +274,9 @@ ExpressionTree * Parser::addition(){
 ExpressionTree * Parser::multiplication(){
 	ExpressionTree * expr = preUnary();
 	while (match({ TokenMultiply, TokenDivide })) {
+		Token * mulOperator = this->getPrevious();
 		ExpressionTree * right = preUnary();
-		expr = new MultiplicationTree(expr, right, this->getPrevious());
+		expr = new MultiplicationTree(expr, right, mulOperator);
 	}
 	return expr;
 }

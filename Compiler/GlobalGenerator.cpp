@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ProgramTree.h"
 #include "CodeGenerator.h"
+#include "OperationCodes.h"
 
 void ProgramTree::writeCode(CodeGenerator * c) {
 	// Write global variables and starting point (main)
@@ -31,13 +32,40 @@ void ProgramTree::writeCode(CodeGenerator * c) {
 			c->writePrevInteger(mainPos, 0);
 		}
 		c->currentFunction = function.first;
-		if(function.first == "main") function.second->writeCode(c);
+		function.second->writeCode(c);
 	}
 }
 
 void FunctionTree::writeCode(CodeGenerator * c){
 	// Save current position for function calls
 	c->saveFunctionStart();
+	// Write number of parameters
+	c->writeInteger(this->arguments->size());
+	// Write number of bytes need for the following function
+	c->writeInteger(c->scopeHelper->getStackSize(c->currentFunction));
+	for (auto a : *this->arguments) {
+		switch (a.first) {
+		case Integer:
+			c->writeByte(OpCode::I_LOAD);
+			break;
+		case Float:
+			c->writeByte(OpCode::F_LOAD);
+			break;
+		case Bool:
+			c->writeByte(OpCode::BO_LOAD);
+			break;
+		case Byte:
+			c->writeByte(OpCode::BY_LOAD);
+			break;
+		default:
+			std::cout << "Illegal type in function parameters" << std::endl;
+			system("pause");
+			exit(1);
+		}
+	}
+	
 	// Write statement code
 	this->statement->writeCode(c);
+	// Write function end
+	c->writeByte(OpCode::FUNCTION_END);
 }

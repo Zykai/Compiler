@@ -192,6 +192,12 @@
     <ClInclude Include="VmStack.h">
       <Filter>Headerdateien\Virtual Machine</Filter>
     </ClInclude>
+    <ClInclude Include="NamespaceFunctionTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardLibrary.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -258,6 +264,9 @@
       <Filter>Quelldateien\Virtual Machine</Filter>
     </ClCompile>
     <ClCompile Include="VmStack.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardLibrary.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

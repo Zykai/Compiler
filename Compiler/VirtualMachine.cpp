@@ -35,6 +35,7 @@ void VirtualMachine::output() {
 	this->byteProgram->output();
 }
 
+
 void VirtualMachine::callFunction(int position){
 	int prevProgramPointer = this->byteProgram->getPosition();
 	// Get number of parameters and size in bytes
@@ -92,6 +93,8 @@ void VirtualMachine::returnFunction(int size){
 }
 
 void VirtualMachine::executeProgram(){
+	std::cout << "------------Starting Program------------" << std::endl;
+	
 	int mainPosition = this->byteProgram->getNextInt();
 	this->byteProgram->setPosition(mainPosition);
 	
@@ -99,9 +102,8 @@ void VirtualMachine::executeProgram(){
 	int functionSpace = this->byteProgram->getNextInt();
 	this->byteProgram->setPosition(mainPosition + numberOfParameters + 2 * sizeof(int));
 	this->stack->setBottomPointer(0);
-	this->stack->setStackPointer(0);
+	this->stack->setStackPointer(functionSpace);
 	
-	int stackBeforeCall, bottomBeforeCall, programBeforeCall;
 
 	bool notFinished = true;
 	while (notFinished) {
@@ -119,9 +121,6 @@ void VirtualMachine::executeProgram(){
 			else this->byteProgram->getNextInt(); // to prevent vm from interpreting jmp position as opcode
 			break;
 		case OpCode::CALL_FUNCTION:
-			stackBeforeCall = this->stack->getStackPointer();
-			bottomBeforeCall = this->stack->getBottomPointer();
-			programBeforeCall = this->byteProgram->getPosition();
 			this->callFunction(this->byteProgram->getNextInt());
 			break;
 		case OpCode::RETURN:
@@ -149,6 +148,18 @@ void VirtualMachine::executeProgram(){
 			break;
 		case OpCode::LOAD_CONSTANT_8:
 			this->stack->pushBytes(this->byteProgram->getNextBytes(1), 1);
+			break;
+		case OpCode::I_PRINT:
+			std::cout << this->stack->popInt() << std::endl;
+			break;
+		case OpCode::F_PRINT:
+			std::cout << this->stack->popFloat() << std::endl;
+			break;
+		case OpCode::BY_PRINT:
+			std::cout << this->stack->popByte() << std::endl;
+			break;
+		case OpCode::BO_PRINT:
+			std::cout << (this->stack->popBool() ? "true" : "false") << std::endl;
 			break;
 		case OpCode::I_LOAD:
 			this->stack->pushInt(this->stack->loadInt(this->byteProgram->getNextInt()));
@@ -314,4 +325,5 @@ void VirtualMachine::executeProgram(){
 			exit(1);
 		}
 	}
+	std::cout << "-------------Ending Program-------------" << std::endl;
 }

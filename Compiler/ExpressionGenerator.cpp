@@ -20,6 +20,9 @@ void AssignExpressionTree::writeCode(CodeGenerator * c){
 	unsigned char opcode = this->type == Integer ? OpCode::I_STORE : this->type == Float ? OpCode::F_STORE : this->type == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
 	c->writeByte(opcode);
 	c->writeInteger(varPos);
+
+	c->writeByte(opcode - 1);
+	c->writeBool(varPos);
 }
 
 void ComparisonTree::writeCode(CodeGenerator * c){
@@ -80,6 +83,10 @@ void MultiplicationTree::writeCode(CodeGenerator * c){
 	if (this->mulOperator->getValue() == "/") opcode++;
 	else if (this->mulOperator->getValue() == "%") opcode++;
 	c->writeByte(opcode);
+}
+
+void NamespaceFunctionTree::writeCode(CodeGenerator * c) {
+	StandardLibrary::getInstance()->writeCode(this->name->getValue(), c, this->parameters);
 }
 
 void PostUnaryTree::writeCode(CodeGenerator * c){

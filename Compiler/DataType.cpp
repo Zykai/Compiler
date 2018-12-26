@@ -17,6 +17,9 @@ DataType getType(Token * token) {
 	else if (datatype == "byte") {
 		return Byte;
 	}
+	else if (datatype == "void") {
+		return Void;
+	}
 	else if (token->getType() == identifier) {
 		return Custom;
 	}

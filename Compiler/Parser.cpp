@@ -237,8 +237,9 @@ ExpressionTree * Parser::assignment(){
 ExpressionTree * Parser::logAndOr(){
 	ExpressionTree * expr = equality();
 	while (match({ logicalAndOr })) {
+		Token * andOrOperator = this->getPrevious();
 		ExpressionTree * right = equality();
-		expr = new LogAndOrTree(expr, right, this->getPrevious());
+		expr = new LogAndOrTree(expr, right, andOrOperator);
 	}
 	return expr;
 }
@@ -246,8 +247,9 @@ ExpressionTree * Parser::logAndOr(){
 ExpressionTree * Parser::equality(){
 	ExpressionTree * expr = comparison();
 	while (match({ logicalEqual })) {
+		Token * equOperator = this->getPrevious();
 		ExpressionTree * right = comparison();
-		expr = new EqualityTree(expr, right, this->getPrevious());
+		expr = new EqualityTree(expr, right, equOperator);
 	}
 	return expr;
 }
@@ -255,8 +257,9 @@ ExpressionTree * Parser::equality(){
 ExpressionTree * Parser::comparison(){
 	ExpressionTree * expr = addition();
 	while (match({ logicalComparison })) {
+		Token * compOperator = this->getPrevious();
 		ExpressionTree * right = addition();
-		expr = new ComparisonTree(expr, right, this->getPrevious());
+		expr = new ComparisonTree(expr, right, compOperator);
 	}
 	return expr;
 }
@@ -324,7 +327,19 @@ ExpressionTree * Parser::value(){
 }
 
 ExpressionTree * Parser::functionExpression(){
+	bool nameSpaceFunction = false;
 	Token * name = this->getPrevious();
+	Token * functionName;
+	if (match({ TokenDot })) {
+		nameSpaceFunction = true;
+		if (!match({ identifier })) {
+			this->error("Namespace is missing a function name");
+		}
+		functionName = this->getPrevious();
+	}
+	else {
+		functionName = name;
+	}
 	std::list<ExpressionTree*> parameters =  std::list<ExpressionTree*>();
 	if (match({ parentheseOpen })) {
 		while (!match({ parentheseClose })) {
@@ -333,7 +348,13 @@ ExpressionTree * Parser::functionExpression(){
 			if (!match({ TokenComma })) break;
 		}
 		if (!match({ parentheseClose })) this->error("Expected closing parenthese to complete function call");
-		return new GetElementTree(name, parameters);
+		if (nameSpaceFunction) {
+			return new NamespaceFunctionTree(name, functionName, parameters);
+		}
+		else {
+			return new GetElementTree(name, parameters);
+		}
+		
 	}
 	else return new ValueTree(name);
 }

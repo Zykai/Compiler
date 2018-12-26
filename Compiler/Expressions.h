@@ -3,6 +3,7 @@
 #include "ComparisonTree.h"
 #include "EqualityTree.h"
 #include "GetElementTree.h"
+#include "NamespaceFunctionTree.h"
 #include "LogAndOrTree.h"
 #include "MultiplicationTree.h"
 #include "PostUnaryTree.h"

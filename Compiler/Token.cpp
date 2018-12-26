@@ -20,6 +20,8 @@ std::string Token::getTypeString() {
 		return "Integer";
 	case floatNumber:
 		return "Float";
+	case TokenString:
+		return "String";
 	case typeName:
 		return "Typename";
 	case importStmt:
@@ -36,6 +38,8 @@ std::string Token::getTypeString() {
 		return "Return";
 	case semicolon:
 		return "Semicolon";
+	case TokenDot:
+		return "Dot";
 	case curlyBracesOpen:
 		return "CurlyBraceOpen";
 	case curlyBracesClose:

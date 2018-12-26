@@ -9,7 +9,9 @@ enum DataType {
 	Float,
 	Bool,
 	Custom,
-	Error
+	Error,
+	Void,
+	String
 };
 
 DataType getType(Token * token);

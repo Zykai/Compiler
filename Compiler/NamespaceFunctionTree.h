@@ -1,28 +1,23 @@
 #pragma once
 
-#include <list>
-#include "ExpressionTree.h"
-#include "Token.h"
-#include "FunctionTree.h"
+#include "GetElementTree.h"
+#include "StandardLibrary.h"
 
-
-
-class GetElementTree : public ExpressionTree {
+class NamespaceFunctionTree : public GetElementTree {
 public:
-	GetElementTree(Token * name, std::list<ExpressionTree*> parameters) {
+	NamespaceFunctionTree(Token * nameSpace, Token * name, std::list<ExpressionTree*> parameters) {
+		this->nameSpace = nameSpace;
 		this->name = name;
 		this->parameters = parameters;
 	}
 
-	void output() override {
-		std::cout << "Function " << name->getValue() << " with " << parameters.size() << " parameters" << std::endl;
-		
-	}
-
 	DataType checkDatatype(ScopeHelper * s) override {
+		if (this->nameSpace->getValue() == "std") {
+			return StandardLibrary::getInstance()->checkErrors(this->name->getValue(), s, this->parameters);
+		}
 		// Work-around, since []-operator add values to map
 		auto map = *s->functions;
-		if (map.find(name->getValue()) == map.end()){
+		if (map.find(name->getValue()) == map.end()) {
 			std::cout << "ERROR function " << this->name->getValue() << " doesnt exist" << std::endl;
 			return Error;
 		}
@@ -46,8 +41,5 @@ public:
 
 	void writeCode(CodeGenerator * c) override;
 
-	Token * name;
-	std::list<ExpressionTree*> parameters;
-protected:
-	GetElementTree() {}
+	Token * nameSpace;
 };

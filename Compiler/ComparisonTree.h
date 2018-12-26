@@ -20,12 +20,18 @@ public:
 	DataType checkDatatype(ScopeHelper * s) override {
 		DataType leftType = this->left->checkDatatype(s);
 		DataType rightType = this->right->checkDatatype(s);
-		if (leftType == Error || leftType == Custom || leftType == Bool) return Error;
+		if (leftType == Error || rightType == Error || leftType == Custom || leftType == Bool) {
+			this->type = Error;
+			return Error;
+		}
 		else if (leftType == rightType) {
 			this->type = Bool;
 			return Bool;
 		}
-		else return Error;
+		else {
+			this->type = Error;
+			return Error;
+		}
 	}
 
 	void writeCode(CodeGenerator * c) override;

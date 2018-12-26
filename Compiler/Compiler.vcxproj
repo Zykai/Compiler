@@ -167,6 +167,7 @@
     <ClInclude Include="LexerTree.h" />
     <ClInclude Include="LogAndOrTree.h" />
     <ClInclude Include="MultiplicationTree.h" />
+    <ClInclude Include="NamespaceFunctionTree.h" />
     <ClInclude Include="OperationCodes.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="PostUnaryTree.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="SemanticAnalyser.h" />
     <ClInclude Include="SourceFile.h" />
     <ClInclude Include="ByteProgram.h" />
+    <ClInclude Include="StandardLibrary.h" />
     <ClInclude Include="StatementHeaders.h" />
     <ClInclude Include="StatementListTree.h" />
     <ClInclude Include="StatementTree.h" />
@@ -212,6 +214,7 @@
     <ClCompile Include="SemanticAnalysis.cpp" />
     <ClCompile Include="SourceFile.cpp" />
     <ClCompile Include="ByteProgram.cpp" />
+    <ClCompile Include="StandardLibrary.cpp" />
     <ClCompile Include="StatementGenerator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

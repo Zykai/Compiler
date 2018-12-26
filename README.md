@@ -21,3 +21,4 @@
 - when giving a type size, always give sizeof()
 - check parse function
 - add documentation for callFunction
+- add checkForError and writecode in namespacefunction

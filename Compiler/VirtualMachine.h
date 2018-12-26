@@ -14,6 +14,7 @@ public:
 private:
 	void callFunction(int position);
 	void returnFunction(int size);
+	void printString();
 	VmStack * stack;
 	ByteProgram * byteProgram;
 };

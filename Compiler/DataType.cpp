@@ -35,6 +35,7 @@ DataType getTypeForLiteral(Token * token) {
 	if (type == integerNumber) return Integer;
 	if (type == floatNumber) return Float;
 	if (type == identifier) return Custom;
+	if (type == TokenString) return String;
 	else return Error;
 }
 

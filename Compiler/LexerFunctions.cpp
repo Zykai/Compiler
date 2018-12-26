@@ -84,6 +84,7 @@ void Lexer::createStartFunction() {
 	startFunction['='] = std::bind(&Lexer::findAssignEqual, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	startFunction[';'] = [](std::string, int, int& currentChar) { return Token(semicolon, ";"); };
 	startFunction[','] = [](std::string, int, int& currentChar) { return Token(TokenComma, ","); };
+	startFunction['.'] = [](std::string, int, int& currentChar) { return Token(TokenDot, ";"); };
 	startFunction['('] = [](std::string, int, int& currentChar) { return Token(parentheseOpen, "("); };
 	startFunction[')'] = [](std::string, int, int& currentChar) { return Token(parentheseClose, ")"); };
 	startFunction['{'] = [](std::string, int, int& currentChar) { return Token(curlyBracesOpen, "{"); };
@@ -140,6 +141,17 @@ void Lexer::createStartFunction() {
 			return Token(logicalAndOr, "||");
 		}
 		return Token(errorToken, "|");
+	};
+	startFunction['"'] = [&](std::string line, int startChar, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		while (nextChar != '"') {
+			currentChar++;
+			nextChar = line.at(currentChar);
+		}
+		currentChar++;
+		std::string withSpecial = line.substr(startChar + 1, currentChar - startChar - 2);
+		std::string withoutSpecial = this->insertSpecialCharacters(withSpecial);
+		return Token(TokenString, withoutSpecial);
 	};
 }
 

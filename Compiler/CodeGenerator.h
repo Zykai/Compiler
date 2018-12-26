@@ -18,6 +18,7 @@ public:
 	void writeFloat(float value);
 	void writeLong(long value);
 	void writeBool(bool value);
+	void writeString(std::string value);
 	void writePrevInteger(int value, long position);
 	void writePrevByte(char value, long position);
 	void writeprevFloat(float value, long position);

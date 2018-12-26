@@ -306,7 +306,7 @@ ExpressionTree * Parser::getElement(){
 }
 
 ExpressionTree * Parser::value(){
-	if (match({ integerNumber, floatNumber })) {
+	if (match({ integerNumber, floatNumber, TokenString })) {
 		return new ValueTree(this->getPrevious());
 	}
 	else if (match({ identifier })) {

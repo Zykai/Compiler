@@ -18,7 +18,7 @@ namespace OpCode {
 		F_PRINT,
 		BY_PRINT,
 		BO_PRINT,
-
+		STR_PRINT,
 		// Integer memory operations
 		I_LOAD,
 		I_STORE,

@@ -39,19 +39,26 @@ StandardLibrary::StandardLibrary(){
 	this->codegenFunction["print"] = [&](CodeGenerator * c, std::list<ExpressionTree*> parameters) {
 		for (auto & p : parameters) {
 			DataType t = p->type;
-			p->writeCode(c);
 			switch (t) {
 			case Integer:
+				p->writeCode(c);
 				c->writeByte(OpCode::I_PRINT);
 				break;
 			case Float:
+				p->writeCode(c);
 				c->writeByte(OpCode::F_PRINT);
 				break;
 			case Byte:
+				p->writeCode(c);
 				c->writeByte(OpCode::BY_PRINT);
 				break;
 			case Bool:
+				p->writeCode(c);
 				c->writeByte(OpCode::BO_PRINT);
+				break;
+			case String:
+				c->writeByte(OpCode::STR_PRINT);
+				p->writeCode(c);
 				break;
 			default:
 				std::cout << "Error in code generation, illegal type" << std::endl;

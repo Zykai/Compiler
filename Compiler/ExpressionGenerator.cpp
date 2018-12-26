@@ -124,14 +124,18 @@ void ValueTree::writeCode(CodeGenerator * c){
 	}
 	// Constant values
 	else {
-		switch (this->value->getType()) {
-		case integerNumber:
+		switch (this->type) {
+		case Integer:
 			c->writeByte(OpCode::LOAD_CONSTANT_32);
 			c->writeInteger(std::stoi(this->value->getValue()));
 			break;
-		case floatNumber:
+		case Float:
 			c->writeByte(OpCode::LOAD_CONSTANT_32);
 			c->writeFloat(std::stof(this->value->getValue()));
+			break;
+		case String:
+			c->writeString(this->value->getValue());
+			std::cout << "TEST\n";
 			break;
 		/*
 		case byteNumber:

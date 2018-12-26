@@ -92,6 +92,12 @@ void VirtualMachine::returnFunction(int size){
 	this->stack->pushBytes(returnBytes, size);
 }
 
+void VirtualMachine::printString(){
+	for (char c = this->byteProgram->getNextChar(); c != '\0'; c = this->byteProgram->getNextChar()) {
+		std::cout << c;
+	}
+}
+
 void VirtualMachine::executeProgram(){
 	std::cout << "------------Starting Program------------" << std::endl;
 	
@@ -150,16 +156,19 @@ void VirtualMachine::executeProgram(){
 			this->stack->pushBytes(this->byteProgram->getNextBytes(1), 1);
 			break;
 		case OpCode::I_PRINT:
-			std::cout << this->stack->popInt() << std::endl;
+			std::cout << this->stack->popInt();
 			break;
 		case OpCode::F_PRINT:
-			std::cout << this->stack->popFloat() << std::endl;
+			std::cout << this->stack->popFloat();
 			break;
 		case OpCode::BY_PRINT:
-			std::cout << this->stack->popByte() << std::endl;
+			std::cout << this->stack->popByte();
 			break;
 		case OpCode::BO_PRINT:
-			std::cout << (this->stack->popBool() ? "true" : "false") << std::endl;
+			std::cout << (this->stack->popBool() ? "true" : "false");
+			break;
+		case OpCode::STR_PRINT:
+			this->printString();
 			break;
 		case OpCode::I_LOAD:
 			this->stack->pushInt(this->stack->loadInt(this->byteProgram->getNextInt()));
@@ -325,5 +334,5 @@ void VirtualMachine::executeProgram(){
 			exit(1);
 		}
 	}
-	std::cout << "-------------Ending Program-------------" << std::endl;
+	std::cout << "\n-------------Ending Program-------------" << std::endl;
 }

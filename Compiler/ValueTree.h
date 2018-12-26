@@ -29,7 +29,11 @@ public:
 				return Error;
 			}
 		}
-		return getTypeForLiteral(this->value);
+		else {
+			DataType t = getTypeForLiteral(this->value);
+			this->type = t;
+			return t;
+		}
 	}
 
 	void writeCode(CodeGenerator * c) override;

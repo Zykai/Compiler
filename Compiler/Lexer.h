@@ -22,6 +22,7 @@ private:
 	void createStartFunction();
 	void analyzeLine(std::string & line);
 	bool noError;
+	std::string insertSpecialCharacters(std::string s);
 public:
 	std::function<Token(std::string, int, int & currentChar)> startFunction[128];
 	Token findId(std::string line, int startChar, int & currentChar), findInteger(std::string line, int startChar, int & currentChar), findFloat(std::string line, int startChar, int & currentChar), findIntImport(std::string line, int startChar, int & currentChar),

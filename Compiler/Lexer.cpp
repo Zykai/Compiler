@@ -60,3 +60,68 @@ void Lexer::analyzeLine(std::string & line) {
 	}
 	std::cout << "Line finished" << std::endl;
 }
+
+std::string Lexer::insertSpecialCharacters(std::string s){
+	/*
+	int count = 0;
+	for (int i = 0; i < s.size(); i++) {
+		if(s.at(i) == '\\') {
+			count++;
+			i++; // to allow for double backslash
+		}
+	}
+	char * newString = new char[s.size() - count];
+	std::string test = std::string();
+	test.reserve(s.size() - count);
+	int c = test.size();
+	int sPos = 0;
+	for (int i = 0; i < s.size() - count; i++, sPos++) {
+		char current = s.at(sPos);
+		if (s.at(sPos) == '\\') {
+			sPos++;
+			switch (s.at(sPos)) {
+			case '\\':
+				newString[i] = '\\';
+				break;
+			case 'n':
+				newString[i] = 0x0a;
+				break;
+			case 't':
+				newString[i] = '\t';
+				break;
+			default:
+				std::cout << "Unknown special character, using normal char instead" << std::endl;
+			}
+		}
+		else {
+			newString[i] = s.at(sPos);
+			char n = newString[i];
+			std::cout << "placeholder\n";
+		}
+	}
+	return std::string(newString);
+	*/
+	std::string test = "";
+	for (int i = 0; i < s.size(); i++) {
+		if (s.at(i) == '\\') {
+			i++;
+			switch (s.at(i)) {
+			case '\\':
+				test += '\\';
+				break;
+			case 'n':
+				test += '\n';
+				break;
+			case 't':
+				test += '\t';
+				break;
+			default:
+				std::cout << "Unknown special character, using normal char instead" << std::endl;
+			}
+		}
+		else {
+			test += s.at(i);
+		}
+	}
+	return test;
+}

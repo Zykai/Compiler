@@ -1,30 +1,22 @@
 import test;
 import file;
 
-int vier = 4;
-int eins = 1;
-int zwei = 2;
-int hundert = 100;
+int vier = 23;
 
-int test(int x, float y){
-	x = 3 + 2;
-	if(x == 0){
+int fib(int num){
+	if( num <= 1){
 		return 1;
 	}
 	else{
-		int i = 0;
-		int a = 0;
-		for(a = 0; i < x; i++){
-			a = a + i;
-		}
-		return a;
+		return fib(num - 1) + fib(num - 2);
 	}
 }
 
-int main (int arg){
-	int a = 0;
-	for(a = 4; a < 10; a = a+1){
-		21;
+int main (int i){
+	i = 0;
+	for(i = 0; i < 10; i = i + 1){
+		std.print("Die ", i, ". Fibonacci-Zahl ist ", fib(i), "\n");
 	}
-	return a;
+	return 0;
 }
+

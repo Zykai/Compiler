@@ -13,14 +13,6 @@ void Parser::setTokenList(std::list<Token> * list) {
 	this->currentElement = this->tokenList->begin();
 }
 
-void Parser::startParsing() {
-	while (this->currentElement != this->tokenList->end()) {
-		std::cout << getCurrent()->getDescription() << std::endl;
-		currentElement++;
-	}
-	this->currentElement = this->tokenList->begin();
-}
-
 bool Parser::match(std::initializer_list<Tokentype> possibleTypes){
 	Token * currentToken = this->getCurrent();
 	//std::cout << "TO MATCH: " << currentToken->getTypeString() << "  ";
@@ -95,7 +87,8 @@ void Parser::parseGlobals(ProgramTree * program){
 }
 
 void Parser::parseGlobal(ProgramTree * program, std::string name, DataType dataType){
-	Token * value = this->literalValue();
+	Token * value = nullptr;
+	 value = this->literalValue();
 	this->parseSemicolon();
 	VariableTree * newVar = new VariableTree(value, dataType, this->getOffset(dataType));
 	program->variables.emplace_back(std::make_pair(name, newVar));

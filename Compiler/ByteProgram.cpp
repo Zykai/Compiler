@@ -74,6 +74,7 @@ long ByteProgram::getLongAt(int position){
 }
 
 void ByteProgram::output(){
+	std::cout << "The file size is " << this->stackSize << " bytes" << std::endl;
 	for (int i = 0; i < this->stackSize; i++) {
 		std::cout << (int)data[i] << " ";
 	}

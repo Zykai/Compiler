@@ -1,5 +1,4 @@
 #pragma once
-class test{};
 
 class ByteProgram {
 public:

@@ -10,7 +10,6 @@ ScopeHelper::ScopeHelper(){
 void ScopeHelper::setGlobalScope(std::list<std::pair<std::string, VariableTree*>>* variables){
 	this->currentScope = new Scope(nullptr);
 	for (std::pair<std::string, VariableTree*> p : *variables) {
-		std::cout << "Added var " << p.first << " to scope" << std::endl;
 		currentScope->variables.emplace(p.first, new std::pair<DataType, int>(p.second->type, p.second->offset));
 	}
 }

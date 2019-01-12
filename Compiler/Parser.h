@@ -10,7 +10,6 @@ class Parser {
 public:
 	Parser();
 	void setTokenList(std::list<Token>* list);
-	void startParsing();
 
 
 	ProgramTree * parseProgram();

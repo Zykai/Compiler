@@ -8,7 +8,6 @@ void ProgramTree::writeCode(CodeGenerator * c) {
 	c->writeInteger(0); // placeholder, becomes location of main function once known
 	for (auto a : this->variables) {
 		VariableTree * var = a.second;
-		std::cout << a.first << "  offset: " << var->offset << std::endl;
 		switch (var->type) {
 		case Integer:
 			c->writeInteger(std::stoi(var->value->getValue()));

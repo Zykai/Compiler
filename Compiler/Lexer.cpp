@@ -4,8 +4,7 @@
 #include <cctype>
 
 std::list<Token> Lexer::getTokenList() {
-	using namespace std;
-	list<Token> allTokenList = list<Token>();
+	std::list<Token> allTokenList = std::list<Token>();
 
 	for (std::string &s : this->source->textList) {
 		getLineToken(s, allTokenList);

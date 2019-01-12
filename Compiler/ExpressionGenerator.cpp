@@ -8,7 +8,6 @@ void AdditionTree::writeCode(CodeGenerator * c){
 	this->right->writeCode(c);
 	this->left->writeCode(c);
 	unsigned char opcode = this->type == Integer ? OpCode::I_ADD : this->type == Float ? OpCode::F_ADD : OpCode::BY_ADD;
-	std::cout << "OPERATOR: " << this->addOperator->getValue() << std::endl;
 	if (this->addOperator->getValue() == "-") opcode++; // Because sub opcode is ALWAYS directly after add opcode
 	c->writeByte(opcode);
 }
@@ -135,7 +134,6 @@ void ValueTree::writeCode(CodeGenerator * c){
 			break;
 		case String:
 			c->writeString(this->value->getValue());
-			std::cout << "TEST\n";
 			break;
 		/*
 		case byteNumber:

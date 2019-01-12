@@ -5,17 +5,16 @@
 #include <math.h>
 #include "OperationCodes.h"
 
-VirtualMachine::VirtualMachine(std::string name){
+VirtualMachine::VirtualMachine(std::string name, long long int maxOperations, bool writeToFile){
 	std::streampos size;
 	char * data;
-	std::ifstream bytecodeFile = std::ifstream(name, std::ios::in | std::ios::binary | std::ios::ate);
+	std::ifstream bytecodeFile = std::ifstream(name + "c", std::ios::in | std::ios::binary | std::ios::ate);
 	if (bytecodeFile.is_open()) {
 		size = bytecodeFile.tellg();
 		data = new char[size];
 		bytecodeFile.seekg(0, std::ios::beg);
 		bytecodeFile.read(data, size);
 		bytecodeFile.close();
-		std::cout << "The file size is " << size << " bytes" << std::endl;
 		this->byteProgram = new ByteProgram(data, size);
 		this->stack = new VmStack(sizeof(char) * 1024 * 1024 * 2); // ->2MB
 	}
@@ -24,17 +23,27 @@ VirtualMachine::VirtualMachine(std::string name){
 		system("pause");
 		exit(1);
 	}
+	this->writeToFile = writeToFile;
+	if (writeToFile) {
+		std::ostream * file = new std::fstream(name.substr(0, name.length() - 2) + ".txt", std::ios::out);
+		this->out = file;
+	}
+	else {
+		this->out = &std::cout;
+	}
+	this->maxOperations = maxOperations;
+	this->notFinished = true;
 }
 
 VirtualMachine::~VirtualMachine(){
 	delete this->stack;
 	delete this->byteProgram;
+	if (this->writeToFile) delete this->out;
 }
 
 void VirtualMachine::output() {
 	this->byteProgram->output();
 }
-
 
 void VirtualMachine::callFunction(int position){
 	int prevProgramPointer = this->byteProgram->getPosition();
@@ -94,7 +103,7 @@ void VirtualMachine::returnFunction(int size){
 
 void VirtualMachine::printString(){
 	for (char c = this->byteProgram->getNextChar(); c != '\0'; c = this->byteProgram->getNextChar()) {
-		std::cout << c;
+		*out << c;
 	}
 }
 
@@ -110,229 +119,254 @@ void VirtualMachine::executeProgram(){
 	this->stack->setBottomPointer(0);
 	this->stack->setStackPointer(functionSpace);
 	
-
-	bool notFinished = true;
-	while (notFinished) {
-		char opcode = this->byteProgram->getNextOpCode();
-		switch (opcode) {
-		case OpCode::JMP:
-			this->byteProgram->setPosition(this->byteProgram->getNextInt());
-			break;
-		case OpCode::JMP_TRUE:
-			if(this->stack->popBool()) this->byteProgram->setPosition(this->byteProgram->getNextInt());
-			else this->byteProgram->getNextInt(); // to prevent vm from interpreting jmp position as opcode
-			break;
-		case OpCode::JMP_FALSE:
-			if (!this->stack->popBool()) this->byteProgram->setPosition(this->byteProgram->getNextInt());
-			else this->byteProgram->getNextInt(); // to prevent vm from interpreting jmp position as opcode
-			break;
-		case OpCode::CALL_FUNCTION:
-			this->callFunction(this->byteProgram->getNextInt());
-			break;
-		case OpCode::RETURN:
-			break;
-		case OpCode::RETURN_32:
-			if (this->stack->getBottomPointer() != 0) { // main without recursion
-				this->returnFunction(4);
+	long long int maxCopy = maxOperations;
+	if (maxOperations > 0) {
+		bool forced = false;
+		while (notFinished) {
+			if (maxOperations-- == 0) {
+				
+				forced = true;
+				break;
 			}
-			else {
-				notFinished = false;
-			}
-			break;
-		case OpCode::FUNCTION_END:
-			std::cout << "Tried to access code after end of current function." << std::endl
-				<< "This is usually caused by a missing return statement" << std::endl
-				<< "--->Terminating program" << std::endl;
-			system("pause");
-			exit(1);
-			break;
-		case OpCode::LOAD_GLOBAL_32:
-			break;
-		case OpCode::LOAD_CONSTANT_32:
-			this->stack->pushBytes(this->byteProgram->getNextBytes(4), 4);
-			//this->stack->pushInt(this->byteProgram->getNextInt());
-			break;
-		case OpCode::LOAD_CONSTANT_8:
-			this->stack->pushBytes(this->byteProgram->getNextBytes(1), 1);
-			break;
-		case OpCode::I_PRINT:
-			std::cout << this->stack->popInt();
-			break;
-		case OpCode::F_PRINT:
-			std::cout << this->stack->popFloat();
-			break;
-		case OpCode::BY_PRINT:
-			std::cout << this->stack->popByte();
-			break;
-		case OpCode::BO_PRINT:
-			std::cout << (this->stack->popBool() ? "true" : "false");
-			break;
-		case OpCode::STR_PRINT:
-			this->printString();
-			break;
-		case OpCode::I_LOAD:
-			this->stack->pushInt(this->stack->loadInt(this->byteProgram->getNextInt()));
-			break;
-		case OpCode::I_STORE:
-			this->stack->storeInt(this->stack->popInt(), this->byteProgram->getNextInt());
-			break;
-		case OpCode::I_ADD:
-			this->stack->pushInt(this->stack->popInt() + this->stack->popInt());
-			break;
-		case OpCode::I_SUB:
-			this->stack->pushInt(this->stack->popInt() - this->stack->popInt());
-			break;
-		case OpCode::I_MUL:
-			
-			this->stack->pushInt(this->stack->popInt() * this->stack->popInt());
-			break;
-		case OpCode::I_DIV:
-			this->stack->pushInt(this->stack->popInt() / this->stack->popInt());
-			break;
-		case OpCode::I_MOD:
-			this->stack->pushInt(this->stack->popInt() %  this->stack->popInt());
-			break;
-		case OpCode::I_INC:
-			break;
-		case OpCode::I_LESS_THAN:
-			this->stack->pushBool(this->stack->popInt() < this->stack->popInt());
-			break;
-		case OpCode::I_LESS_EQUAL:
-			this->stack->pushBool(this->stack->popInt() <= this->stack->popInt());
-			break;
-		case OpCode::I_BIGGER_THAN:
-			this->stack->pushBool(this->stack->popInt() > this->stack->popInt());
-			break;
-		case OpCode::I_Bigger_EQUAL:
-			this->stack->pushBool(this->stack->popInt() >= this->stack->popInt());
-			break;
-		case OpCode::I_EQUAL:
-			this->stack->pushBool(this->stack->popInt() == this->stack->popInt());
-			break;
-		case OpCode::I_NOT_EQUAL:
-			this->stack->pushBool(this->stack->popInt() != this->stack->popInt());
-			break;
-		case OpCode::I_FROM_F:
-			this->stack->pushInt(static_cast<int>(this->stack->popFloat()));
-			break;
-		case OpCode::F_LOAD:
-			this->stack->pushFloat(this->stack->loadFloat(this->byteProgram->getNextInt()));
-			break;
-		case OpCode::F_STORE:
-			this->stack->storeFloat(this->stack->popFloat(), this->byteProgram->getNextInt());
-			break;
-		case OpCode::F_ADD:
-			this->stack->pushFloat(this->stack->popFloat() + this->stack->popFloat());
-			break;
-		case OpCode::F_SUB:
-			this->stack->pushFloat(this->stack->popFloat() - this->stack->popFloat());
-			break;
-		case OpCode::F_MUL:
-			this->stack->pushFloat(this->stack->popFloat() * this->stack->popFloat());
-			break;
-		case OpCode::F_DIV:
-			this->stack->pushFloat(this->stack->popFloat() / this->stack->popFloat());
-			break;
-		case OpCode::F_MOD:
-			this->stack->pushFloat(std::fmod(this->stack->popFloat(), this->stack->popFloat()));
-			break;
-		case OpCode::F_INC:
-			break;
-		case OpCode::F_LESS_THAN:
-			this->stack->pushBool(this->stack->popFloat() < this->stack->popFloat());
-			break;
-		case OpCode::F_LESS_EQUAL:
-			this->stack->pushBool(this->stack->popFloat() <= this->stack->popFloat());
-			break;
-		case OpCode::F_BIGGER_THAN:
-			this->stack->pushBool(this->stack->popFloat() > this->stack->popFloat());
-			break;
-		case OpCode::F_Bigger_EQUAL:
-			this->stack->pushBool(this->stack->popFloat() >= this->stack->popFloat());
-			break;
-		case OpCode::F_EQUAL:
-			this->stack->pushBool(this->stack->popFloat() == this->stack->popFloat());
-			break;
-		case OpCode::F_NOT_EQUAL:
-			this->stack->pushBool(this->stack->popFloat() != this->stack->popFloat());
-			break;
-		case OpCode::F_FROM_I:
-			this->stack->pushFloat(static_cast<float>(this->stack->popInt()));
-			break;
-		case OpCode::BY_LOAD:
-			this->stack->pushByte(this->stack->loadChar(this->byteProgram->getNextInt()));
-			break;
-		case OpCode::BY_STORE:
-			this->stack->storeChar(this->stack->popByte(), this->byteProgram->getNextInt());
-			break;
-		case OpCode::BY_ADD:
-			this->stack->pushByte(this->stack->popByte() + this->stack->popByte());
-			break;
-		case OpCode::BY_SUB:
-			this->stack->pushByte(this->stack->popByte() - this->stack->popByte());
-			break;
-		case OpCode::BY_MUL:
-			this->stack->pushByte(this->stack->popByte() * this->stack->popByte());
-			break;
-		case OpCode::BY_DIV:
-			this->stack->pushByte(this->stack->popByte() / this->stack->popByte());
-			break;
-		case OpCode::BY_MOD:
-			this->stack->pushByte(this->stack->popByte() % this->stack->popByte());
-			break;
-		case OpCode::BY_INC:
-			break;
-		case OpCode::BY_LESS_THAN:
-			this->stack->pushBool(this->stack->popByte() < this->stack->popByte());
-			break;
-		case OpCode::BY_LESS_EQUAL:
-			this->stack->pushBool(this->stack->popByte() <= this->stack->popByte());
-			break;
-		case OpCode::BY_BIGGER_THAN:
-			this->stack->pushBool(this->stack->popByte() > this->stack->popByte());
-			break;
-		case OpCode::BY_Bigger_EQUAL:
-			this->stack->pushBool(this->stack->popByte() >= this->stack->popByte());
-			break;
-		case OpCode::BY_EQUAL:
-			this->stack->pushBool(this->stack->popByte() == this->stack->popByte());
-			break;
-		case OpCode::BY_NOT_EQUAL:
-			this->stack->pushBool(this->stack->popByte() != this->stack->popByte());
-			break;
-		case OpCode::BO_LOAD:
-			this->stack->pushBool(this->stack->loadBool(this->byteProgram->getNextInt()));
-			break;
-		case OpCode::BO_STORE:
-			this->stack->storeBool(this->stack->popBool(), this->byteProgram->getNextInt());
-			break;
-		case OpCode::BO_EQUAL:
-			this->stack->pushBool(this->stack->popBool() == this->stack->popBool());
-			break;
-		case OpCode::BO_NOT_EQUAL:
-			this->stack->pushBool(this->stack->popBool() != this->stack->popBool());
-			break;
-		case OpCode::BO_AND:
-			this->stack->pushBool(this->stack->popBool() && this->stack->popBool());
-			break;
-		case OpCode::BO_OR:
-			this->stack->pushBool(this->stack->popBool() || this->stack->popBool());
-			break;
-		case OpCode::BO_XOR:
-			this->stack->pushBool(this->stack->popBool() | this->stack->popBool());
-			break;
-		case OpCode::BO_NEGATE:
-			this->stack->pushBool(!this->stack->popBool());
-			break;
-		case OpCode::BO_FROM_I:
-			this->stack->pushBool(!this->stack->popInt());
-			break;
-		case OpCode::BO_FROM_F:
-			this->stack->pushBool(!this->stack->popFloat());
-		default:
-			std::cout << "ERROR: unknown/not implemented operation code " << (int)opcode << std::endl;
-			exit(1);
+			this->executeCommand();
+		}
+		if (forced) {
+			*out << "Program forced to terminate after reaching allowed maximum number of operations (" << maxCopy << ")" << std::endl;
+		}
+		else {
+			std::cout << "Program terminated after " << maxCopy - maxOperations << " byte-code operations" << std::endl;
 		}
 	}
-	std::cout << "\n-------------Ending Program-------------" << std::endl;
+	else {
+		long long int count = 0;
+		while (notFinished) {
+			this->executeCommand();
+			count++;
+		}
+		std::cout << "Program terminated after " << count << " byte-code operations" << std::endl;
+	}
+	std::cout << "-------------Ending Program-------------" << std::endl;
+}
+
+void VirtualMachine::executeCommand(){
+	char opcode = this->byteProgram->getNextOpCode();
+	switch (opcode) {
+	case OpCode::JMP:
+		this->byteProgram->setPosition(this->byteProgram->getNextInt());
+		break;
+	case OpCode::JMP_TRUE:
+		if (this->stack->popBool()) this->byteProgram->setPosition(this->byteProgram->getNextInt());
+		else this->byteProgram->getNextInt(); // to prevent vm from interpreting jmp position as opcode
+		break;
+	case OpCode::JMP_FALSE:
+		if (!this->stack->popBool()) this->byteProgram->setPosition(this->byteProgram->getNextInt());
+		else this->byteProgram->getNextInt(); // to prevent vm from interpreting jmp position as opcode
+		break;
+	case OpCode::CALL_FUNCTION:
+		this->callFunction(this->byteProgram->getNextInt());
+		break;
+	case OpCode::RETURN:
+		break;
+	case OpCode::RETURN_32:
+		if (this->stack->getBottomPointer() != 0) { // main without recursion
+			this->returnFunction(4);
+		}
+		else {
+			notFinished = false;
+		}
+		break;
+	case OpCode::FUNCTION_END:
+		*out << "Tried to access code after end of current function." << std::endl
+			<< "This is usually caused by a missing return statement" << std::endl
+			<< "--->Terminating program" << std::endl;
+		system("pause");
+		exit(1);
+		break;
+	case OpCode::LOAD_GLOBAL_32:
+		break;
+	case OpCode::LOAD_CONSTANT_32:
+		this->stack->pushBytes(this->byteProgram->getNextBytes(4), 4);
+		//this->stack->pushInt(this->byteProgram->getNextInt());
+		break;
+	case OpCode::LOAD_CONSTANT_8:
+		this->stack->pushBytes(this->byteProgram->getNextBytes(1), 1);
+		break;
+	case OpCode::I_PRINT:
+		*out << this->stack->popInt();
+		break;
+	case OpCode::F_PRINT:
+		*out << this->stack->popFloat();
+		break;
+	case OpCode::BY_PRINT:
+		*out << this->stack->popByte();
+		break;
+	case OpCode::BO_PRINT:
+		*out << (this->stack->popBool() ? "true" : "false");
+		break;
+	case OpCode::STR_PRINT:
+		this->printString();
+		break;
+	case OpCode::I_LOAD:
+		this->stack->pushInt(this->stack->loadInt(this->byteProgram->getNextInt()));
+		break;
+	case OpCode::I_STORE:
+		this->stack->storeInt(this->stack->popInt(), this->byteProgram->getNextInt());
+		break;
+	case OpCode::I_ADD:
+		this->stack->pushInt(this->stack->popInt() + this->stack->popInt());
+		break;
+	case OpCode::I_SUB:
+		this->stack->pushInt(this->stack->popInt() - this->stack->popInt());
+		break;
+	case OpCode::I_MUL:
+
+		this->stack->pushInt(this->stack->popInt() * this->stack->popInt());
+		break;
+	case OpCode::I_DIV:
+		this->stack->pushInt(this->stack->popInt() / this->stack->popInt());
+		break;
+	case OpCode::I_MOD:
+		this->stack->pushInt(this->stack->popInt() % this->stack->popInt());
+		break;
+	case OpCode::I_INC:
+		break;
+	case OpCode::I_LESS_THAN:
+		this->stack->pushBool(this->stack->popInt() < this->stack->popInt());
+		break;
+	case OpCode::I_LESS_EQUAL:
+		this->stack->pushBool(this->stack->popInt() <= this->stack->popInt());
+		break;
+	case OpCode::I_BIGGER_THAN:
+		this->stack->pushBool(this->stack->popInt() > this->stack->popInt());
+		break;
+	case OpCode::I_Bigger_EQUAL:
+		this->stack->pushBool(this->stack->popInt() >= this->stack->popInt());
+		break;
+	case OpCode::I_EQUAL:
+		this->stack->pushBool(this->stack->popInt() == this->stack->popInt());
+		break;
+	case OpCode::I_NOT_EQUAL:
+		this->stack->pushBool(this->stack->popInt() != this->stack->popInt());
+		break;
+	case OpCode::I_FROM_F:
+		this->stack->pushInt(static_cast<int>(this->stack->popFloat()));
+		break;
+	case OpCode::F_LOAD:
+		this->stack->pushFloat(this->stack->loadFloat(this->byteProgram->getNextInt()));
+		break;
+	case OpCode::F_STORE:
+		this->stack->storeFloat(this->stack->popFloat(), this->byteProgram->getNextInt());
+		break;
+	case OpCode::F_ADD:
+		this->stack->pushFloat(this->stack->popFloat() + this->stack->popFloat());
+		break;
+	case OpCode::F_SUB:
+		this->stack->pushFloat(this->stack->popFloat() - this->stack->popFloat());
+		break;
+	case OpCode::F_MUL:
+		this->stack->pushFloat(this->stack->popFloat() * this->stack->popFloat());
+		break;
+	case OpCode::F_DIV:
+		this->stack->pushFloat(this->stack->popFloat() / this->stack->popFloat());
+		break;
+	case OpCode::F_MOD:
+		this->stack->pushFloat(std::fmod(this->stack->popFloat(), this->stack->popFloat()));
+		break;
+	case OpCode::F_INC:
+		break;
+	case OpCode::F_LESS_THAN:
+		this->stack->pushBool(this->stack->popFloat() < this->stack->popFloat());
+		break;
+	case OpCode::F_LESS_EQUAL:
+		this->stack->pushBool(this->stack->popFloat() <= this->stack->popFloat());
+		break;
+	case OpCode::F_BIGGER_THAN:
+		this->stack->pushBool(this->stack->popFloat() > this->stack->popFloat());
+		break;
+	case OpCode::F_Bigger_EQUAL:
+		this->stack->pushBool(this->stack->popFloat() >= this->stack->popFloat());
+		break;
+	case OpCode::F_EQUAL:
+		this->stack->pushBool(this->stack->popFloat() == this->stack->popFloat());
+		break;
+	case OpCode::F_NOT_EQUAL:
+		this->stack->pushBool(this->stack->popFloat() != this->stack->popFloat());
+		break;
+	case OpCode::F_FROM_I:
+		this->stack->pushFloat(static_cast<float>(this->stack->popInt()));
+		break;
+	case OpCode::BY_LOAD:
+		this->stack->pushByte(this->stack->loadChar(this->byteProgram->getNextInt()));
+		break;
+	case OpCode::BY_STORE:
+		this->stack->storeChar(this->stack->popByte(), this->byteProgram->getNextInt());
+		break;
+	case OpCode::BY_ADD:
+		this->stack->pushByte(this->stack->popByte() + this->stack->popByte());
+		break;
+	case OpCode::BY_SUB:
+		this->stack->pushByte(this->stack->popByte() - this->stack->popByte());
+		break;
+	case OpCode::BY_MUL:
+		this->stack->pushByte(this->stack->popByte() * this->stack->popByte());
+		break;
+	case OpCode::BY_DIV:
+		this->stack->pushByte(this->stack->popByte() / this->stack->popByte());
+		break;
+	case OpCode::BY_MOD:
+		this->stack->pushByte(this->stack->popByte() % this->stack->popByte());
+		break;
+	case OpCode::BY_INC:
+		break;
+	case OpCode::BY_LESS_THAN:
+		this->stack->pushBool(this->stack->popByte() < this->stack->popByte());
+		break;
+	case OpCode::BY_LESS_EQUAL:
+		this->stack->pushBool(this->stack->popByte() <= this->stack->popByte());
+		break;
+	case OpCode::BY_BIGGER_THAN:
+		this->stack->pushBool(this->stack->popByte() > this->stack->popByte());
+		break;
+	case OpCode::BY_Bigger_EQUAL:
+		this->stack->pushBool(this->stack->popByte() >= this->stack->popByte());
+		break;
+	case OpCode::BY_EQUAL:
+		this->stack->pushBool(this->stack->popByte() == this->stack->popByte());
+		break;
+	case OpCode::BY_NOT_EQUAL:
+		this->stack->pushBool(this->stack->popByte() != this->stack->popByte());
+		break;
+	case OpCode::BO_LOAD:
+		this->stack->pushBool(this->stack->loadBool(this->byteProgram->getNextInt()));
+		break;
+	case OpCode::BO_STORE:
+		this->stack->storeBool(this->stack->popBool(), this->byteProgram->getNextInt());
+		break;
+	case OpCode::BO_EQUAL:
+		this->stack->pushBool(this->stack->popBool() == this->stack->popBool());
+		break;
+	case OpCode::BO_NOT_EQUAL:
+		this->stack->pushBool(this->stack->popBool() != this->stack->popBool());
+		break;
+	case OpCode::BO_AND:
+		this->stack->pushBool(this->stack->popBool() && this->stack->popBool());
+		break;
+	case OpCode::BO_OR:
+		this->stack->pushBool(this->stack->popBool() || this->stack->popBool());
+		break;
+	case OpCode::BO_XOR:
+		this->stack->pushBool(this->stack->popBool() | this->stack->popBool());
+		break;
+	case OpCode::BO_NEGATE:
+		this->stack->pushBool(!this->stack->popBool());
+		break;
+	case OpCode::BO_FROM_I:
+		this->stack->pushBool(!this->stack->popInt());
+		break;
+	case OpCode::BO_FROM_F:
+		this->stack->pushBool(!this->stack->popFloat());
+	default:
+		*out << "ERROR: unknown/not implemented operation code " << (int)opcode << std::endl;
+		exit(1);
+	}
 }

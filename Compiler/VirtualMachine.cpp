@@ -185,8 +185,8 @@ void VirtualMachine::executeCommand(){
 	case OpCode::LOAD_GLOBAL_32:
 		break;
 	case OpCode::LOAD_CONSTANT_32:
-		this->stack->pushBytes(this->byteProgram->getNextBytes(4), 4);
-		//this->stack->pushInt(this->byteProgram->getNextInt());
+		//this->stack->pushBytes(this->byteProgram->getNextBytes(4), 4);
+		this->stack->pushInt(this->byteProgram->getNextInt());
 		break;
 	case OpCode::LOAD_CONSTANT_8:
 		this->stack->pushBytes(this->byteProgram->getNextBytes(1), 1);

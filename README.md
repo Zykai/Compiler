@@ -22,3 +22,6 @@
 - check parse function
 - add documentation for callFunction
 - add checkForError and writecode in namespacefunction
+- use memcpy directly without getBytes
+- float variables dont work (should be removed, needs testing)
+- checkforerrors: inclusive typechecking

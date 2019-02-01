@@ -99,9 +99,9 @@ void Lexer::createStartFunction() {
 		}
 		return Token(TokenPlus, "+");
 	};
-	startFunction['-'] = [](std::string, int, int& currentChar) { return Token(TokenMinus, "-"); };
+	startFunction['-'] = [](std::string, int, int& currentChar) { return Token(TokenPlus, "-"); };
 	startFunction['*'] = [](std::string, int, int& currentChar) { return Token(TokenMultiply, "*"); };
-	startFunction['/'] = [](std::string, int, int& currentChar) { return Token(TokenDivide, "/"); };
+	startFunction['/'] = [](std::string, int, int& currentChar) { return Token(TokenMultiply, "/"); };
 	startFunction['<'] = [](std::string line, int, int& currentChar) {
 		char nextChar = line.at(currentChar);
 		if (nextChar == '=') {

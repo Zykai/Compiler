@@ -56,12 +56,8 @@ std::string Token::getTypeString() {
 		return "AssignmentOperator";
 	case TokenPlus:
 		return "Plus";
-	case TokenMinus:
-		return "Minus";
 	case TokenMultiply:
 		return "Multiply";
-	case TokenDivide:
-		return "Divide";
 	case logicalEqual:
 		return "LogicalOperator";
 	case logicalAndOr:

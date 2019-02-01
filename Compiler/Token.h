@@ -3,22 +3,18 @@
 
 // enumerator for each differen type of token
 enum Tokentype {
-	includeStatement,
 	parentheseOpen,
 	parentheseClose,
 	curlyBracesOpen,
 	curlyBracesClose,
 	TokenSquareBracketOpen,
 	TokenSquareBracketClose,
-	arithmeticOperator,
 	logicalEqual,
 	logicalAndOr,
 	logicalComparison,
 	TokenNegate,
 	TokenPlus,
-	TokenMinus,
 	TokenMultiply,
-	TokenDivide,
 	assignOperator,
 	identifier,
 	semicolon,

@@ -166,6 +166,13 @@ void VirtualMachine::executeCommand(){
 		this->callFunction(this->byteProgram->getNextInt());
 		break;
 	case OpCode::RETURN:
+		this->returnFunction(0);
+		break;
+	case OpCode::RETURN_8:
+		this->returnFunction(1);
+		break;
+	case OpCode::RETURN_16:
+		this->returnFunction(2);
 		break;
 	case OpCode::RETURN_32:
 		if (this->stack->getBottomPointer() != 0) { // main without recursion
@@ -181,6 +188,9 @@ void VirtualMachine::executeCommand(){
 			<< "--->Terminating program" << std::endl;
 		system("pause");
 		exit(1);
+		break;
+	case OpCode::ERROR:
+		*out << "Encountered an error that should never happen in a compiled program; should be caused by a compiler error";
 		break;
 	case OpCode::LOAD_GLOBAL_32:
 		break;

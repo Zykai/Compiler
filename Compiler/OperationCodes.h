@@ -8,8 +8,11 @@ namespace OpCode {
 		JMP_FALSE,
 		CALL_FUNCTION,
 		RETURN, // void functions
+		RETURN_8, // byte, bool
+		RETURN_16, // short
 		RETURN_32, // integer, float functions
 		FUNCTION_END, // to stop functions with no return statement
+		ERROR, // should never be called in a compiled program
 		LOAD_GLOBAL_32,
 		LOAD_CONSTANT_32,
 		LOAD_CONSTANT_8,

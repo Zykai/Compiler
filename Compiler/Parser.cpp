@@ -210,6 +210,9 @@ StatementTree * Parser::ifStatement(){
 }
 
 StatementTree * Parser::returnStatement(){
+	if (match({ semicolon })) {
+		return new ReturnStatementTree(nullptr);
+	}
 	ExpressionTree * expr = this->parseExpression();
 	this->parseSemicolon();
 	return new ReturnStatementTree(expr);

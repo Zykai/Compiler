@@ -74,6 +74,30 @@ void IfStatementTree::writeCode(CodeGenerator * c){
 
 void ReturnStatementTree::writeCode(CodeGenerator * c){
 	this->expr->writeCode(c);
+	char cmd;
+	switch (this->expr->type) {
+	case Byte:
+		cmd = OpCode::RETURN_8;
+		break;
+	case Short:
+		cmd = OpCode::RETURN_16;
+		break;
+	case Integer:
+		cmd = OpCode::RETURN_32;
+		break;
+	case Float:
+		cmd = OpCode::RETURN_32;
+		break;
+	case Bool:
+		if(sizeof(bool) == 1) cmd = OpCode::RETURN_8;
+		else cmd = OpCode::RETURN_32;
+		break;
+	case Void:
+		cmd = OpCode::RETURN;
+		break;
+	default:
+		cmd = Error;
+	}
 	c->writeByte(OpCode::RETURN_32);
 }
 

@@ -11,9 +11,10 @@ public:
 	ExpressionTree * expr;
 
 	bool checkForErrors(ScopeHelper * s) override {
-		DataType returnType = this->expr->checkDatatype(s);
-		if (returnType == Error) {
-			this->error("Error in return statement");
+		DataType returnType = this->expr == nullptr ? Void : this->expr->checkDatatype(s);
+		DataType expectedType = s->getCurrentFunctionType();
+		if (returnType != expectedType) {
+			this->error("Error in return statement expression");
 			return false;
 		}
 		else {

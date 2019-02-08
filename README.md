@@ -14,9 +14,9 @@
 - increment support
 - type conversion
 ## TODO (bug fixes):
-- check type in return statement + code generation
 - delete top of stack if not needed (for example in function calls)
 - check parse function
+- check if void function works
 ## TODO (code cleanup):
 - when giving a type size, always give sizeof()
 - add documentation for callFunction

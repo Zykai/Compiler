@@ -335,12 +335,14 @@ ExpressionTree * Parser::functionExpression(){
 	}
 	std::list<ExpressionTree*> parameters =  std::list<ExpressionTree*>();
 	if (match({ parentheseOpen })) {
-		while (!match({ parentheseClose })) {
-			ExpressionTree * param = this->parseExpression();
-			parameters.emplace_back(param);
-			if (!match({ TokenComma })) break;
+		if (!match({ parentheseClose })) {
+			do {
+				ExpressionTree * param = this->parseExpression();
+				parameters.emplace_back(param);
+				//if (!match({ TokenComma })) break;
+			} while (match({ TokenComma }));
+			if (!match({ parentheseClose })) this->error("Expected closing parenthese to complete function call");
 		}
-		if (!match({ parentheseClose })) this->error("Expected closing parenthese to complete function call");
 		if (nameSpaceFunction) {
 			return new NamespaceFunctionTree(name, functionName, parameters);
 		}

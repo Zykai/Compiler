@@ -178,8 +178,17 @@ StatementTree * Parser::whileStatement(){
 
 StatementTree * Parser::forStatement(){
 	if (!match({ parentheseOpen })) this->error("ERROR: missing opening parenthese after 'for'");
-	StatementTree * init = new ExprStatementTree(this->parseExpression());
-	if (!match({ semicolon })) this->error("ERROR: missing semicolon in for head");
+	StatementTree * init;
+	if (this->getCurrent()->getType() == typeName) {
+		match({ typeName });
+		init = this->declStatement();
+	}
+	else {
+		ExpressionTree * e = this->parseExpression();
+		this->parseSemicolon();
+		init = new ExprStatementTree(e);
+	}
+	//if (!match({ semicolon })) this->error("ERROR: missing semicolon in for head");
 	ExpressionTree * condition = this->parseExpression();
 	if (!match({ semicolon })) this->error("ERROR: missing semicolon in for head");
 	ExpressionTree * update = this->parseExpression();
@@ -339,7 +348,6 @@ ExpressionTree * Parser::functionExpression(){
 			do {
 				ExpressionTree * param = this->parseExpression();
 				parameters.emplace_back(param);
-				//if (!match({ TokenComma })) break;
 			} while (match({ TokenComma }));
 			if (!match({ parentheseClose })) this->error("Expected closing parenthese to complete function call");
 		}

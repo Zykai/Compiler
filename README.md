@@ -1,7 +1,6 @@
 # Compiler
 
 ## TODO (new features):
-- allow declaration and expression in first part of for-loop
 - add arrays
 - add typedef + dynamic memory allocation
 - seperate value tree into literal and variable tree
@@ -12,6 +11,8 @@
 - implement byte + bool type in lexer + code generator (valueTree + globaltree)
 - distinguish between global and local var in code gen + global vars in vm
 - float variables dont work (should be removed, needs testing)
+- increment support
+- type conversion
 ## TODO (bug fixes):
 - check type in return statement + code generation
 - delete top of stack if not needed (for example in function calls)
@@ -23,3 +24,4 @@
 - checkforerrors: inclusive typechecking
 - (remove pointer in scope->variables->pair)
 - check for variable redefinitions
+- remove unused classes in lexer

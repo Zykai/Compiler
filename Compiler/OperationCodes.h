@@ -25,6 +25,7 @@ namespace OpCode {
 		// Integer memory operations
 		I_LOAD,
 		I_STORE,
+		I_POP,
 		// Integer arithmetic operations
 		I_ADD,
 		I_SUB,
@@ -45,6 +46,7 @@ namespace OpCode {
 		// Float memory operations
 		F_LOAD, // I_LOAD because of same size
 		F_STORE,
+		F_POP,
 		// Float arithmetic operations
 		F_ADD,
 		F_SUB,
@@ -65,6 +67,7 @@ namespace OpCode {
 		// Byte-Operations..
 		BY_LOAD,
 		BY_STORE,
+		BY_POP,
 		// Byte arithmetic operations
 		BY_ADD,
 		BY_SUB,
@@ -83,6 +86,7 @@ namespace OpCode {
 		// Bool memory operations
 		BO_LOAD,
 		BO_STORE,
+		BO_POP,
 		// Bool logical operations
 		BO_EQUAL,
 		BO_NOT_EQUAL,

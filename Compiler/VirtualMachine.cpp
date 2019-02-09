@@ -222,6 +222,9 @@ void VirtualMachine::executeCommand(){
 	case OpCode::I_STORE:
 		this->stack->storeInt(this->stack->popInt(), this->byteProgram->getNextInt());
 		break;
+	case OpCode::I_POP:
+		this->stack->popInt();
+		break;
 	case OpCode::I_ADD:
 		this->stack->pushInt(this->stack->popInt() + this->stack->popInt());
 		break;
@@ -267,6 +270,9 @@ void VirtualMachine::executeCommand(){
 	case OpCode::F_STORE:
 		this->stack->storeFloat(this->stack->popFloat(), this->byteProgram->getNextInt());
 		break;
+	case OpCode::F_POP:
+		this->stack->popFloat();
+		break;
 	case OpCode::F_ADD:
 		this->stack->pushFloat(this->stack->popFloat() + this->stack->popFloat());
 		break;
@@ -311,6 +317,9 @@ void VirtualMachine::executeCommand(){
 	case OpCode::BY_STORE:
 		this->stack->storeChar(this->stack->popByte(), this->byteProgram->getNextInt());
 		break;
+	case OpCode::BY_POP:
+		this->stack->popByte();
+		break;
 	case OpCode::BY_ADD:
 		this->stack->pushByte(this->stack->popByte() + this->stack->popByte());
 		break;
@@ -351,6 +360,9 @@ void VirtualMachine::executeCommand(){
 		break;
 	case OpCode::BO_STORE:
 		this->stack->storeBool(this->stack->popBool(), this->byteProgram->getNextInt());
+		break;
+	case OpCode::BO_POP:
+		this->stack->popBool();
 		break;
 	case OpCode::BO_EQUAL:
 		this->stack->pushBool(this->stack->popBool() == this->stack->popBool());

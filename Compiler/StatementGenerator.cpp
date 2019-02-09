@@ -3,6 +3,28 @@
 #include "StatementHeaders.h"
 #include "OperationCodes.h"
 
+void addPopInstruction(CodeGenerator * c, DataType type) {
+	switch (type) {
+	case Byte:
+		c->writeByte(OpCode::BY_POP);
+		break;
+	case Short:
+		//c->writeByte(OpCode::S_POP);
+		break;
+	case Integer:
+		c->writeByte(OpCode::I_POP);
+		break;
+	case Float:
+		c->writeByte(OpCode::F_POP);
+		break;
+	case Bool:
+		c->writeByte(OpCode::BO_POP);
+		break;
+		//case Double:
+		//	break;
+	}
+}
+
 void DeclStatementTree::writeCode(CodeGenerator * c){
 	int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->name->getValue());
 	unsigned char opcode = this->dataType == Integer ? OpCode::I_STORE : this->dataType == Float ? OpCode::F_STORE : this->dataType == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
@@ -13,6 +35,7 @@ void DeclStatementTree::writeCode(CodeGenerator * c){
 
 void ExprStatementTree::writeCode(CodeGenerator * c){
 	this->expression->writeCode(c);
+	addPopInstruction(c, this->expression->type);
 }
 
 void ForStatementTree::writeCode(CodeGenerator * c){
@@ -33,6 +56,7 @@ void ForStatementTree::writeCode(CodeGenerator * c){
 	c->writeInteger(0); // ->placeholder
 	this->forBody->writeCode(c);
 	this->update->writeCode(c);
+	addPopInstruction(c, this->update->type);
 	c->writeByte(OpCode::JMP);
 	c->writeInteger(beforeLoop);
 	int posAfterFor = c->getCurrentPosition();

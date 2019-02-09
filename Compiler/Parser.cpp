@@ -146,6 +146,7 @@ StatementTree * Parser::statement(){
 }
 
 StatementTree * Parser::declStatement(){
+	std::cout << "PREV :" << this->getPrevious()->getDescription() << std::endl;
 	DataType type = getType(this->getPrevious());
 	if (!match({ identifier })) this->error("ERROR: expected identifier after type declaration; found" + this->getCurrent()->getTypeString());
 	Token * varName = this->getPrevious();
@@ -311,7 +312,7 @@ ExpressionTree * Parser::getElement(){
 }
 
 ExpressionTree * Parser::value(){
-	if (match({ integerNumber, floatNumber, TokenString })) {
+	if (match({ integerNumber, floatNumber, TokenBool, TokenString })) {
 		return new ValueTree(this->getPrevious());
 	}
 	else if (match({ identifier })) {
@@ -367,8 +368,8 @@ ExpressionTree * Parser::functionExpression(){
 
 Token * Parser::literalValue() {
 	// + String
-	if (match({ integerNumber, floatNumber })) {
-		this->getPrevious();
+	if (match({ integerNumber, floatNumber, TokenBool })) {
+		return this->getPrevious();
 	}
 	else {
 		this->error("ERROR: Expected literal value; FOUND: " + getCurrent()->getTypeString());
@@ -393,6 +394,8 @@ int Parser::getVariableSize(DataType var){
 		return 4;
 	case Float:
 		return 4;
+	case Bool:
+		return sizeof(bool);
 	case Custom:
 		return 0;
 	default:

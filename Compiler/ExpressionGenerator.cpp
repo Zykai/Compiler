@@ -135,6 +135,10 @@ void ValueTree::writeCode(CodeGenerator * c){
 		case String:
 			c->writeString(this->value->getValue());
 			break;
+		case Bool:
+			c->writeByte(OpCode::LOAD_CONSTANT_8);
+			c->writeBool(this->value->getValue().at(0) == '1' ? true : false);
+			break;
 		/*
 		case byteNumber:
 			unsigned char byteValue = std::stoi(this->value->getValue()); // need a converter

@@ -20,6 +20,8 @@ std::string Token::getTypeString() {
 		return "Integer";
 	case floatNumber:
 		return "Float";
+	case TokenBool:
+		return "Bool";
 	case TokenString:
 		return "String";
 	case typeName:

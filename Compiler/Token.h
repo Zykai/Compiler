@@ -23,6 +23,7 @@ enum Tokentype {
 	mulitLineComment,
 	integerNumber,
 	floatNumber,
+	TokenBool,
 	TokenString,
 	errorToken,
 	typeName,

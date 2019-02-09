@@ -44,7 +44,7 @@ void CodeGenerator::writeLong(long value) {
 }
 
 void CodeGenerator::writeBool(bool value){
-	this->byteFile->write(reinterpret_cast<const char *>(&value), 4);
+	this->byteFile->write(reinterpret_cast<const char *>(&value), sizeof(bool));
 }
 
 void CodeGenerator::writeString(std::string value){
@@ -82,7 +82,7 @@ void CodeGenerator::writePrevLong(long value, long position){
 void CodeGenerator::writePrevBool(bool value, long position){
 	long currentPos = this->byteFile->tellp();
 	this->byteFile->seekp(position);
-	this->byteFile->write(reinterpret_cast<const char *>(&value), 4);
+	this->byteFile->write(reinterpret_cast<const char *>(&value), sizeof(bool));
 	this->byteFile->seekp(currentPos);
 }
 

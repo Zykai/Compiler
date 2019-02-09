@@ -56,7 +56,7 @@ void VmStack::pushByte(char value){
 }
 
 void VmStack::pushBool(bool value){
-	std::memcpy(&stack[stackPointer], &value, sizeof(float));
+	std::memcpy(&stack[stackPointer], &value, sizeof(bool));
 	this->stackPointer += sizeof(bool);
 }
 

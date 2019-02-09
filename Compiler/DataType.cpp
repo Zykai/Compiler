@@ -11,6 +11,9 @@ DataType getType(Token * token) {
 	else if (datatype == "float") {
 		return Float;
 	}
+	else if (datatype == "bool") {
+		return Bool;
+	}
 	else if (datatype == "short") {
 		return Short;
 	}
@@ -36,6 +39,7 @@ DataType getTypeForLiteral(Token * token) {
 	if (type == floatNumber) return Float;
 	if (type == identifier) return Custom;
 	if (type == TokenString) return String;
+	if (type == TokenBool) return Bool;
 	else return Error;
 }
 
@@ -46,7 +50,7 @@ int getTypeSize(DataType d) {
 	case Float:
 		return 4;
 	case Bool:
-		return 4;
+		return sizeof(bool);
 	case Byte:
 		return 1;
 	case Short:

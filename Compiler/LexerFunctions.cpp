@@ -81,6 +81,38 @@ void Lexer::createStartFunction() {
 		}
 		return self->findId(line, startChar, currentChar);
 	};
+	startFunction['b'] = [&](std::string line, int startChar, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == 'o') {
+			currentChar++;
+			if (line.at(currentChar) == 'o') {
+				currentChar++;
+				if (line.at(currentChar) == 'l') {
+					currentChar++;
+					if (!std::isalpha(line.at(currentChar))) {
+						return Token(typeName, "bool");
+					}
+				}
+			}
+		}
+		return self->findId(line, startChar, currentChar);
+	};
+	startFunction['t'] = [&](std::string line, int startChar, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == 'r') {
+			currentChar++;
+			if (line.at(currentChar) == 'u') {
+				currentChar++;
+				if (line.at(currentChar) == 'e') {
+					currentChar++;
+					if (!std::isalpha(line.at(currentChar))) {
+						return Token(TokenBool, "1");
+					}
+				}
+			}
+		}
+		return self->findId(line, startChar, currentChar);
+	};
 	startFunction['='] = std::bind(&Lexer::findAssignEqual, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	startFunction[';'] = [](std::string, int, int& currentChar) { return Token(semicolon, ";"); };
 	startFunction[','] = [](std::string, int, int& currentChar) { return Token(TokenComma, ","); };
@@ -287,6 +319,21 @@ Token Lexer::findFloatFor(std::string line, int startChar, int & currentChar) {
 			currentChar++;
 			if (!std::isalpha(line.at(currentChar))) {
 				return Token(TokenFor, line.substr(startChar, currentChar - startChar));
+			}
+		}
+	}
+	else if (nextChar == 'a') {
+		currentChar++;
+		if (line.at(currentChar) == 'l') {
+			currentChar++;
+			if (line.at(currentChar) == 's') {
+				currentChar++;
+				if (line.at(currentChar) == 'e') {
+					currentChar++;
+					if (!std::isalpha(line.at(currentChar))) {
+						return Token(TokenBool, "0");
+					}
+				}
 			}
 		}
 	}

@@ -1,22 +1,7 @@
-import test;
-import file;
-
-int vier = 23;
-
-int fib(int num){
-	if( num <= 1){
-		return 1;
-	}
-	else{
-		return fib(num - 1) + fib(num - 2);
-	}
-}
-
+ 
 int main (int i){
-	i = 0;
-	for(i = 0; i < 10; i = i + 1){
-		std.print("Die ", i, ". Fibonacci-Zahl ist ", fib(i), "\n");
-	}
-	return 0;
+	int[,,] test = new int[3,4,5];
+	std.print(test[0,0,0]);
+	int iasd = 0;
+    return 0;
 }
-

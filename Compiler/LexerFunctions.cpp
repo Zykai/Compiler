@@ -113,10 +113,23 @@ void Lexer::createStartFunction() {
 		}
 		return self->findId(line, startChar, currentChar);
 	};
+	startFunction['n'] = [&](std::string line, int startChar, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == 'e') {
+			currentChar++;
+			if (line.at(currentChar) == 'w') {
+				currentChar++;
+				if (!std::isalpha(line.at(currentChar))) {
+					return Token(TokenNew, "new");
+				}
+			}
+		}
+		return self->findId(line, startChar, currentChar);
+	};
 	startFunction['='] = std::bind(&Lexer::findAssignEqual, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	startFunction[';'] = [](std::string, int, int& currentChar) { return Token(semicolon, ";"); };
 	startFunction[','] = [](std::string, int, int& currentChar) { return Token(TokenComma, ","); };
-	startFunction['.'] = [](std::string, int, int& currentChar) { return Token(TokenDot, ";"); };
+	startFunction['.'] = [](std::string, int, int& currentChar) { return Token(TokenDot, "."); };
 	startFunction['('] = [](std::string, int, int& currentChar) { return Token(parentheseOpen, "("); };
 	startFunction[')'] = [](std::string, int, int& currentChar) { return Token(parentheseClose, ")"); };
 	startFunction['{'] = [](std::string, int, int& currentChar) { return Token(curlyBracesOpen, "{"); };

@@ -20,7 +20,18 @@
 - when giving a type size, always give sizeof()
 - add documentation for callFunction
 - use memcpy directly without getBytes
-- checkforerrors: inclusive typechecking
+- checkforerrors: inclusive typechecking or < operator
 - (remove pointer in scope->variables->pair)
 - check for variable redefinitions
 - remove unused classes in lexer
+- remove redundant data in allVariables (maybe use pointer to declaration instead of tuples)
+- improve ScopeHelper::addVariable integration with dynamic types (arrays and typedefs)
+
+## Weird Error:
+- std::list<ExpressionTree*>() threw a fast fail exception, fixed by using dynamic allocation instead???, error turned up without changing any code near it
+
+´´c++
+std::cout << "TEST";
+		std::list<ExpressionTree*> * dimensionSizes = new std::list<ExpressionTree*>();
+		std::cout << "ABC";
+´´

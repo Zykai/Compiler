@@ -20,10 +20,11 @@ public:
 
 	DataType checkDatatype(ScopeHelper * s) override {
 		if (this->value->getType() == identifier) {
-			std::pair<DataType, int> * var = s->currentScope->getVariable(this->value->getValue());
+			std::tuple<DataType, int, int> * var = s->currentScope->getVariable(this->value->getValue());
 			if (var != nullptr) {
-				this->type = var->first;
-				return var->first;
+				DataType type = std::get<0>(*var);
+				this->type = type;
+				return type;
 			}
 			else {
 				return Error;

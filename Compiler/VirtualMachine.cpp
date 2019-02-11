@@ -107,6 +107,29 @@ void VirtualMachine::printString(){
 	}
 }
 
+template<typename T>
+inline void VirtualMachine::createArray(){
+	int position = this->byteProgram->getNextInt();
+	int nDimensions = this->byteProgram->getNextInt();
+	int * dimensionSizes = new int[nDimensions];
+	for (int i = 0; i < nDimensions; i++) {
+		dimensionSizes[i] = this->stack->popInt();
+	}
+	this->stack->storePointer(new VmArray<T>(nDimensions, dimensionSizes), position);
+}
+
+void VirtualMachine::loadArrayElement() {
+	int position = this->byteProgram->getNextInt();
+	int size = this->byteProgram->getNextInt();
+	int * indices = new int[size];
+	for (int i = 0; i < size; i++) {
+		indices[i] = this->stack->popInt();
+	}
+	VmArray<int> * array = (VmArray<int>*)this->stack->loadPointer(position);
+	int test = array->dimensionSizes[0];
+	this->stack->pushInt(2);
+}
+
 void VirtualMachine::executeProgram(){
 	std::cout << "------------Starting Program------------" << std::endl;
 	
@@ -225,6 +248,10 @@ void VirtualMachine::executeCommand(){
 	case OpCode::I_POP:
 		this->stack->popInt();
 		break;
+	case OpCode::I_CREATE_ARRAY:
+		this->createArray<int>();
+	case OpCode::I_LOAD_ARRAY_ELEMENT:
+		this->loadArrayElement();
 	case OpCode::I_ADD:
 		this->stack->pushInt(this->stack->popInt() + this->stack->popInt());
 		break;

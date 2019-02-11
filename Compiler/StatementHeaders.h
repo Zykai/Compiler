@@ -8,3 +8,4 @@
 #include "DeclStatementTree.h"
 #include "IfStatementTree.h"
 #include "ReturnStatementTree.h"
+#include "DeclArrayStmtTree.h"

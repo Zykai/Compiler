@@ -1,5 +1,6 @@
 #include "ExpressionTree.h"
 #include "AdditionTree.h"
+#include "ArrayExpression.h"
 #include "ComparisonTree.h"
 #include "EqualityTree.h"
 #include "GetElementTree.h"

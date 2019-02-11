@@ -25,6 +25,21 @@ void addPopInstruction(CodeGenerator * c, DataType type) {
 	}
 }
 
+void DeclArrayStmtTree::writeCode(CodeGenerator * c){
+	for (auto i = this->sizes->rbegin(); i != this->sizes->rend(); i++) {
+		(*i)->writeCode(c);
+	}
+	/*
+	for (ExpressionTree * e : *this->sizes) {
+		
+	}
+	*/
+	c->writeByte(OpCode::I_CREATE_ARRAY);
+	int pos = c->scopeHelper->getVarPosition(c->currentFunction, this->name->getValue());
+	c->writeInteger(pos);
+	c->writeInteger(this->dimensions);
+}
+
 void DeclStatementTree::writeCode(CodeGenerator * c){
 	int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->name->getValue());
 	unsigned char opcode = this->dataType == Integer ? OpCode::I_STORE : this->dataType == Float ? OpCode::F_STORE : this->dataType == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;

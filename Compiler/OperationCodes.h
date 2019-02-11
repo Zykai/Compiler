@@ -26,6 +26,8 @@ namespace OpCode {
 		I_LOAD,
 		I_STORE,
 		I_POP,
+		I_CREATE_ARRAY,
+		I_LOAD_ARRAY_ELEMENT,
 		// Integer arithmetic operations
 		I_ADD,
 		I_SUB,
@@ -47,6 +49,7 @@ namespace OpCode {
 		F_LOAD, // I_LOAD because of same size
 		F_STORE,
 		F_POP,
+		F_CREATE_ARRAY,
 		// Float arithmetic operations
 		F_ADD,
 		F_SUB,
@@ -68,6 +71,7 @@ namespace OpCode {
 		BY_LOAD,
 		BY_STORE,
 		BY_POP,
+		BY_CREATE_ARRAY,
 		// Byte arithmetic operations
 		BY_ADD,
 		BY_SUB,
@@ -87,6 +91,7 @@ namespace OpCode {
 		BO_LOAD,
 		BO_STORE,
 		BO_POP,
+		BO_CREATE_ARRAY,
 		// Bool logical operations
 		BO_EQUAL,
 		BO_NOT_EQUAL,

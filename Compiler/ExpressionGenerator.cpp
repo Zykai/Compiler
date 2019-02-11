@@ -12,6 +12,28 @@ void AdditionTree::writeCode(CodeGenerator * c){
 	c->writeByte(opcode);
 }
 
+void ArrayExpression::writeCode(CodeGenerator * c){
+	// TODO
+	for (auto iter = this->indices->rbegin(); iter != this->indices->rend(); iter++) {
+		(*iter)->writeCode(c);
+	}
+	c->writeByte(OpCode::I_LOAD_ARRAY_ELEMENT);
+	int pos = c->scopeHelper->getVarPosition(c->currentFunction, this->var->getValue());
+	c->writeInteger(50);
+	switch (this->type) {
+		case Integer:
+			//c->writeByte(OpCode::LOAD_CONSTANT_32);
+			//c->writeInteger(459);
+			break;
+		case Float:
+			break;
+		case Bool:
+			break;
+		case Byte:
+			break;
+	}
+}
+
 void AssignExpressionTree::writeCode(CodeGenerator * c){
 	int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->variable->getValue());
 	this->value->writeCode(c);
@@ -48,7 +70,7 @@ void EqualityTree::writeCode(CodeGenerator * c){
 }
 
 void GetElementTree::writeCode(CodeGenerator * c){
-	for (auto & a : this->parameters) {
+	for (auto & a : *this->parameters) {
 		a->writeCode(c);
 	}
 	c->writeByte(OpCode::CALL_FUNCTION);
@@ -85,7 +107,7 @@ void MultiplicationTree::writeCode(CodeGenerator * c){
 }
 
 void NamespaceFunctionTree::writeCode(CodeGenerator * c) {
-	StandardLibrary::getInstance()->writeCode(this->name->getValue(), c, this->parameters);
+	StandardLibrary::getInstance()->writeCode(this->name->getValue(), c, *this->parameters);
 }
 
 void PostUnaryTree::writeCode(CodeGenerator * c){

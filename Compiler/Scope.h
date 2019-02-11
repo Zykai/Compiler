@@ -8,10 +8,11 @@ class Scope {
 public:
 	Scope(Scope * top) {
 		this->topScope = top;
-		this->variables = std::map<std::string, std::pair<DataType, int>* >();
+		this->variables = std::map<std::string, std::tuple<DataType, int, int>* >();
 	}
 	Scope * topScope;
-	std::map<std::string, std::pair<DataType, int>* > variables;
+	// Datatype, position, dimensions
+	std::map<std::string, std::tuple<DataType, int, int>* > variables;
 	std::list<Scope* > subScopes;
-	std::pair<DataType, int> * getVariable(std::string name);
+	std::tuple<DataType, int, int> * getVariable(std::string name);
 };

@@ -49,8 +49,7 @@ private:
 	ExpressionTree * postUnary();
 	ExpressionTree * getElement();
 	ExpressionTree * value();
-	ExpressionTree * functionExpression();
-	
+	ExpressionTree * identifierExpression();
 
 	Token * literalValue();
 

@@ -13,10 +13,11 @@ public:
 
 	DataType checkDatatype(ScopeHelper * s) override {
 		auto typeInfo = s->currentScope->getVariable(this->variable->getValue());
+		DataType expected = std::get<0>(*typeInfo);
 		DataType rightType = this->value->checkDatatype(s);
-		if (typeInfo != nullptr && rightType != Error && typeInfo->first == rightType) {
-			this->type = typeInfo->first;
-			return typeInfo->first;
+		if (typeInfo != nullptr && rightType != Error && expected == rightType) {
+			this->type = expected;
+			return expected;
 		}
 		else {
 			this->type = Error;

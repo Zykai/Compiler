@@ -13,6 +13,7 @@
 
 #include "VmStack.h"
 int main(int numberArgs, const char ** arguments) {
+	std::cout << sizeof(bool) << std::endl;
 	bool writeToFile = false;
 	long long int maxOperations = 0;
 	std::string name;
@@ -61,6 +62,7 @@ int main(int numberArgs, const char ** arguments) {
 		c.writeProgram(p);
 	}
 	VirtualMachine vm = VirtualMachine(name, maxOperations, writeToFile);
+	//vm.output();
 	vm.executeProgram();
 	
 #ifdef _DEBUG

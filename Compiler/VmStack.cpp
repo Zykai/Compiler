@@ -25,7 +25,7 @@ void VmStack::setBottomPointer(unsigned int position){
 unsigned int VmStack::getBottomPointer(){
 	return this->bottomPointer;
 }
-
+	
 void VmStack::pushInt(int value){
 	std::memcpy(&stack[stackPointer], &value, sizeof(int));
 	/*
@@ -109,7 +109,11 @@ void VmStack::storeBool(bool value, unsigned int position){
 	std::memcpy(&stack[bottomPointer + position], &value, sizeof(bool));
 }
 
-int VmStack::loadInt(int position){
+void VmStack::storePointer(void * pointer, unsigned int position){
+	std::memcpy(&stack[bottomPointer + position], &pointer, sizeof(void*));
+}
+
+int VmStack::loadInt(unsigned int position){
 	int temp;
 	std::memcpy(&temp, &this->stack[this->bottomPointer + position], sizeof(int));
 	return temp;
@@ -129,7 +133,12 @@ bool VmStack::loadBool(unsigned int position){
 	bool temp;
 	std::memcpy(&temp, &this->stack[this->bottomPointer + position], sizeof(bool));
 	return temp;
-	return false;
+}
+
+void * VmStack::loadPointer(unsigned int position){
+	void * temp;
+	std::memcpy(&temp, &this->stack[this->bottomPointer + position], sizeof(void*));
+	return temp;
 }
 
 char * VmStack::popBytes(unsigned int number){

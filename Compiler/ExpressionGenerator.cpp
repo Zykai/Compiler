@@ -15,23 +15,18 @@ void AdditionTree::writeCode(CodeGenerator * c){
 void ArrayExpression::writeCode(CodeGenerator * c){
 	// TODO
 	for (auto iter = this->indices->rbegin(); iter != this->indices->rend(); iter++) {
-		(*iter)->writeCode(c);
+		//(*iter)->writeCode(c);
 	}
+	c->writeByte(OpCode::LOAD_CONSTANT_32);
+	c->writeInteger(1);
+	c->writeByte(OpCode::LOAD_CONSTANT_32);
+	c->writeInteger(1);
+	c->writeByte(OpCode::LOAD_CONSTANT_32);
+	c->writeInteger(1);
 	c->writeByte(OpCode::I_LOAD_ARRAY_ELEMENT);
 	int pos = c->scopeHelper->getVarPosition(c->currentFunction, this->var->getValue());
-	c->writeInteger(50);
-	switch (this->type) {
-		case Integer:
-			//c->writeByte(OpCode::LOAD_CONSTANT_32);
-			//c->writeInteger(459);
-			break;
-		case Float:
-			break;
-		case Bool:
-			break;
-		case Byte:
-			break;
-	}
+	c->writeInteger(pos);
+	
 }
 
 void AssignExpressionTree::writeCode(CodeGenerator * c){

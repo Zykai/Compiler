@@ -173,6 +173,7 @@ void VirtualMachine::executeProgram(){
 
 void VirtualMachine::executeCommand(){
 	char opcode = this->byteProgram->getNextOpCode();
+	int test = -1;
 	switch (opcode) {
 	case OpCode::JMP:
 		this->byteProgram->setPosition(this->byteProgram->getNextInt());
@@ -240,7 +241,7 @@ void VirtualMachine::executeCommand(){
 		this->printString();
 		break;
 	case OpCode::I_LOAD:
-		this->stack->pushInt(this->stack->loadInt(this->byteProgram->getNextInt()));
+		this->stack->pushInt(this->stack->loadInt(test));
 		break;
 	case OpCode::I_STORE:
 		this->stack->storeInt(this->stack->popInt(), this->byteProgram->getNextInt());
@@ -251,6 +252,7 @@ void VirtualMachine::executeCommand(){
 	case OpCode::I_CREATE_ARRAY:
 		this->createArray<int>();
 	case OpCode::I_LOAD_ARRAY_ELEMENT:
+		test = this->byteProgram->getNextInt();
 		this->loadArrayElement();
 	case OpCode::I_ADD:
 		this->stack->pushInt(this->stack->popInt() + this->stack->popInt());

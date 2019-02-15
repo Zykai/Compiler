@@ -93,9 +93,6 @@
     <ClInclude Include="Function.h">
       <Filter>Headerdateien\SyntacticAnalysis</Filter>
     </ClInclude>
-    <ClInclude Include="Expressions.h">
-      <Filter>Headerdateien\SyntacticAnalysis</Filter>
-    </ClInclude>
     <ClInclude Include="ComparisonTree.h">
       <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
     </ClInclude>
@@ -198,6 +195,18 @@
     <ClInclude Include="StandardLibrary.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="DeclArrayStmtTree.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayExpression.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Expressions.h">
+      <Filter>Headerdateien\SyntaxTrees\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="VmArray.h">
+      <Filter>Headerdateien\Virtual Machine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -263,11 +272,11 @@
     <ClCompile Include="ByteProgram.cpp">
       <Filter>Quelldateien\Virtual Machine</Filter>
     </ClCompile>
-    <ClCompile Include="VmStack.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="StandardLibrary.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="VmStack.cpp">
+      <Filter>Quelldateien\Virtual Machine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,9 @@ class ValueTree : public ExpressionTree {
 public:
 	ValueTree(Token * value) {
 		this->value = value;
+		if (this->value->getType() == identifier) {
+			this->isVariableType = true;
+		}
 	}
 	void output() override {
 		std::cout << "Value: " << value->getValue() << std::endl;
@@ -20,10 +23,11 @@ public:
 
 	DataType checkDatatype(ScopeHelper * s) override {
 		if (this->value->getType() == identifier) {
-			std::pair<DataType, int> * var = s->currentScope->getVariable(this->value->getValue());
+			std::tuple<DataType, int, int> * var = s->currentScope->getVariable(this->value->getValue());
 			if (var != nullptr) {
-				this->type = var->first;
-				return var->first;
+				DataType type = std::get<0>(*var);
+				this->type = type;
+				return type;
 			}
 			else {
 				return Error;

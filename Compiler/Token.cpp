@@ -72,6 +72,8 @@ std::string Token::getTypeString() {
 		return "Increment";
 	case TokenComma:
 		return "TokenComma";
+	case TokenNew:
+		return "new";
 	case endOfFile:
 		return "EndOfFile";
 	default:

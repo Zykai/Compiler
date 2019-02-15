@@ -13,6 +13,7 @@
 - float variables dont work (should be removed, needs testing)
 - increment support
 - type conversion
+- array out of bounds checking
 ## TODO (bug fixes):
 - check parse function
 - check if void function works
@@ -20,7 +21,29 @@
 - when giving a type size, always give sizeof()
 - add documentation for callFunction
 - use memcpy directly without getBytes
-- checkforerrors: inclusive typechecking
+- checkforerrors: inclusive typechecking or < operator
 - (remove pointer in scope->variables->pair)
 - check for variable redefinitions
 - remove unused classes in lexer
+- remove redundant data in allVariables (maybe use pointer to declaration instead of tuples)
+- improve ScopeHelper::addVariable integration with dynamic types (arrays and typedefs)
+
+## Known Errors:
+- std::list<ExpressionTree*>() threw a fast fail exception, fixed by using dynamic allocation instead???, error turned up without changing any code near it, fixed by using release mode
+```c++
+std::cout << "1";
+std::list<ExpressionTree*> * dimensionSizes = new std::list<ExpressionTree*>();
+std::cout << "2";
+```
+- when Stack is composed of an 8 byte array pointer + 4 byte int --> popInt() causes an exception when accessing array values; to fix place integer after array
+```c++
+// Doesnt work
+VmArray<int> * arrayPointer = (VmArray<int>*)this->stack->loadPointer(position);
+arrayPointer->setAllValues(indices, this->stack->popInt());
+// Works
+this->stack->pushInt(21);
+VmArray<int> * arrayPointer = (VmArray<int>*)this->stack->loadPointer(position);
+arrayPointer->setAllValues(indices, this->stack->popInt());
+// Fix, is called each function call + at main function startup
+this->stack->pushInt(-1111111); // fixes reference error (if array is on top of stack)
+```

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Scope.h"
 
-std::pair<DataType, int> * Scope::getVariable(std::string name){
+std::tuple<DataType, int, int> * Scope::getVariable(std::string name){
 	if (this->variables.find(name) == this->variables.end()) {
 		if (topScope != nullptr) {
 			return topScope->getVariable(name);

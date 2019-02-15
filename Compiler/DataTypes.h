@@ -8,6 +8,7 @@ enum DataType {
 	Integer,
 	Float,
 	Bool,
+	Array,
 	Custom,
 	Error,
 	Void,

@@ -12,16 +12,45 @@ void AdditionTree::writeCode(CodeGenerator * c){
 	c->writeByte(opcode);
 }
 
-void AssignExpressionTree::writeCode(CodeGenerator * c){
-	int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->variable->getValue());
-	this->value->writeCode(c);
-
-	unsigned char opcode = this->type == Integer ? OpCode::I_STORE : this->type == Float ? OpCode::F_STORE : this->type == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
+void ArrayExpression::writeCode(CodeGenerator * c){
+	for (auto iter = this->indices->rbegin(); iter != this->indices->rend(); iter++) {
+		(*iter)->writeCode(c);
+	}
+	char opcode;
+	switch (this->type) {
+		case Integer:
+			opcode = OpCode::I_LOAD_ARRAY_ELEMENT;
+			break;
+		case Float:
+			opcode = OpCode::F_LOAD_ARRAY_ELEMENT;
+			break;
+		case Bool:
+			opcode = OpCode::BO_LOAD_ARRAY_ELEMENT;
+			break;
+		case Byte:
+			opcode = OpCode::BY_LOAD_ARRAY_ELEMENT;
+			break;
+	}
+	if (this->store) {
+		opcode++;
+	}
 	c->writeByte(opcode);
-	c->writeInteger(varPos);
+	c->writeInteger(c->scopeHelper->getVarPosition(c->currentFunction, this->var->getValue()));
+	c->writeInteger(this->indices->size());
+}
 
-	c->writeByte(opcode - 1);
-	c->writeBool(varPos);
+void AssignExpressionTree::writeCode(CodeGenerator * c){
+	this->value->writeCode(c);
+	if (this->arrayAssign == nullptr) {
+		int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->variable->getValue());
+
+		unsigned char opcode = this->type == Integer ? OpCode::I_STORE : this->type == Float ? OpCode::F_STORE : this->type == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
+		c->writeByte(opcode);
+		c->writeInteger(varPos);
+	}
+	else {
+		this->arrayAssign->writeCode(c);
+	}
 }
 
 void ComparisonTree::writeCode(CodeGenerator * c){
@@ -48,7 +77,7 @@ void EqualityTree::writeCode(CodeGenerator * c){
 }
 
 void GetElementTree::writeCode(CodeGenerator * c){
-	for (auto & a : this->parameters) {
+	for (auto & a : *this->parameters) {
 		a->writeCode(c);
 	}
 	c->writeByte(OpCode::CALL_FUNCTION);
@@ -85,7 +114,7 @@ void MultiplicationTree::writeCode(CodeGenerator * c){
 }
 
 void NamespaceFunctionTree::writeCode(CodeGenerator * c) {
-	StandardLibrary::getInstance()->writeCode(this->name->getValue(), c, this->parameters);
+	StandardLibrary::getInstance()->writeCode(this->name->getValue(), c, *this->parameters);
 }
 
 void PostUnaryTree::writeCode(CodeGenerator * c){

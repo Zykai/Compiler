@@ -61,6 +61,7 @@ int main(int numberArgs, const char ** arguments) {
 		c.writeProgram(p);
 	}
 	VirtualMachine vm = VirtualMachine(name, maxOperations, writeToFile);
+	//vm.output();
 	vm.executeProgram();
 	
 #ifdef _DEBUG

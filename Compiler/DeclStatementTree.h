@@ -15,7 +15,7 @@ public:
 	ExpressionTree * value;
 
 	bool checkForErrors(ScopeHelper * s) override {
-		s->addVariable(name->getValue(), dataType);
+		s->addVariable(name->getValue(), dataType, 0);
 		if (this->value->checkDatatype(s) == dataType) {
 			return true;
 		}

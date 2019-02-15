@@ -63,8 +63,6 @@ void Parser::parseImports(ProgramTree * program){
 	}
 }
 
-
-
 void Parser::parseGlobals(ProgramTree * program){
 	while (match({ typeName })) {
 		Token * typeToken = this->getPrevious();
@@ -146,8 +144,28 @@ StatementTree * Parser::statement(){
 }
 
 StatementTree * Parser::declStatement(){
-	std::cout << "PREV :" << this->getPrevious()->getDescription() << std::endl;
 	DataType type = getType(this->getPrevious());
+	if (match({ TokenSquareBracketOpen })) {
+		int dimensions = 1;
+		while (match({ TokenComma })) {
+			dimensions++;
+		}
+		if (!match({ TokenSquareBracketClose })) this->error("ERROR: Expected closing brackets of array declaration");
+		if (!match({ identifier })) this->error("ERROR: expected identifier after type declaration; found" + this->getCurrent()->getTypeString());
+		Token * arrayName = this->getPrevious();
+		if (!match({ assignOperator })) this->error("ERROR: expected assignment; found" + this->getCurrent()->getTypeString());
+		if (!match({ TokenNew })) this->error("ERROR: expected new for array declaration");
+		if (!match({ typeName })) this->error("ERROR: expected typeName after new in array declaration");
+		if (!match({ TokenSquareBracketOpen })) this->error("ERROR: expected opening bracket after typeName");
+		std::list<ExpressionTree*> * dimensionSizes = new std::list<ExpressionTree*>();
+		do {
+			ExpressionTree * e = this->parseExpression();
+			dimensionSizes->emplace_back(e);
+		} while (match({ TokenComma }));
+		if (!match({ TokenSquareBracketClose })) this->error("ERROR: expected closing bracket after typeName");
+		this->parseSemicolon();
+		return new DeclArrayStmtTree(arrayName, type, dimensions, dimensionSizes);
+	}
 	if (!match({ identifier })) this->error("ERROR: expected identifier after type declaration; found" + this->getCurrent()->getTypeString());
 	Token * varName = this->getPrevious();
 	if (!match({ assignOperator })) this->error("ERROR: expected assignment; found" + this->getCurrent()->getTypeString());
@@ -224,20 +242,26 @@ ExpressionTree * Parser::parseExpression() {
 }
 
 ExpressionTree * Parser::assignment(){
-	ExpressionTree * expr;
-	if (this->getNext()->getType() == assignOperator) {
-		if (!this->match({ identifier })) {
-			this->error("Assignment only works on identifiers");
+	ExpressionTree * variable = logAndOr();
+	Token * variableName = this->getPrevious();
+	if (match({ assignOperator })) {
+		if (!variable->isVariableType) {
+			this->error("Expected a variable type before assignment operator");
 		}
-		Token * id = this->getPrevious();
-		match({ assignOperator });
-		ExpressionTree * right = this->assignment();
-		expr = new AssignExpressionTree(id, right);
-		return expr;
+		ArrayExpression * arrayAssign = nullptr;
+		if (variableName->getType() == TokenSquareBracketClose) {
+			arrayAssign = static_cast<ArrayExpression*>(variable);
+			arrayAssign->store = true;
+			ExpressionTree * value = logAndOr();
+			return new AssignExpressionTree(arrayAssign, value);
+		}
+		else {
+			ExpressionTree * value = logAndOr();
+			return new AssignExpressionTree(variableName, value);
+		}
+		
 	}
-	else {
-		return this->logAndOr();
-	}
+	return variable;
 }
 
 ExpressionTree * Parser::logAndOr(){
@@ -316,7 +340,7 @@ ExpressionTree * Parser::value(){
 		return new ValueTree(this->getPrevious());
 	}
 	else if (match({ identifier })) {
-		return this->functionExpression();
+		return this->identifierExpression();
 	}
 	else if (match({parentheseOpen})) {
 		ExpressionTree * expr = parseExpression();
@@ -328,13 +352,21 @@ ExpressionTree * Parser::value(){
 		}
 	}
 	else {
-		this->error("ERROR: exptected value; found: " + this->getCurrent()->getDescription());
+		this->error("ERROR: expected value; found: " + this->getCurrent()->getDescription());
 	}
 }
 
-ExpressionTree * Parser::functionExpression(){
+ExpressionTree * Parser::identifierExpression(){
 	bool nameSpaceFunction = false;
 	Token * name = this->getPrevious();
+	if (match({ TokenSquareBracketOpen })) {
+		std::list<ExpressionTree*> * indices = new std::list<ExpressionTree*>();
+		do {
+			indices->emplace_back(this->parseExpression());
+		} while (match({ TokenComma }));
+		if (!match({ TokenSquareBracketClose })) this->error("Expected closing brackets after in array expression");
+		return new ArrayExpression(name, indices, false);
+	}
 	Token * functionName;
 	if (match({ TokenDot })) {
 		nameSpaceFunction = true;
@@ -346,14 +378,16 @@ ExpressionTree * Parser::functionExpression(){
 	else {
 		functionName = name;
 	}
-	std::list<ExpressionTree*> parameters =  std::list<ExpressionTree*>();
 	if (match({ parentheseOpen })) {
+		std::list<ExpressionTree*> * parameters = new std::list<ExpressionTree*>();
 		if (!match({ parentheseClose })) {
 			do {
 				ExpressionTree * param = this->parseExpression();
-				parameters.emplace_back(param);
+				parameters->emplace_back(param);
 			} while (match({ TokenComma }));
-			if (!match({ parentheseClose })) this->error("Expected closing parenthese to complete function call");
+			if (!match({ parentheseClose })) {
+				this->error("Expected closing parenthese to complete function call");
+			}
 		}
 		if (nameSpaceFunction) {
 			return new NamespaceFunctionTree(name, functionName, parameters);
@@ -361,7 +395,6 @@ ExpressionTree * Parser::functionExpression(){
 		else {
 			return new GetElementTree(name, parameters);
 		}
-		
 	}
 	else return new ValueTree(name);
 }

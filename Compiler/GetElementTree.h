@@ -9,13 +9,13 @@
 
 class GetElementTree : public ExpressionTree {
 public:
-	GetElementTree(Token * name, std::list<ExpressionTree*> parameters) {
+	GetElementTree(Token * name, std::list<ExpressionTree*> *  parameters) {
 		this->name = name;
 		this->parameters = parameters;
 	}
 
 	void output() override {
-		std::cout << "Function " << name->getValue() << " with " << parameters.size() << " parameters" << std::endl;
+		std::cout << "Function " << name->getValue() << " with " << parameters->size() << " parameters" << std::endl;
 		
 	}
 
@@ -27,12 +27,12 @@ public:
 			return Error;
 		}
 		FunctionTree * calledFunction = (*s->functions).at(name->getValue());
-		if (this->parameters.size() != calledFunction->arguments->size()) {
+		if (this->parameters->size() != calledFunction->arguments->size()) {
 			std::cout << "ERROR: number of parameter not equal to number of arguments in function " << this->name->getValue() << std::endl;
 		}
 		std::list<std::pair<DataType, std::string>>::iterator arg = calledFunction->arguments->begin();
 		int i = 0;
-		for (std::list<ExpressionTree*>::iterator param = parameters.begin(); param != parameters.end(); param++, arg++, i++) {
+		for (std::list<ExpressionTree*>::iterator param = parameters->begin(); param != parameters->end(); param++, arg++, i++) {
 			DataType argumentType = (*param)->checkDatatype(s);
 			DataType expectedType = arg->first;
 			if (argumentType != expectedType) {
@@ -47,7 +47,7 @@ public:
 	void writeCode(CodeGenerator * c) override;
 
 	Token * name;
-	std::list<ExpressionTree*> parameters;
+	std::list<ExpressionTree*> * parameters;
 protected:
 	GetElementTree() {}
 };

@@ -4,8 +4,6 @@
 #include "VmStack.h"
 #include "VmArray.h"
 
-
-
 class VirtualMachine {
 public:
 	VirtualMachine(std::string name, long long int maxOperations, bool writeToFile);

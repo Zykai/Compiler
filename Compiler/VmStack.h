@@ -42,7 +42,7 @@ public:
 	float loadFloat(unsigned int position);
 	char loadChar(unsigned int position);
 	bool loadBool(unsigned int position);
-	void * loadPointer(unsigned int positioin);
+	void * loadPointer(unsigned int position);
 
 	char * popBytes(unsigned int number);
 private:

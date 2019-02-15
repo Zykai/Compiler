@@ -272,11 +272,11 @@
     <ClCompile Include="ByteProgram.cpp">
       <Filter>Quelldateien\Virtual Machine</Filter>
     </ClCompile>
-    <ClCompile Include="VmStack.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="StandardLibrary.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="VmStack.cpp">
+      <Filter>Quelldateien\Virtual Machine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -29,8 +29,8 @@ public:
 		}
 		DataType rightType = this->value->checkDatatype(s);
 		if (expected != Error && expected == rightType) {
-			this->type = expected;
-			return expected;
+			this->type = Void;
+			return Void;
 		}
 		else {
 			this->type = Error;

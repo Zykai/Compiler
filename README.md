@@ -1,7 +1,6 @@
 # Compiler
 
 ## TODO (new features):
-- add arrays
 - add typedef + dynamic memory allocation
 - seperate value tree into literal and variable tree
 - get variable type in getelementree and value tree
@@ -17,6 +16,7 @@
 ## TODO (bug fixes):
 - check parse function
 - check if void function works
+- printing arrays
 ## TODO (code cleanup):
 - when giving a type size, always give sizeof()
 - add documentation for callFunction

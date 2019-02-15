@@ -44,7 +44,7 @@ void AssignExpressionTree::writeCode(CodeGenerator * c){
 	if (this->arrayAssign == nullptr) {
 		int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->variable->getValue());
 
-		unsigned char opcode = this->type == Integer ? OpCode::I_STORE : this->type == Float ? OpCode::F_STORE : this->type == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
+		unsigned char opcode = this->value->type == Integer ? OpCode::I_STORE : this->type == Float ? OpCode::F_STORE : this->type == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
 		c->writeByte(opcode);
 		c->writeInteger(varPos);
 	}

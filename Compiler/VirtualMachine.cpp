@@ -278,7 +278,6 @@ void VirtualMachine::executeCommand(){
 		this->stack->pushInt(this->stack->popInt() - this->stack->popInt());
 		break;
 	case OpCode::I_MUL:
-
 		this->stack->pushInt(this->stack->popInt() * this->stack->popInt());
 		break;
 	case OpCode::I_DIV:

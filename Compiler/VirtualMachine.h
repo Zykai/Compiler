@@ -20,7 +20,8 @@ private:
 	void returnFunction(int size);
 	void printString();
 	template <typename T> void createArray();
-	void loadArrayElement();
+	template <typename T> void loadArrayElement();
+	template <typename T> void storeArrayElement();
 	long long int maxOperations;
 	bool notFinished;
 	bool writeToFile;

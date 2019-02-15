@@ -6,13 +6,15 @@
 
 class ArrayExpression : public ExpressionTree {
 public:
-	ArrayExpression(Token * var, std::list<ExpressionTree*> * indices) {
+	ArrayExpression(Token * var, std::list<ExpressionTree*> * indices, bool store) {
 		this->var = var;
 		this->indices = indices;
+		this->isVariableType = true;
 	}
 
 	Token * var;
 	std::list<ExpressionTree*> * indices; // NEW
+	bool store;
 
 	DataType checkDatatype(ScopeHelper * s) override {
 		std::tuple<DataType, int, int> * varInfo = s->getVarInformation(this->var->getValue());
@@ -29,7 +31,7 @@ public:
 		}
 		DataType t = std::get<0>(*varInfo);
 		this->type = t;
-		return std::get<0>(*varInfo);
+		return t;
 	}
 
 	void writeCode(CodeGenerator * c) override;

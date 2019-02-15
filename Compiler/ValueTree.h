@@ -9,6 +9,9 @@ class ValueTree : public ExpressionTree {
 public:
 	ValueTree(Token * value) {
 		this->value = value;
+		if (this->value->getType() == identifier) {
+			this->isVariableType = true;
+		}
 	}
 	void output() override {
 		std::cout << "Value: " << value->getValue() << std::endl;

@@ -26,14 +26,10 @@ void addPopInstruction(CodeGenerator * c, DataType type) {
 }
 
 void DeclArrayStmtTree::writeCode(CodeGenerator * c){
-	for (auto i = this->sizes->rbegin(); i != this->sizes->rend(); i++) {
-		(*i)->writeCode(c);
-	}
-	/*
 	for (ExpressionTree * e : *this->sizes) {
-		
+		e->writeCode(c);
 	}
-	*/
+	
 	c->writeByte(OpCode::I_CREATE_ARRAY);
 	int pos = c->scopeHelper->getVarPosition(c->currentFunction, this->name->getValue());
 	c->writeInteger(pos);

@@ -84,7 +84,7 @@ void VirtualMachine::callFunction(int position){
 	int after = this->stack->getStackPointer();
 	int newStackPointer = this->stack->getStackPointer() + functionSpace - stackSize;
 	this->stack->setStackPointer(newStackPointer);
-	
+	this->stack->pushInt(-1111111); // fixes reference error (if array is on top of stack)
 	delete temp;
 }
 
@@ -108,7 +108,7 @@ void VirtualMachine::printString(){
 }
 
 template<typename T>
-inline void VirtualMachine::createArray(){
+void VirtualMachine::createArray(){
 	int position = this->byteProgram->getNextInt();
 	int nDimensions = this->byteProgram->getNextInt();
 	int * dimensionSizes = new int[nDimensions];
@@ -118,6 +118,7 @@ inline void VirtualMachine::createArray(){
 	this->stack->storePointer(new VmArray<T>(nDimensions, dimensionSizes), position);
 }
 
+template <typename T>
 void VirtualMachine::loadArrayElement() {
 	int position = this->byteProgram->getNextInt();
 	int size = this->byteProgram->getNextInt();
@@ -125,9 +126,22 @@ void VirtualMachine::loadArrayElement() {
 	for (int i = 0; i < size; i++) {
 		indices[i] = this->stack->popInt();
 	}
-	VmArray<int> * array = (VmArray<int>*)this->stack->loadPointer(position);
-	int test = array->dimensionSizes[0];
-	this->stack->pushInt(2);
+	VmArray<T> * arrayPointer = (VmArray<T>*)this->stack->loadPointer(position);
+	this->stack->pushType<T>(arrayPointer->getElement(indices));
+	delete[] indices;
+}
+
+template <typename T>
+void VirtualMachine::storeArrayElement(){
+	int position = this->byteProgram->getNextInt();
+	int size = this->byteProgram->getNextInt();
+	int * indices = new int[size];
+	for (int i = 0; i < size; i++) {
+		indices[i] = this->stack->popInt();
+	}
+	VmArray<T> * arrayPointer = (VmArray<T>*)this->stack->loadPointer(position);
+	arrayPointer->storeElement(indices, this->stack->popType<T>());
+	delete[] indices;
 }
 
 void VirtualMachine::executeProgram(){
@@ -141,7 +155,7 @@ void VirtualMachine::executeProgram(){
 	this->byteProgram->setPosition(mainPosition + numberOfParameters + 2 * sizeof(int));
 	this->stack->setBottomPointer(0);
 	this->stack->setStackPointer(functionSpace);
-	
+	this->stack->pushInt(-1111111); // fixes reference error (if array is on top of stack)
 	long long int maxCopy = maxOperations;
 	if (maxOperations > 0) {
 		bool forced = false;
@@ -250,8 +264,13 @@ void VirtualMachine::executeCommand(){
 		break;
 	case OpCode::I_CREATE_ARRAY:
 		this->createArray<int>();
+		break;
 	case OpCode::I_LOAD_ARRAY_ELEMENT:
-		this->loadArrayElement();
+		this->loadArrayElement<int>();
+		break;
+	case OpCode::I_STORE_ARRAY_ELEMENT:
+		this->storeArrayElement<int>();
+		break;
 	case OpCode::I_ADD:
 		this->stack->pushInt(this->stack->popInt() + this->stack->popInt());
 		break;
@@ -300,6 +319,15 @@ void VirtualMachine::executeCommand(){
 	case OpCode::F_POP:
 		this->stack->popFloat();
 		break;
+	case OpCode::F_CREATE_ARRAY:
+		this->createArray<float>();
+		break;
+	case OpCode::F_LOAD_ARRAY_ELEMENT:
+		this->loadArrayElement<float>();
+		break;
+	case OpCode::F_STORE_ARRAY_ELEMENT:
+		this->storeArrayElement<float>();
+		break;
 	case OpCode::F_ADD:
 		this->stack->pushFloat(this->stack->popFloat() + this->stack->popFloat());
 		break;
@@ -347,6 +375,15 @@ void VirtualMachine::executeCommand(){
 	case OpCode::BY_POP:
 		this->stack->popByte();
 		break;
+	case OpCode::BY_CREATE_ARRAY:
+		this->createArray<char>();
+		break;
+	case OpCode::BY_LOAD_ARRAY_ELEMENT:
+		this->loadArrayElement<char>();
+		break;
+	case OpCode::BY_STORE_ARRAY_ELEMENT:
+		this->storeArrayElement<char>();
+		break;
 	case OpCode::BY_ADD:
 		this->stack->pushByte(this->stack->popByte() + this->stack->popByte());
 		break;
@@ -390,6 +427,15 @@ void VirtualMachine::executeCommand(){
 		break;
 	case OpCode::BO_POP:
 		this->stack->popBool();
+		break;
+	case OpCode::BO_CREATE_ARRAY:
+		this->createArray<bool>();
+		break;
+	case OpCode::BO_LOAD_ARRAY_ELEMENT:
+		this->loadArrayElement<bool>();
+		break;
+	case OpCode::BO_STORE_ARRAY_ELEMENT:
+		this->storeArrayElement<bool>();
 		break;
 	case OpCode::BO_EQUAL:
 		this->stack->pushBool(this->stack->popBool() == this->stack->popBool());

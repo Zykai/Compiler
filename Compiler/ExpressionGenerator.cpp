@@ -13,37 +13,44 @@ void AdditionTree::writeCode(CodeGenerator * c){
 }
 
 void ArrayExpression::writeCode(CodeGenerator * c){
-	// TODO
 	for (auto iter = this->indices->rbegin(); iter != this->indices->rend(); iter++) {
 		(*iter)->writeCode(c);
 	}
-	c->writeByte(OpCode::I_LOAD_ARRAY_ELEMENT);
-	int pos = c->scopeHelper->getVarPosition(c->currentFunction, this->var->getValue());
-	c->writeInteger(50);
+	char opcode;
 	switch (this->type) {
 		case Integer:
-			//c->writeByte(OpCode::LOAD_CONSTANT_32);
-			//c->writeInteger(459);
+			opcode = OpCode::I_LOAD_ARRAY_ELEMENT;
 			break;
 		case Float:
+			opcode = OpCode::F_LOAD_ARRAY_ELEMENT;
 			break;
 		case Bool:
+			opcode = OpCode::BO_LOAD_ARRAY_ELEMENT;
 			break;
 		case Byte:
+			opcode = OpCode::BY_LOAD_ARRAY_ELEMENT;
 			break;
 	}
+	if (this->store) {
+		opcode++;
+	}
+	c->writeByte(opcode);
+	c->writeInteger(c->scopeHelper->getVarPosition(c->currentFunction, this->var->getValue()));
+	c->writeInteger(this->indices->size());
 }
 
 void AssignExpressionTree::writeCode(CodeGenerator * c){
-	int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->variable->getValue());
 	this->value->writeCode(c);
+	if (this->arrayAssign == nullptr) {
+		int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->variable->getValue());
 
-	unsigned char opcode = this->type == Integer ? OpCode::I_STORE : this->type == Float ? OpCode::F_STORE : this->type == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
-	c->writeByte(opcode);
-	c->writeInteger(varPos);
-
-	c->writeByte(opcode - 1);
-	c->writeBool(varPos);
+		unsigned char opcode = this->type == Integer ? OpCode::I_STORE : this->type == Float ? OpCode::F_STORE : this->type == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
+		c->writeByte(opcode);
+		c->writeInteger(varPos);
+	}
+	else {
+		this->arrayAssign->writeCode(c);
+	}
 }
 
 void ComparisonTree::writeCode(CodeGenerator * c){

@@ -11,6 +11,14 @@ DataType ScopeHelper::getCurrentFunctionType(){
 	return this->currentType;
 }
 
+int ScopeHelper::getCurrentFunctionDimensions(){
+	return this->currentDimensions;
+}
+
+std::string ScopeHelper::getCurrentFunctionName(){
+	return this->currentFunctionName;
+}
+
 void ScopeHelper::setGlobalScope(std::list<std::pair<std::string, VariableTree*>>* variables){
 	this->currentScope = new Scope(nullptr);
 	for (std::pair<std::string, VariableTree*> p : *variables) {
@@ -26,12 +34,13 @@ void ScopeHelper::beginNewFunction(std::string name, FunctionTree * f){
 	this->currentFunctionName = name;
 	this->currentType = f->type;
 	this->currentStackSize = 0;
+	this->currentDimensions = f->dimensions;
 	// Set current scope to global scope
 	while (this->currentScope->topScope != nullptr) {
 		this->currentScope = this->currentScope->topScope;
 	}
-	for (std::pair<DataType, std::string> p : *f->arguments) {
-		this->addVariable(p.second, p.first, 0); // TODO: array arguments
+	for (auto p : *f->arguments) {
+		this->addVariable(std::get<std::string>(p), std::get<DataType>(p), std::get<int>(p));
 	}
 }
 
@@ -43,10 +52,10 @@ void ScopeHelper::addVariable(std::string varName, DataType type, int dimensions
 	else {
 		offset = getTypeSize(type);
 	}
-	int temp = this->currentStackSize;
+	int varPosition = this->currentStackSize;
 	this->currentStackSize += offset;
-	this->allVariables[this->currentFunctionName].emplace(varName, new std::tuple<DataType, int, int>(type, temp, dimensions));
-	this->currentScope->variables.emplace(varName, new std::tuple<DataType, int, int>(type, temp, dimensions));
+	this->allVariables[this->currentFunctionName].emplace(varName, new std::tuple<DataType, int, int>(type, varPosition, dimensions));
+	this->currentScope->variables.emplace(varName, new std::tuple<DataType, int, int>(type, varPosition, dimensions));
 	this->functionStackSize[this->currentFunctionName] = this->currentStackSize;
 }
 
@@ -68,6 +77,20 @@ int ScopeHelper::getVarPosition(std::string functionName, std::string varName){
 	return std::get<1>(*this->allVariables[functionName][varName]);
 }
 
+FunctionTree * ScopeHelper::getFunction(std::string name){
+	if (functions->find(name) == functions->end()) {
+		return nullptr;
+	}
+	else {
+		return functions->at(name);
+	}
+}
+
 std::tuple<DataType, int, int>* ScopeHelper::getVarInformation(std::string varName){
-	return this->allVariables[this->currentFunctionName][varName];
+	if (allVariables[currentFunctionName].find(varName) == allVariables[currentFunctionName].end()) {
+		return nullptr;
+	}
+	else {
+		return allVariables[currentFunctionName].at(varName);
+	}
 }

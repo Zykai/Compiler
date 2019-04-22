@@ -108,32 +108,44 @@ void IfStatementTree::writeCode(CodeGenerator * c){
 }
 
 void ReturnStatementTree::writeCode(CodeGenerator * c){
+	if (this->expr == nullptr) {
+		c->writeByte(OpCode::RETURN);
+		return;
+	}
 	this->expr->writeCode(c);
-	char cmd;
+	char opcode;
 	switch (this->expr->type) {
 	case Byte:
-		cmd = OpCode::RETURN_8;
+		opcode = OpCode::RETURN_8;
 		break;
 	case Short:
-		cmd = OpCode::RETURN_16;
+		opcode = OpCode::RETURN_16;
 		break;
 	case Integer:
-		cmd = OpCode::RETURN_32;
+		opcode = OpCode::RETURN_32;
 		break;
 	case Float:
-		cmd = OpCode::RETURN_32;
+		opcode = OpCode::RETURN_32;
 		break;
 	case Bool:
-		if(sizeof(bool) == 1) cmd = OpCode::RETURN_8;
-		else cmd = OpCode::RETURN_32;
+		if(sizeof(bool) == 1) opcode = OpCode::RETURN_8;
+		else opcode = OpCode::RETURN_32;
 		break;
 	case Void:
-		cmd = OpCode::RETURN;
+		opcode = OpCode::RETURN;
+		break;
+	case ByteArray:
+	case ShortArray:
+	case IntegerArray:
+	case FloatArray:
+	case BoolArray:
+	case ReferenceArray:
+		opcode = sizeof(void*) == 8 ? OpCode::RETURN_64 : OpCode::RETURN_32;
 		break;
 	default:
-		cmd = Error;
+		opcode = Error;
 	}
-	c->writeByte(OpCode::RETURN_32);
+	c->writeByte(opcode);
 }
 
 void StatementListTree::writeCode(CodeGenerator * c){
@@ -160,4 +172,11 @@ void WhileStatementTree::writeCode(CodeGenerator * c){
 	c->writeInteger(startPos);
 	int posAfterBody = c->getCurrentPosition();
 	c->writePrevInteger(posAfterBody, posAfterJmp);
+}
+
+void DeleteStmt::writeCode(CodeGenerator * c){
+	auto a = c->scopeHelper->getVarInformation(this->reference->getValue());
+	int position = std::get<1>(*(c->scopeHelper->getVarInformation(this->reference->getValue())));
+	c->writeByte(OpCode::DEL_ARRAY);
+	c->writeInteger(position);
 }

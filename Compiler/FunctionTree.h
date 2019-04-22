@@ -8,9 +8,10 @@
 
 class FunctionTree {
 public:
-	FunctionTree(std::list<std::pair<DataType, std::string>> * arguments, DataType type, StatementTree * statement) {
+	FunctionTree(std::list<std::tuple<std::string, DataType, int>> * arguments, DataType type, int dimensions, StatementTree * statement) {
 		this->arguments = arguments;
 		this->type = type;
+		this->dimensions = dimensions;
 		this->statement = statement;
 	}
 
@@ -21,7 +22,9 @@ public:
 
 	void writeCode(CodeGenerator * c);
 
-	std::list<std::pair<DataType, std::string>> * arguments;
+	std::list<std::tuple<std::string, DataType, int>> * arguments;
+	//std::list<std::pair<DataType, std::string>> * arguments;
 	DataType type;
+	int dimensions;
 	StatementTree * statement;
 };

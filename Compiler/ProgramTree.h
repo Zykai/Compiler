@@ -25,7 +25,7 @@ public:
 			std::cout << "type: " << f.second->type << std::endl;
 			std::cout << "\t\tParameters: " << std::endl << "\t\t\t";
 			for (auto & p : *f.second->arguments) {
-				std::cout << p.second << ": " << p.first << ", ";
+				std::cout << std::get<std::string>(p) << ": " << std::get<DataType>(p) << ", ";
 			}
 
 			std::cout << std::endl;

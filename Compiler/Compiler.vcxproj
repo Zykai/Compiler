@@ -155,6 +155,7 @@
     <ClInclude Include="DataTypes.h" />
     <ClInclude Include="DeclArrayStmtTree.h" />
     <ClInclude Include="DeclStatementTree.h" />
+    <ClInclude Include="DeleteStmt.h" />
     <ClInclude Include="EqualityTree.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="ExpressionTree.h" />

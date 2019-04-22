@@ -28,8 +28,8 @@ int ByteProgram::getPosition(){
 	return this->stackPosition;
 }
 
-char ByteProgram::getNextOpCode(){
-	char opcode = this->getCharAt(this->stackPosition);
+OpCode::OpCode ByteProgram::getNextOpCode(){
+	OpCode::OpCode opcode = static_cast<OpCode::OpCode>(this->data[stackPosition]);
 	stackPosition++;
 	return opcode;
 }

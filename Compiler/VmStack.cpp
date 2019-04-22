@@ -65,6 +65,11 @@ void VmStack::pushBytes(char * bytes, unsigned int number){
 	this->stackPointer += number;
 }
 
+void VmStack::pushPointer(void * value){
+	std::memcpy(&stack[stackPointer], &value, sizeof(void*));
+	this->stackPointer += sizeof(void*);
+}
+
 int VmStack::popInt(){
 	char * bytes = this->popBytes(sizeof(int));
 	int temp;
@@ -90,6 +95,13 @@ bool VmStack::popBool(){
 	char * bytes = this->popBytes(sizeof(bool));
 	bool temp;
 	std::memcpy(&temp, bytes, sizeof(bool));
+	return temp;
+}
+
+void * VmStack::popPointer(){
+	char * bytes = this->popBytes(sizeof(void*));
+	void * temp;
+	std::memcpy(&temp, bytes, sizeof(void*));
 	return temp;
 }
 

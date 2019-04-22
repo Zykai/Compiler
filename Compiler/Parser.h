@@ -28,8 +28,8 @@ private:
 	void parseImports(ProgramTree * program);
 	void parseGlobals(ProgramTree * program);
 	void parseGlobal(ProgramTree * program, std::string name, DataType dataType);
-	void parseFunction(ProgramTree * program, std::string name, DataType dataType);
-	std::list<std::pair<DataType, std::string>> * parseParameters();
+	void parseFunction(ProgramTree * program, std::string name, DataType dataType, int dimensions);
+	std::list<std::tuple<std::string, DataType, int>> * parseParameters();
 
 	StatementTree * statement();
 	StatementTree * declStatement();
@@ -38,6 +38,7 @@ private:
 	StatementTree * forStatement();
 	StatementTree * ifStatement();
 	StatementTree * returnStatement();
+	StatementTree * deleteStatement();
 	//ExpressionTree * parseExpression();
 	ExpressionTree * assignment();
 	ExpressionTree * logAndOr();

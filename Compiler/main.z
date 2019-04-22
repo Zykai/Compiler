@@ -1,7 +1,7 @@
- 
-int main (int i){
-	int[,,] test = new int[3,4,5];
-	std.print(test[0,0,0]);
-	int iasd = 0;
+int main(int i){
+	int[,] a = new int[3,5];
+	std.print(std.len(a,2), "\n");
+	delete a;
     return 0;
 }
+

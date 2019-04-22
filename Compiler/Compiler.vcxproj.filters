@@ -207,6 +207,9 @@
     <ClInclude Include="VmArray.h">
       <Filter>Headerdateien\Virtual Machine</Filter>
     </ClInclude>
+    <ClInclude Include="DeleteStmt.h">
+      <Filter>Headerdateien\SyntaxTrees\Statements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

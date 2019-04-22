@@ -66,20 +66,37 @@ void Parser::parseImports(ProgramTree * program){
 void Parser::parseGlobals(ProgramTree * program){
 	while (match({ typeName })) {
 		Token * typeToken = this->getPrevious();
-		DataType dataType = getType(typeToken);
-		if (!match({ identifier })) {
-			this->error("ERROR: expected var/func name");
-		}
-		Token * nameToken = this->getPrevious();
-		if (match({ assignOperator })) {
-			this->parseGlobal(program, nameToken->getValue(), dataType);
-		}
-		else if (match({ parentheseOpen })) {
-			this->parseFunction(program, nameToken->getValue(), dataType);
+		DataType dataType;
+		int dimensions = 0;
+		if (match({ TokenSquareBracketOpen })) {
+			dataType = getArrayType(typeToken);
+			dimensions++;
+			while (match({ TokenComma })) {
+				dimensions++;
+			}
+			if (!match({ TokenSquareBracketClose })) {
+				this->error("ERROR: expected closing array brackets");
+			}
+			//this->parseFunction(program, nameToken->getValue(), dataType, dimensions);
 		}
 		else {
-			//std::cout << "ERROR: assignment or parenthese";
-			//exit(1);
+			dataType = getType(typeToken);
+		}
+		if (match({ identifier })) {
+			Token * nameToken = this->getPrevious();
+			if (match({ assignOperator })) {
+				this->parseGlobal(program, nameToken->getValue(), dataType);
+			}
+			else if (match({ parentheseOpen })) {
+				this->parseFunction(program, nameToken->getValue(), dataType, dimensions);
+			}
+			else {
+				this->error("Illegal token in global var / function: " + this->getNext()->getValue());
+			}
+		}
+		else {
+			this->error("ERROR: expected var / func name, found" + this->getCurrent()->getValue());
+			exit(1);
 		}
 	}
 }
@@ -92,23 +109,39 @@ void Parser::parseGlobal(ProgramTree * program, std::string name, DataType dataT
 	program->variables.emplace_back(std::make_pair(name, newVar));
 }
 
-void Parser::parseFunction(ProgramTree * program, std::string name, DataType dataType){
+void Parser::parseFunction(ProgramTree * program, std::string name, DataType dataType, int dimensions){
 	auto params = this->parseParameters();
 	StatementTree * s = this->statement();
-	FunctionTree * f = new FunctionTree(params, dataType, s);
+	FunctionTree * f = new FunctionTree(params, dataType, dimensions, s);
 	program->functions.emplace(name, f);
 }
 
-std::list<std::pair<DataType, std::string>> * Parser::parseParameters(){
-	auto parameterList = new std::list<std::pair<DataType, std::string>>();
+std::list<std::tuple<std::string, DataType, int>> * Parser::parseParameters(){
+	auto parameterList = new std::list<std::tuple<std::string, DataType, int>>();
 
 	while (match({ typeName })) {
-		DataType type = getType(this->getPrevious());
+		Token *  typeToken = this->getPrevious();
+		DataType type;
+		// 0 dimensions -> no array
+		int dimensions = 0;
+		if (match({ TokenSquareBracketOpen })) {
+			type = getArrayType(typeToken);
+			dimensions++;
+			while (match({ TokenComma })) {
+				dimensions++;
+			}
+			if (!match({ TokenSquareBracketClose })) {
+				this->error("ERROR: expected closing bracket of array");
+			}
+		}
+		else {
+			type = getType(typeToken);
+		}
 		if (!match({ identifier })) {
 			this->error("ERROR: expected identifier; found " + this->getCurrent()->getTypeString());
 		}
 		std::string parameterName = this->getPrevious()->getValue();
-		parameterList->emplace_back(std::pair<DataType, std::string>(type, parameterName));
+		parameterList->emplace_back(std::make_tuple(parameterName, type, dimensions));
 		match({ TokenComma });
 	}
 	match({ parentheseClose });
@@ -134,6 +167,9 @@ StatementTree * Parser::statement(){
 	else if (match({ ifToken })) {
 		return this->ifStatement();
 	}
+	else if (match({ TokenDelete })) {
+		return this->deleteStatement();
+	}
 	else {
 		ExpressionTree * e = this->parseExpression();
 		this->parseSemicolon();
@@ -144,8 +180,9 @@ StatementTree * Parser::statement(){
 }
 
 StatementTree * Parser::declStatement(){
-	DataType type = getType(this->getPrevious());
+	Token * typeToken = this->getPrevious();
 	if (match({ TokenSquareBracketOpen })) {
+		DataType type = getArrayType(typeToken);
 		int dimensions = 1;
 		while (match({ TokenComma })) {
 			dimensions++;
@@ -166,6 +203,7 @@ StatementTree * Parser::declStatement(){
 		this->parseSemicolon();
 		return new DeclArrayStmtTree(arrayName, type, dimensions, dimensionSizes);
 	}
+	DataType type = getType(typeToken);
 	if (!match({ identifier })) this->error("ERROR: expected identifier after type declaration; found" + this->getCurrent()->getTypeString());
 	Token * varName = this->getPrevious();
 	if (!match({ assignOperator })) this->error("ERROR: expected assignment; found" + this->getCurrent()->getTypeString());
@@ -237,6 +275,15 @@ StatementTree * Parser::returnStatement(){
 	return new ReturnStatementTree(expr);
 }
 
+StatementTree * Parser::deleteStatement(){
+	if (match({ identifier })) {
+		Token * reference = this->getPrevious();
+		this->parseSemicolon();
+		return new DeleteStmt(reference);
+	}
+	this->error("Expected identifier after delete statement");
+}
+
 ExpressionTree * Parser::parseExpression() {
 	return assignment();
 }
@@ -248,8 +295,8 @@ ExpressionTree * Parser::assignment(){
 		if (!variable->isVariableType) {
 			this->error("Expected a variable type before assignment operator");
 		}
-		ArrayExpression * arrayAssign = nullptr;
 		if (variableName->getType() == TokenSquareBracketClose) {
+			ArrayExpression * arrayAssign = nullptr;
 			arrayAssign = static_cast<ArrayExpression*>(variable);
 			arrayAssign->store = true;
 			ExpressionTree * value = logAndOr();

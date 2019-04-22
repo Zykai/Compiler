@@ -3,6 +3,10 @@
 #include "DataTypes.h"
 #include <iostream>
 
+bool isArray(DataType d){
+	return d >= ByteArray && d <= ReferenceArray;
+}
+
 DataType getType(Token * token) {
 	std::string datatype = token->getValue();
 	if (datatype == "int") {
@@ -25,6 +29,33 @@ DataType getType(Token * token) {
 	}
 	else if (token->getType() == identifier) {
 		return Custom;
+	}
+	else {
+		std::cout << "Expecting data type; found: " << datatype;
+		system("pause");
+		exit(1);
+	}
+}
+
+DataType getArrayType(Token * token) {
+	std::string datatype = token->getValue();
+	if (datatype == "int") {
+		return IntegerArray;
+	}
+	else if (datatype == "float") {
+		return FloatArray;
+	}
+	else if (datatype == "bool") {
+		return BoolArray;
+	}
+	else if (datatype == "short") {
+		return ShortArray;
+	}
+	else if (datatype == "byte") {
+		return ByteArray;
+	}
+	else if (token->getType() == identifier) {
+		return ReferenceArray;
 	}
 	else {
 		std::cout << "Expecting data type; found: " << datatype;

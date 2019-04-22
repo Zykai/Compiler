@@ -36,6 +36,7 @@ enum Tokentype {
 	increment,
 	TokenComma,
 	TokenNew,
+	TokenDelete,
 	endOfFile
 };
 

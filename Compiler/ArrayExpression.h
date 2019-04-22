@@ -12,6 +12,10 @@ public:
 		this->isVariableType = true;
 	}
 
+	~ArrayExpression() {
+		delete this->indices;
+	}
+
 	Token * var;
 	std::list<ExpressionTree*> * indices; // NEW
 	bool store;
@@ -25,13 +29,36 @@ public:
 				return Error;
 			}
 		}
+		DataType valuetype = std::get<DataType>(*varInfo);
+		// TODO: improve performance by using valuetype = datatype - x
+		switch (valuetype) {
+		case ByteArray:
+			this->type = Byte;
+			break;
+		case ShortArray:
+			this->type = Short;
+			break;
+		case IntegerArray:
+			this->type = Integer;
+			break;
+		case FloatArray:
+			this->type = Float;
+			break;
+		case BoolArray:
+			this->type = Bool;
+			break;
+		case ReferenceArray:
+			this->type = Reference;
+			break;
+		default:
+			std::cout << "ERROR: type " << valuetype << " incompatible with array" << std::endl;
+			return Error;
+		}
 		if (std::get<2>(*varInfo) != indices->size()) {
 			std::cout << "ERROR: array expression doesn't have the correct number of indices" << std::endl;
 			return Error;
 		}
-		DataType t = std::get<0>(*varInfo);
-		this->type = t;
-		return t;
+		return this->type;
 	}
 
 	void writeCode(CodeGenerator * c) override;

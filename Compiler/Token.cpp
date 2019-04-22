@@ -73,7 +73,9 @@ std::string Token::getTypeString() {
 	case TokenComma:
 		return "TokenComma";
 	case TokenNew:
-		return "new";
+		return "New";
+	case TokenDelete:
+		return "Delete";
 	case endOfFile:
 		return "EndOfFile";
 	default:

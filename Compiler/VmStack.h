@@ -16,7 +16,8 @@ public:
 	void pushByte(char value);
 	void pushBool(bool value);
 	void pushBytes(char * bytes, unsigned int number);
-	
+	void pushPointer(void * value);
+
 	template <typename T> void pushType(T value) { // needs to be declared in header file
 		std::memcpy(&stack[stackPointer], &value, sizeof(T));
 		this->stackPointer += sizeof(T);
@@ -26,7 +27,8 @@ public:
 	float popFloat();
 	char popByte();
 	bool popBool();
-	
+	void * popPointer();
+
 	template <typename T> T popType() { // needs to be declared in header file
 		char * bytes = this->popBytes(sizeof(T));
 		T temp;

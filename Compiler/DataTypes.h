@@ -8,13 +8,22 @@ enum DataType {
 	Integer,
 	Float,
 	Bool,
+	Reference,
 	Array,
 	Custom,
 	Error,
 	Void,
-	String
+	String,
+	ByteArray,
+	ShortArray,
+	IntegerArray,
+	FloatArray,
+	BoolArray,
+	ReferenceArray
 };
 
+bool isArray(DataType d);
 DataType getType(Token * token);
+DataType getArrayType(Token * token);
 DataType getTypeForLiteral(Token * token);
 int getTypeSize(DataType d);

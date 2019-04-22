@@ -36,6 +36,7 @@ void ProgramTree::writeCode(CodeGenerator * c) {
 }
 
 void FunctionTree::writeCode(CodeGenerator * c){
+	DataType test = this->type;
 	// Save current position for function calls
 	c->saveFunctionStart();
 	// Write number of parameters
@@ -43,7 +44,7 @@ void FunctionTree::writeCode(CodeGenerator * c){
 	// Write number of bytes need for the following function
 	c->writeInteger(c->scopeHelper->getStackSize(c->currentFunction));
 	for (auto a : *this->arguments) {
-		switch (a.first) {
+		switch (std::get<DataType>(a)) {
 		case Integer:
 			c->writeByte(OpCode::I_LOAD);
 			break;
@@ -55,6 +56,14 @@ void FunctionTree::writeCode(CodeGenerator * c){
 			break;
 		case Byte:
 			c->writeByte(OpCode::BY_LOAD);
+			break;
+		case ByteArray:
+		case ShortArray:
+		case IntegerArray:
+		case FloatArray:
+		case BoolArray:
+		case ReferenceArray:
+			c->writeByte(OpCode::REF_LOAD);
 			break;
 		default:
 			std::cout << "Illegal type in function parameters" << std::endl;

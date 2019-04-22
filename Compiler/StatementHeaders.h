@@ -9,3 +9,4 @@
 #include "IfStatementTree.h"
 #include "ReturnStatementTree.h"
 #include "DeclArrayStmtTree.h"
+#include "DeleteStmt.h"

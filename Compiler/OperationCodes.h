@@ -11,6 +11,7 @@ namespace OpCode {
 		RETURN_8, // byte, bool
 		RETURN_16, // short
 		RETURN_32, // integer, float functions
+		RETURN_64, // pointer + doubles
 		FUNCTION_END, // to stop functions with no return statement
 		ERROR, // should never be called in a compiled program
 		LOAD_GLOBAL_32,
@@ -22,6 +23,11 @@ namespace OpCode {
 		BY_PRINT,
 		BO_PRINT,
 		STR_PRINT,
+		// Reference operations
+		REF_LOAD,
+		REF_STORE,
+		DEL_ARRAY,
+		LEN_ARRAY,
 		// Integer memory operations
 		I_LOAD,
 		I_STORE,

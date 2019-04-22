@@ -1,4 +1,5 @@
 #pragma once
+#include "OperationCodes.h"
 
 class ByteProgram {
 public:
@@ -10,7 +11,7 @@ public:
 	void setPosition(int position);
 	int getPosition();
 
-	char getNextOpCode();
+	OpCode::OpCode getNextOpCode();
 	int getNextInt();
 	float getNextFloat();
 	bool getNextBool();

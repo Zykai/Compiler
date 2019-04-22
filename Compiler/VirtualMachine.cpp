@@ -66,6 +66,9 @@ void VirtualMachine::callFunction(int position){
 		case OpCode::BO_LOAD:
 			stackSize += sizeof(bool);
 			break;
+		case OpCode::REF_LOAD:
+			stackSize += sizeof(char*);
+			break;
 		}
 	}
 	int localVarSpace = functionSpace - stackSize;
@@ -116,6 +119,25 @@ void VirtualMachine::createArray(){
 		dimensionSizes[i] = this->stack->popInt();
 	}
 	this->stack->storePointer(new VmArray<T>(nDimensions, dimensionSizes), position);
+}
+
+template<typename T>
+void VirtualMachine::deleteArray(){
+	int position = this->byteProgram->getNextInt();
+	delete (VmArray<T>*)this->stack->loadPointer(position);
+	this->stack->storePointer(nullptr, position);
+}
+
+template<typename T>
+void VirtualMachine::getArrayLength(){
+	int dimension = this->stack->popInt();
+	VmArray<T> * arrayPointer = (VmArray<T>*)this->stack->popPointer();
+	if (dimension > arrayPointer->size || dimension <= 0) {
+		std::cout << "Tried to use length function on array dimension " << dimension << " despite the array only having " << arrayPointer->size << " dimensions" << std::endl;
+		notFinished = false;
+		return;
+	}
+	this->stack->pushInt(arrayPointer->dimensionSizes[arrayPointer->size - dimension]);
 }
 
 template <typename T>
@@ -186,7 +208,7 @@ void VirtualMachine::executeProgram(){
 }
 
 void VirtualMachine::executeCommand(){
-	char opcode = this->byteProgram->getNextOpCode();
+	OpCode::OpCode opcode = this->byteProgram->getNextOpCode();
 	switch (opcode) {
 	case OpCode::JMP:
 		this->byteProgram->setPosition(this->byteProgram->getNextInt());
@@ -218,6 +240,9 @@ void VirtualMachine::executeCommand(){
 		else {
 			notFinished = false;
 		}
+		break;
+	case OpCode::RETURN_64:
+		this->returnFunction(8);
 		break;
 	case OpCode::FUNCTION_END:
 		*out << "Tried to access code after end of current function." << std::endl
@@ -252,6 +277,18 @@ void VirtualMachine::executeCommand(){
 		break;
 	case OpCode::STR_PRINT:
 		this->printString();
+		break;
+	case OpCode::REF_LOAD:
+		this->stack->pushPointer(this->stack->loadPointer(this->byteProgram->getNextInt()));
+		break;
+	case OpCode::REF_STORE:
+		this->stack->storePointer(this->stack->popPointer(), this->byteProgram->getNextInt());
+		break;
+	case OpCode::DEL_ARRAY:
+		this->deleteArray<int>(); // TODO test types	
+		break;
+	case OpCode::LEN_ARRAY:
+		this->getArrayLength<int>();
 		break;
 	case OpCode::I_LOAD:
 		this->stack->pushInt(this->stack->loadInt(this->byteProgram->getNextInt()));

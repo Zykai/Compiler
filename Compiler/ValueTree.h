@@ -12,6 +12,7 @@ public:
 		if (this->value->getType() == identifier) {
 			this->isVariableType = true;
 		}
+		this->expressionType = valueExpr;
 	}
 	void output() override {
 		std::cout << "Value: " << value->getValue() << std::endl;
@@ -19,6 +20,13 @@ public:
 
 	int evaluate() override {
 		return	std::stoi(this->value->getValue());
+	}
+	
+	Token * getName() override {
+		if (this->isVariableType) {
+			return value;
+		}
+		return nullptr;
 	}
 
 	DataType checkDatatype(ScopeHelper * s) override {

@@ -40,11 +40,35 @@ void ArrayExpression::writeCode(CodeGenerator * c){
 }
 
 void AssignExpressionTree::writeCode(CodeGenerator * c){
-	this->value->writeCode(c);
+	this->expr->writeCode(c);
 	if (this->arrayAssign == nullptr) {
 		int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->variable->getValue());
-
-		unsigned char opcode = this->value->type == Integer ? OpCode::I_STORE : this->type == Float ? OpCode::F_STORE : this->type == Bool ? OpCode::BO_STORE : OpCode::BY_STORE;
+		unsigned char opcode;
+		switch (this->expr->type) {
+		case Byte:
+			opcode = OpCode::BY_STORE;
+			break;
+		case Integer:
+			opcode = OpCode::I_STORE;
+			break;
+		case Float:
+			opcode = OpCode::F_STORE;
+			break;
+		case Bool:
+			opcode = OpCode::BO_STORE;
+			break;
+		case ByteArray:
+		case ShortArray:
+		case IntegerArray:
+		case FloatArray:
+		case BoolArray:
+		case ReferenceArray:
+			opcode = OpCode::REF_STORE;
+			break;
+		default:
+			std::cout << "Illegal type in assign expression" << std::endl;
+			exit(1);
+		}
 		c->writeByte(opcode);
 		c->writeInteger(varPos);
 	}
@@ -145,6 +169,16 @@ void ValueTree::writeCode(CodeGenerator * c){
 		case Byte:
 			opcode = OpCode::BY_LOAD;
 			break;
+		case ByteArray:
+		case ShortArray:
+		case IntegerArray:
+		case FloatArray:
+		case BoolArray:
+		case ReferenceArray:
+			opcode = OpCode::REF_LOAD;
+			break;
+		default:
+			std::cout << "ERROR in value expression generation: invalid expression type" << std::endl;
 		}
 		int varPos = c->scopeHelper->getVarPosition(c->currentFunction, this->value->getValue());
 		c->writeByte(opcode);

@@ -66,4 +66,29 @@ StandardLibrary::StandardLibrary(){
 			}
 		}
 	};
+	this->checkTypeFunction["len"] = [&](ScopeHelper * s, std::list<ExpressionTree*> parameters) {
+		int size = parameters.size();
+		if (size != 2) {
+			std::cout << "Error in std.len: 2 arguments are required" << std::endl;
+			return Error;
+		}
+		auto iter = parameters.begin();
+		if (!isArray((*iter)->checkDatatype(s))) {
+			std::cout << "Error in std.len: first argument must be an array" << std::endl;
+			return Error;
+		}
+		iter++;
+		if ((*iter)->checkDatatype(s) != Integer) {
+			std::cout << "Error in std.len: first argument must be an integer" << std::endl;
+			return Error;
+		}
+		return Integer;
+	};
+	this->codegenFunction["len"] = [&](CodeGenerator * c, std::list<ExpressionTree*> parameters) {
+		auto iter = parameters.begin();
+		(*iter)->writeCode(c);
+		iter++;
+		(*iter)->writeCode(c);
+		c->writeByte(OpCode::LEN_ARRAY);
+	};
 }

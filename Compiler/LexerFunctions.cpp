@@ -81,6 +81,22 @@ void Lexer::createStartFunction() {
 		}
 		return self->findId(line, startChar, currentChar);
 	};
+	startFunction['v'] = [&](std::string line, int startChar, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == 'o') {
+			currentChar++;
+			if (line.at(currentChar) == 'i') {
+				currentChar++;
+				if (line.at(currentChar) == 'd') {
+					currentChar++;
+					if (!std::isalpha(line.at(currentChar))) {
+						return Token(typeName, "void");
+					}
+				}
+			}
+		}
+		return self->findId(line, startChar, currentChar);
+	};
 	startFunction['b'] = [&](std::string line, int startChar, int& currentChar) {
 		char nextChar = line.at(currentChar);
 		if (nextChar == 'o') {
@@ -121,6 +137,28 @@ void Lexer::createStartFunction() {
 				currentChar++;
 				if (!std::isalpha(line.at(currentChar))) {
 					return Token(TokenNew, "new");
+				}
+			}
+		}
+		return self->findId(line, startChar, currentChar);
+	};
+	startFunction['d'] = [&](std::string line, int startChar, int& currentChar) {
+		char nextChar = line.at(currentChar);
+		if (nextChar == 'e') {
+			currentChar++;
+			if (line.at(currentChar) == 'l') {
+				currentChar++;
+				if (nextChar == 'e') {
+					currentChar++;
+					if (line.at(currentChar) == 't') {
+						currentChar++;
+						if (line.at(currentChar) == 'e') {
+							currentChar++;
+							if (!std::isalpha(line.at(currentChar))) {
+								return Token(TokenDelete, "delete");
+							}
+						}
+					}
 				}
 			}
 		}
